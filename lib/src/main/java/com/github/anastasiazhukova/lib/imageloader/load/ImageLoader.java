@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.executors.ExecutorServiceFactory;
 import com.github.anastasiazhukova.lib.executors.IExecutorServiceFactory;
 import com.github.anastasiazhukova.lib.httpclient.HttpClient;
@@ -28,7 +27,6 @@ import com.github.anastasiazhukova.lib.imageloader.utils.ImageUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 
 public final class ImageLoader {
@@ -237,7 +235,7 @@ public final class ImageLoader {
                     .setMethod(HttpMethod.GET)
                     .setUrl(pRequest.getUrl());
 
-            return httpClient.getResponse(request.build(), new BitmapConverter(pRequest));
+            return httpClient.getResponse(request.build(), new BitmapUtils.BitmapConverter(pRequest));
         }
 
         private void putInCache(final IImageResponse pResponse) throws IOException {
@@ -253,20 +251,6 @@ public final class ImageLoader {
                         fileCache.put(request.getUrl(), pResponse.getResult());
                     }
                 }
-            }
-        }
-
-        private class BitmapConverter implements IResponseConverter<Bitmap> {
-
-            private final IImageRequest mImageRequest;
-
-            BitmapConverter(final IImageRequest pImageRequest) {
-                mImageRequest = pImageRequest;
-            }
-
-            @Override
-            public Bitmap convert(final InputStream pInputStream) throws IOException {
-                return BitmapUtils.getScaledBitmap(pInputStream, mImageRequest.getWidth(), mImageRequest.getHeight());
             }
         }
 

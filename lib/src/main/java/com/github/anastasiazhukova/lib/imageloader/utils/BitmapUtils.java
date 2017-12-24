@@ -3,6 +3,8 @@ package com.github.anastasiazhukova.lib.imageloader.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
+import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
 import com.github.anastasiazhukova.lib.io.IOUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -75,5 +77,19 @@ public final class BitmapUtils {
         }
 
         return sampleSize;
+    }
+
+    public static class BitmapConverter implements IResponseConverter<Bitmap> {
+
+        private final IImageRequest mImageRequest;
+
+        public BitmapConverter(final IImageRequest pImageRequest) {
+            mImageRequest = pImageRequest;
+        }
+
+        @Override
+        public Bitmap convert(final InputStream pInputStream) throws IOException {
+            return getScaledBitmap(pInputStream, mImageRequest.getWidth(), mImageRequest.getHeight());
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.github.anastasiazhukova.lib.httpclient;
 
-
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;

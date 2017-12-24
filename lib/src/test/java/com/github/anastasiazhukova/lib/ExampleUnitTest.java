@@ -1,4 +1,4 @@
-package com.github.anastasiazhukova.utilslib;
+package com.github.anastasiazhukova.lib;
 
 import org.junit.Test;
 

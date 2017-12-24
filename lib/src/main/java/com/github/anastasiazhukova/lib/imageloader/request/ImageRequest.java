@@ -91,7 +91,7 @@ public class ImageRequest implements IImageRequest {
             return this;
         }
 
-        public IImageRequest build() {
+        IImageRequest build() {
             return new ImageRequest(this);
         }
 

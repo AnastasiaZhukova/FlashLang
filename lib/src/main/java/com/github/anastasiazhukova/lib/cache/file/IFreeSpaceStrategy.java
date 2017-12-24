@@ -11,21 +11,23 @@ public interface IFreeSpaceStrategy {
     class LastModifiedStrategy implements IFreeSpaceStrategy, Comparator<File> {
 
         @Override
-        public void freeSpace(final File[] pFiles, long pCurrentCacheSize, final long pRequiredCacheSize) {
+        public void freeSpace(final File[] pFiles, final long pCurrentCacheSize, final long pRequiredCacheSize) {
+            long currentCacheSize = pCurrentCacheSize;
             Arrays.sort(pFiles, this);
             int i = 0;
             do {
                 final File f = pFiles[i];
                 final long length = f.length();
                 if (f.delete()) {
-                    pCurrentCacheSize -= length;
+                    currentCacheSize -= length;
                 }
                 i++;
-            } while (pCurrentCacheSize > pRequiredCacheSize);
+            } while (currentCacheSize > pRequiredCacheSize);
         }
 
         @Override
         public int compare(final File o1, final File o2) {
+            //noinspection UseCompareMethod
             return Long.valueOf(o1.lastModified()).compareTo(o2.lastModified());
         }
     }

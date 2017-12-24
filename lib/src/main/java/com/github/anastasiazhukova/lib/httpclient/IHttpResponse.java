@@ -6,5 +6,4 @@ public interface IHttpResponse extends IResponse<String> {
 
     IHttpRequest getRequest();
 
-
 }

@@ -20,8 +20,6 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     private final IFreeSpaceStrategy mFreeSpaceStrategy;
 
-    private static final int BUFFER_SIZE = 4096;
-
     protected FileCache(final Config pConfig) {
         if (pConfig != null) {
             final String cacheDirName = pConfig.mCacheDir;
@@ -37,6 +35,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
                 }
             }
 
+            //noinspection ResultOfMethodCallIgnored
             mCacheDir.setWritable(true);
 
             if (!mCacheDir.canWrite()) {
@@ -80,9 +79,10 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         }
         if (file != null) {
             final FileOutputStream outputStream = new FileOutputStream(file);
-            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, BUFFER_SIZE);
+            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, Constants.FileCache.BUFFER_SIZE);
             try {
                 write(pFile, bufferedOutputStream);
+                //noinspection ResultOfMethodCallIgnored
                 file.setLastModified(System.currentTimeMillis());
             } finally {
                 IOUtils.close(outputStream);
@@ -98,6 +98,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
     private File createNewFile(final String pFileName) throws IOException {
         final File file = new File(mCacheDir, pFileName);
         if (!file.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
         }
         return file;
@@ -137,7 +138,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         return Math.max(Math.min(size, maxDiskCacheSize), minDiskCacheSize);
     }
 
-    public abstract static class Config {
+    public static class Config {
 
         private String mCacheDir;
         private int mMinDiskCacheSize = Constants.FileCache.MIN_DISK_CACHE_SIZE;
