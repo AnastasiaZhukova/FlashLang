@@ -13,5 +13,4 @@ public @interface dbInteger {
 
     String name();
 
-
 }

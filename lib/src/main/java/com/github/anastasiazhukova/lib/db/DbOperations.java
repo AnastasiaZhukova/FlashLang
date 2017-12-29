@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class DbOperations implements IDbOperations {
+class DbOperations implements IDbOperations {
 
     private final SQLiteOpenHelper mHelper;
 
-    public DbOperations(final SQLiteOpenHelper pHelper) {
+    DbOperations(final SQLiteOpenHelper pHelper) {
         mHelper = pHelper;
     }
 

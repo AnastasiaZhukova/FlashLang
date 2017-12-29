@@ -16,6 +16,4 @@ public class TestFileCache extends FileCache<Object> {
         pTargetStream.write(pFileToCache.toString().getBytes());
     }
 
-
-
 }

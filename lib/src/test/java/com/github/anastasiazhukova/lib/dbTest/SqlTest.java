@@ -1,7 +1,5 @@
 package com.github.anastasiazhukova.lib.dbTest;
 
-
-
 import com.github.anastasiazhukova.lib.db.utils.SqlUtils;
 
 import org.junit.Test;
@@ -21,7 +19,7 @@ public class SqlTest {
 
     @Test
     public void getCreateCorrectTableSql() throws Exception {
-        assertEquals(CORRECT_SQL, SqlUtils.getCreateTableSql(CorrectTable.class));
+        assertEquals(CORRECT_SQL, SqlUtils.getCreateTableSql(CorrectTableElement.class));
     }
 
     @Test
