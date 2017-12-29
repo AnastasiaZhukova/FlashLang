@@ -1,7 +1,6 @@
 package com.github.anastasiazhukova.lib.cache.file;
 
 import android.os.StatFs;
-import android.support.annotation.Nullable;
 
 import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
@@ -21,7 +20,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     private final IFreeSpaceStrategy mFreeSpaceStrategy;
 
-    protected FileCache(final Config pConfig) throws IllegalStateException{
+    protected FileCache(final Config pConfig) throws IllegalStateException {
         if (pConfig != null) {
             final String cacheDirName = pConfig.mCacheDir;
             if (cacheDirName == null || cacheDirName.isEmpty()) {
@@ -53,7 +52,6 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     }
 
-    @Nullable
     @Override
     public final File get(final String pUri) {
         final String fileName = MD5.hash(pUri);

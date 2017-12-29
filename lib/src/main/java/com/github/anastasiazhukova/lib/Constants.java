@@ -3,8 +3,6 @@ package com.github.anastasiazhukova.lib;
 import android.graphics.Bitmap;
 import android.provider.BaseColumns;
 
-import com.github.anastasiazhukova.lib.cache.file.IFreeSpaceStrategy;
-
 public interface Constants {
 
     final class HttpClient{
@@ -28,7 +26,7 @@ public interface Constants {
 
     final class SqlConnector {
 
-        public static final String TABLE_TAMPLATE =
+        public static final String TABLE_TEMPLATE =
                 "CREATE TABLE IF NOT EXISTS %s (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,%s)";
 
         public static final String FOREIGN_KEY_TEMPLATE=

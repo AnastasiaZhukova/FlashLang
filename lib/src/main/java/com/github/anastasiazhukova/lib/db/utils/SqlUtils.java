@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getFieldName;
 import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getTableName;
 
-public class SqlUtils {
+public final class SqlUtils {
 
     @Nullable
     public static String getCreateTableSql(@NotNull final Class<?> pTable) throws Exception {
@@ -79,7 +79,7 @@ public class SqlUtils {
         while (queryBuilder.charAt(queryBuilder.length() - 1) == ',') {
             queryBuilder.deleteCharAt(queryBuilder.length() - 1);
         }
-        return String.format(Constants.SqlConnector.TABLE_TAMPLATE, tableName, queryBuilder.toString());
+        return String.format(Constants.SqlConnector.TABLE_TEMPLATE, tableName, queryBuilder.toString());
     }
 
     private static boolean isForeignKey(@NotNull final Annotation pAnnotation) {

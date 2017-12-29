@@ -181,7 +181,7 @@ public final class ImageLoader {
 
             final IImageRequest imageRequest = mQueue.takeFirst();
             if (imageRequest == null) {
-                throw new NullPointerException("Queque is empty");
+                throw new NullPointerException("Queue is empty");
             }
 
             return imageRequest;

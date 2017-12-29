@@ -5,7 +5,7 @@ import com.github.anastasiazhukova.lib.logs.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5 {
+public final class MD5 {
 
     private static final String LOG_TAG = MD5.class.getSimpleName();
 

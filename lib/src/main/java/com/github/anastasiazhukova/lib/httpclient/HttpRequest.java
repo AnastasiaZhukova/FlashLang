@@ -3,7 +3,7 @@ package com.github.anastasiazhukova.lib.httpclient;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-final class HttpRequest implements IHttpRequest {
+public final class HttpRequest implements IHttpRequest {
 
     private final String mUrl;
     private final HttpMethod mMethod;

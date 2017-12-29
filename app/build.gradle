@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
     defaultConfig {
         applicationId "com.github.anastasiazhukova.flashlang"
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.maxSdk
+        versionCode versions.codeVersion
+        versionName versions.codeVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

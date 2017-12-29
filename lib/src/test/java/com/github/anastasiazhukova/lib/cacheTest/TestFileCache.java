@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 public class TestFileCache extends FileCache<Object> {
 
-    public TestFileCache(final Config pConfig) {
+    TestFileCache(final Config pConfig) {
         super(pConfig);
     }
 
