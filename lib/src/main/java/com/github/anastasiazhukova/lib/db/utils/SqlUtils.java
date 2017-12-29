@@ -20,7 +20,7 @@ import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getTableName;
 public class SqlUtils {
 
     @Nullable
-    public static String getCreateTableSql(@NotNull final Class<?> pTable) throws Exception  {
+    public static String getCreateTableSql(@NotNull final Class<?> pTable) throws Exception {
         final String tableName = getTableName(pTable);
         if (StringUtils.isNullOrEmpty(tableName)) {
             return null;

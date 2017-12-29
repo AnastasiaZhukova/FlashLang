@@ -9,7 +9,7 @@ interface IHttpRequest extends IRequest {
 
     URL getUrl() throws MalformedURLException;
 
-    String getMethod();
+    HttpMethod getMethod();
 
     Headers getHeaders();
 

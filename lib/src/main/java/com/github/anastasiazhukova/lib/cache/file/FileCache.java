@@ -1,7 +1,9 @@
 package com.github.anastasiazhukova.lib.cache.file;
 
 import android.os.StatFs;
+import android.support.annotation.Nullable;
 
+import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
@@ -19,7 +21,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     private final IFreeSpaceStrategy mFreeSpaceStrategy;
 
-    protected FileCache(final Config pConfig) {
+    protected FileCache(final Config pConfig) throws IllegalStateException{
         if (pConfig != null) {
             final String cacheDirName = pConfig.mCacheDir;
             if (cacheDirName == null || cacheDirName.isEmpty()) {
@@ -51,6 +53,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     }
 
+    @Nullable
     @Override
     public final File get(final String pUri) {
         final String fileName = MD5.hash(pUri);
@@ -78,7 +81,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         }
         if (file != null) {
             final FileOutputStream outputStream = new FileOutputStream(file);
-            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, com.github.anastasiazhukova.lib.Constants.FileCache.BUFFER_SIZE);
+            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, Constants.FileCache.BUFFER_SIZE);
             try {
                 write(pFile, bufferedOutputStream);
                 //noinspection ResultOfMethodCallIgnored
@@ -130,7 +133,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         try {
             final StatFs statFs = new StatFs(dir.getAbsolutePath());
             final long available = ((long) statFs.getBlockCount()) * statFs.getBlockSize();
-            size = available / 50; //fixme magic number
+            size = available / 50;
         } catch (final IllegalArgumentException ignored) {
         }
 
@@ -139,10 +142,12 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     public static class Config {
 
+        private static final IFreeSpaceStrategy DEFAULT_FREE_SPACE_STRATEGY = new IFreeSpaceStrategy.LastModifiedStrategy();
+
         private String mCacheDir;
-        private int mMinDiskCacheSize = com.github.anastasiazhukova.lib.Constants.FileCache.MIN_DISK_CACHE_SIZE;
-        private int mMaxDiskCacheSize = com.github.anastasiazhukova.lib.Constants.FileCache.MAX_DISK_CACHE_SIZE;
-        private IFreeSpaceStrategy mFreeSpaceStrategy = com.github.anastasiazhukova.lib.Constants.FileCache.DEFAULT_FREE_SPACE_STRATEGY;
+        private int mMinDiskCacheSize = Constants.FileCache.MIN_DISK_CACHE_SIZE;
+        private int mMaxDiskCacheSize = Constants.FileCache.MAX_DISK_CACHE_SIZE;
+        private IFreeSpaceStrategy mFreeSpaceStrategy = DEFAULT_FREE_SPACE_STRATEGY;
 
         public Config setCacheDirName(final String pCacheDirName) {
             mCacheDir = pCacheDirName;

@@ -6,8 +6,8 @@ public class StringUtils {
         return pString == null || pString.isEmpty();
     }
 
-    public static boolean isNullOrEmpty(final CharSequence pStringBuilder) {
-        return pStringBuilder == null || pStringBuilder.length() <= 0;
+    public static boolean isNullOrEmpty(final CharSequence pCharSequence) {
+        return pCharSequence == null || pCharSequence.length() <= 0;
     }
 
 }

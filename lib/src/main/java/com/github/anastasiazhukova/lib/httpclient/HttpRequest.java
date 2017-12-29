@@ -3,10 +3,10 @@ package com.github.anastasiazhukova.lib.httpclient;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public final class HttpRequest implements IHttpRequest {
+final class HttpRequest implements IHttpRequest {
 
     private final String mUrl;
-    private final String mMethod;
+    private final HttpMethod mMethod;
     private final Headers mHeaders;
 
     private HttpRequest(final Builder pBuilder) {
@@ -21,7 +21,7 @@ public final class HttpRequest implements IHttpRequest {
     }
 
     @Override
-    public String getMethod() {
+    public HttpMethod getMethod() {
         return mMethod;
     }
 
@@ -33,7 +33,7 @@ public final class HttpRequest implements IHttpRequest {
     public static class Builder {
 
         private String mUrl;
-        private String mMethod;
+        private HttpMethod mMethod;
         private Headers mHeaders;
 
         public Builder setUrl(final String pUrl) {
@@ -41,7 +41,7 @@ public final class HttpRequest implements IHttpRequest {
             return this;
         }
 
-        public Builder setMethod(final String pMethod) {
+        public Builder setMethod(final HttpMethod pMethod) {
             mMethod = pMethod;
             return this;
         }

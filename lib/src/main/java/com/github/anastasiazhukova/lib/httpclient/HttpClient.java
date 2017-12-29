@@ -2,6 +2,7 @@ package com.github.anastasiazhukova.lib.httpclient;
 
 import android.support.annotation.NonNull;
 
+import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
@@ -82,7 +83,7 @@ public class HttpClient implements IHttpClient {
 
         connection = (HttpURLConnection) requestUrl.openConnection();
 
-        connection.setRequestMethod(pRequest.getMethod());
+        connection.setRequestMethod(pRequest.getMethod().name());
 
         final Headers headers = pRequest.getHeaders();
         if (headers != null) {
@@ -94,11 +95,8 @@ public class HttpClient implements IHttpClient {
         return connection;
     }
 
-    private static final int SUCCESS_CODE_START = 200;
-    private static final int SUCCESS_CODE_END = 300;
-
     private boolean isSuccessful(final HttpURLConnection pConnection) throws IOException {
-        return pConnection.getResponseCode() >= SUCCESS_CODE_START && pConnection.getResponseCode() < SUCCESS_CODE_END;
+        return pConnection.getResponseCode() >= Constants.HttpClient.MIN_SUCCESS_CODE && pConnection.getResponseCode() < Constants.HttpClient.MAX_SUCCESS_CODE;
     }
 
     @NonNull

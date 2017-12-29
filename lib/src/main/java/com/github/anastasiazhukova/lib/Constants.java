@@ -7,11 +7,16 @@ import com.github.anastasiazhukova.lib.cache.file.IFreeSpaceStrategy;
 
 public interface Constants {
 
+    final class HttpClient{
+
+        public static final int MIN_SUCCESS_CODE = 200;
+        public static final int MAX_SUCCESS_CODE = 300;
+    }
+
     final class FileCache {
 
         public static final int MIN_DISK_CACHE_SIZE = 5 * 1024 * 1024;
         public static final int MAX_DISK_CACHE_SIZE = 50 * 1024 * 1024;
-        public static final IFreeSpaceStrategy DEFAULT_FREE_SPACE_STRATEGY = new IFreeSpaceStrategy.LastModifiedStrategy();
         public static final int BUFFER_SIZE = 4096;
 
     }
