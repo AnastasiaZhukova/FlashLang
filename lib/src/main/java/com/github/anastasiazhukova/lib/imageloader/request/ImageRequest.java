@@ -13,9 +13,6 @@ public class ImageRequest implements IImageRequest {
     private final boolean isSaved;
     private final Integer mErrorImage;
 
-    private int mWidth;
-    private int mHeight;
-
     ImageRequest(final Builder pBuilder) {
         mUrl = pBuilder.mUrl;
         mTarget = pBuilder.mTarget;
@@ -32,26 +29,6 @@ public class ImageRequest implements IImageRequest {
     @Override
     public WeakReference<ImageView> getTarget() {
         return mTarget;
-    }
-
-    @Override
-    public int getWidth() {
-        return mWidth;
-    }
-
-    @Override
-    public int getHeight() {
-        return mHeight;
-    }
-
-    @Override
-    public void setWidth(final int pWidth) {
-        mWidth = pWidth;
-    }
-
-    @Override
-    public void setHeight(final int pHeight) {
-        mHeight = pHeight;
     }
 
     @Override

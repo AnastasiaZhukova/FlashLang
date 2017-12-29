@@ -97,7 +97,6 @@ public final class ImageLoader {
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
 
                     if (view.getWidth() > 0 && imageView.getHeight() > 0) {
-                        ImageUtils.setSize(pImageRequest, view.getWidth(), view.getHeight());
                         enqueue(pImageRequest);
                     }
 
