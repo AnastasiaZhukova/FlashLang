@@ -2,9 +2,8 @@ package com.github.anastasiazhukova.lib.cache.file;
 
 import android.os.StatFs;
 
-import com.github.anastasiazhukova.lib.cache.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
-import com.github.anastasiazhukova.lib.io.IOUtils;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -79,7 +78,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         }
         if (file != null) {
             final FileOutputStream outputStream = new FileOutputStream(file);
-            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, Constants.FileCache.BUFFER_SIZE);
+            final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, com.github.anastasiazhukova.lib.Constants.FileCache.BUFFER_SIZE);
             try {
                 write(pFile, bufferedOutputStream);
                 //noinspection ResultOfMethodCallIgnored
@@ -141,9 +140,9 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
     public static class Config {
 
         private String mCacheDir;
-        private int mMinDiskCacheSize = Constants.FileCache.MIN_DISK_CACHE_SIZE;
-        private int mMaxDiskCacheSize = Constants.FileCache.MAX_DISK_CACHE_SIZE;
-        private IFreeSpaceStrategy mFreeSpaceStrategy = Constants.FileCache.DEFAULT_FREE_SPACE_STRATEGY;
+        private int mMinDiskCacheSize = com.github.anastasiazhukova.lib.Constants.FileCache.MIN_DISK_CACHE_SIZE;
+        private int mMaxDiskCacheSize = com.github.anastasiazhukova.lib.Constants.FileCache.MAX_DISK_CACHE_SIZE;
+        private IFreeSpaceStrategy mFreeSpaceStrategy = com.github.anastasiazhukova.lib.Constants.FileCache.DEFAULT_FREE_SPACE_STRATEGY;
 
         public Config setCacheDirName(final String pCacheDirName) {
             mCacheDir = pCacheDirName;

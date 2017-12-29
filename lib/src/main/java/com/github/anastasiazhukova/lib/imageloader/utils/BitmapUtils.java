@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
-import com.github.anastasiazhukova.lib.io.IOUtils;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

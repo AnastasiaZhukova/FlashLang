@@ -13,7 +13,6 @@ import com.github.anastasiazhukova.lib.httpclient.HttpClient;
 import com.github.anastasiazhukova.lib.httpclient.HttpMethod;
 import com.github.anastasiazhukova.lib.httpclient.HttpRequest;
 import com.github.anastasiazhukova.lib.httpclient.IHttpClient;
-import com.github.anastasiazhukova.lib.imageloader.Constants;
 import com.github.anastasiazhukova.lib.imageloader.cache.ICacheManager;
 import com.github.anastasiazhukova.lib.imageloader.cache.IImageFileCache;
 import com.github.anastasiazhukova.lib.imageloader.cache.IImageMemoryCache;
@@ -39,7 +38,7 @@ public final class ImageLoader {
         mQueue = new ImageRequestQueue();
 
         final IExecutorServiceFactory factory = new ExecutorServiceFactory();
-        mExecutorService = factory.createFixedThreadExecutor(Constants.ImageLoader.NUM_OF_THREADS);
+        mExecutorService = factory.createFixedThreadExecutor(com.github.anastasiazhukova.lib.Constants.ImageLoader.NUM_OF_THREADS);
     }
 
     public void setCacheManager(final ICacheManager pCacheManager) {

@@ -3,7 +3,7 @@ package com.github.anastasiazhukova.lib.httpclient;
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
-import com.github.anastasiazhukova.lib.io.IOUtils;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

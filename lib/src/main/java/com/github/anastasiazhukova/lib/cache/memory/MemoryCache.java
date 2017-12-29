@@ -2,7 +2,6 @@ package com.github.anastasiazhukova.lib.cache.memory;
 
 import android.util.LruCache;
 
-import com.github.anastasiazhukova.lib.cache.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
 
 public abstract class MemoryCache<TFile> implements IMemoryCache<TFile> {
@@ -46,7 +45,7 @@ public abstract class MemoryCache<TFile> implements IMemoryCache<TFile> {
 
     public static class Config {
 
-        private int mCacheSize = Constants.MemoryCache.DEFAULT_CACHE_SIZE;
+        private int mCacheSize = com.github.anastasiazhukova.lib.Constants.MemoryCache.DEFAULT_CACHE_SIZE;
 
         public Config setCacheSize(final int pCacheSize) {
             mCacheSize = pCacheSize;

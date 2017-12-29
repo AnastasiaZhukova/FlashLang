@@ -3,7 +3,6 @@ package com.github.anastasiazhukova.lib.imageloader.cache;
 import android.graphics.Bitmap;
 
 import com.github.anastasiazhukova.lib.cache.file.FileCache;
-import com.github.anastasiazhukova.lib.imageloader.Constants;
 
 import java.io.OutputStream;
 
@@ -25,8 +24,8 @@ public class ImageFileCache extends FileCache<Bitmap> implements IImageFileCache
 
     public static class Config extends FileCache.Config {
 
-        private Bitmap.CompressFormat mCompressFormat = Constants.ImageFileCache.DEFAULT_COMPRESS_FORMAT;
-        private int mCompressQuality = Constants.ImageFileCache.DEFAULT_COMPRESS_QUALITY;
+        private Bitmap.CompressFormat mCompressFormat = com.github.anastasiazhukova.lib.Constants.ImageFileCache.DEFAULT_COMPRESS_FORMAT;
+        private int mCompressQuality = com.github.anastasiazhukova.lib.Constants.ImageFileCache.DEFAULT_COMPRESS_QUALITY;
 
         public Config setCompressFormat(final Bitmap.CompressFormat pCompressFormat) {
             mCompressFormat = pCompressFormat;
