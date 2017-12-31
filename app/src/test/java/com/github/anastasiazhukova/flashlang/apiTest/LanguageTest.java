@@ -1,4 +1,4 @@
-package com.github.anastasiazhukova.flashlang.api;
+package com.github.anastasiazhukova.flashlang.apiTest;
 
 import android.content.Context;
 
@@ -36,7 +36,7 @@ public class LanguageTest {
     @Test
     public void getLanguageNameFromResource() throws Exception{
 
-        String languageName = LanguageUtils.getLanguageName(mContext, "ru");
+        final String languageName = LanguageUtils.getLanguageName(mContext, "ru");
         Assert.assertEquals("Russian", languageName);
 
     }

@@ -1,4 +1,4 @@
-package com.github.anastasiazhukova.flashlang.api;
+package com.github.anastasiazhukova.flashlang.apiTest;
 
 import com.github.anastasiazhukova.flashlang.api.response.ITranslationResponse;
 import com.github.anastasiazhukova.flashlang.api.response.TranslationParser;

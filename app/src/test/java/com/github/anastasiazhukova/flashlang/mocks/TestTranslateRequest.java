@@ -4,9 +4,9 @@ import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequest;
 
 public class TestTranslateRequest implements ITranslationRequest {
 
-    private String mSourceText;
-    private String mSourceLanguage;
-    private String mTargetLanguage;
+    private final String mSourceText;
+    private final String mSourceLanguage;
+    private final String mTargetLanguage;
 
     public TestTranslateRequest(final String pSourceText, final String pSourceLanguage, final String pTargetLanguage) {
         mSourceText = pSourceText;

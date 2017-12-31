@@ -2,8 +2,8 @@ package com.github.anastasiazhukova.flashlang.api.models.examples;
 
 public class TranslationExample implements ITranslationExample {
 
-    private String mExample;
-    private String mTargetWord;
+    private final String mExample;
+    private final String mTargetWord;
 
     public TranslationExample(final String pExample, final String pTargetWord) {
         mExample = pExample;
@@ -12,11 +12,11 @@ public class TranslationExample implements ITranslationExample {
 
     @Override
     public String getFullString() {
-        return null;
+        return mExample;
     }
 
     @Override
     public String getTargetWord() {
-        return null;
+        return mTargetWord;
     }
 }

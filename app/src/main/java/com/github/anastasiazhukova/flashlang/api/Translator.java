@@ -82,7 +82,7 @@ public class Translator implements ITranslator {
             final HttpRequest.Builder httpRequestBuilder = new HttpRequest.Builder();
             httpRequestBuilder.setUrl(translateUrl).setMethod(HttpMethod.GET);
 
-            ITranslationResponse response =
+            final ITranslationResponse response =
                     IHttpClient.Impl.getClient().getResponse(httpRequestBuilder.build(), new TranslationParser());
             return response;
         }
