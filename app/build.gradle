@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { resources.srcDirs = ['src/main/resources', 'src/test/resources/'] } }
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     })
     implementation "com.android.support:appcompat-v7:${versions.support}"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.6.1"
 }

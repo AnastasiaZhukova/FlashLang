@@ -13,7 +13,7 @@ public interface IHttpClient extends IRequestHandler<IHttpRequest> {
 
     final class Impl {
 
-        IHttpClient getClient() {
+        public static IHttpClient getClient() {
             return new HttpClient();
         }
     }

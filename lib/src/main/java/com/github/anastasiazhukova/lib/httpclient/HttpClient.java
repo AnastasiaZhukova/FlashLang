@@ -6,6 +6,9 @@ import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
