@@ -7,6 +7,8 @@ import com.github.anastasiazhukova.lib.imageloader.load.ImageLoader;
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
 import com.github.anastasiazhukova.lib.imageloader.request.ImageRequest;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class Louvre implements ILouvre {
 
     private static volatile Louvre INSTANCE;
@@ -37,7 +39,7 @@ public final class Louvre implements ILouvre {
     }
 
     @Override
-    public void handle(final IImageRequest pRequest) {
+    public void handle(@NotNull final IImageRequest pRequest) {
         mImageLoader.load(pRequest);
     }
 
@@ -46,11 +48,11 @@ public final class Louvre implements ILouvre {
         IImageFileCache mFileCache;
         IImageMemoryCache mMemoryCache;
 
-        public void setFileCache(final IImageFileCache pFileCache) {
+        public void setFileCache(@NotNull final IImageFileCache pFileCache) {
             mFileCache = pFileCache;
         }
 
-        public void setMemoryCache(final IImageMemoryCache pMemoryCache) {
+        public void setMemoryCache(@NotNull final IImageMemoryCache pMemoryCache) {
             mMemoryCache = pMemoryCache;
         }
 

@@ -2,9 +2,9 @@ package com.github.anastasiazhukova.lib.cache.file;
 
 import android.os.StatFs;
 
-import com.github.anastasiazhukova.lib.cache.Constants;
+import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
-import com.github.anastasiazhukova.lib.io.IOUtils;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,7 +20,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     private final IFreeSpaceStrategy mFreeSpaceStrategy;
 
-    protected FileCache(final Config pConfig) {
+    protected FileCache(final Config pConfig) throws IllegalStateException {
         if (pConfig != null) {
             final String cacheDirName = pConfig.mCacheDir;
             if (cacheDirName == null || cacheDirName.isEmpty()) {
@@ -131,7 +131,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         try {
             final StatFs statFs = new StatFs(dir.getAbsolutePath());
             final long available = ((long) statFs.getBlockCount()) * statFs.getBlockSize();
-            size = available / 50; //fixme magic number
+            size = available / 50;
         } catch (final IllegalArgumentException ignored) {
         }
 
@@ -140,10 +140,12 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
     public static class Config {
 
+        private static final IFreeSpaceStrategy DEFAULT_FREE_SPACE_STRATEGY = new IFreeSpaceStrategy.LastModifiedStrategy();
+
         private String mCacheDir;
         private int mMinDiskCacheSize = Constants.FileCache.MIN_DISK_CACHE_SIZE;
         private int mMaxDiskCacheSize = Constants.FileCache.MAX_DISK_CACHE_SIZE;
-        private IFreeSpaceStrategy mFreeSpaceStrategy = Constants.FileCache.DEFAULT_FREE_SPACE_STRATEGY;
+        private IFreeSpaceStrategy mFreeSpaceStrategy = DEFAULT_FREE_SPACE_STRATEGY;
 
         public Config setCacheDirName(final String pCacheDirName) {
             mCacheDir = pCacheDirName;

@@ -1,4 +1,4 @@
-package com.github.anastasiazhukova.lib.io;
+package com.github.anastasiazhukova.lib.utils;
 
 import com.github.anastasiazhukova.lib.logs.Log;
 

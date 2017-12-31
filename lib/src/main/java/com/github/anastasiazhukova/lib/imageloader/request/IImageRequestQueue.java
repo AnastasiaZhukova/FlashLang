@@ -1,7 +1,7 @@
 package com.github.anastasiazhukova.lib.imageloader.request;
 
-import com.github.anastasiazhukova.lib.contracts.IRequestQueque;
+import com.github.anastasiazhukova.lib.contracts.IRequestQueue;
 
-public interface IImageRequestQueue extends IRequestQueque<IImageRequest> {
+public interface IImageRequestQueue extends IRequestQueue<IImageRequest> {
 
 }

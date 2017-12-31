@@ -2,12 +2,11 @@ package com.github.anastasiazhukova.lib.cache.memory;
 
 import android.util.LruCache;
 
-import com.github.anastasiazhukova.lib.cache.Constants;
+import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
 
 public abstract class MemoryCache<TFile> implements IMemoryCache<TFile> {
 
-    private static final int DEFAULT_CACHE_SIZE = 1;
     private final LruCache<String, TFile> mCache;
     private final Object lock = new Object();
 
@@ -16,7 +15,7 @@ public abstract class MemoryCache<TFile> implements IMemoryCache<TFile> {
         if (pConfig != null) {
             cacheSize = pConfig.mCacheSize;
         } else {
-            cacheSize = DEFAULT_CACHE_SIZE;
+            cacheSize = Constants.MemoryCache.DEFAULT_CACHE_SIZE;
         }
 
         mCache = new LruCache<String, TFile>(cacheSize) {

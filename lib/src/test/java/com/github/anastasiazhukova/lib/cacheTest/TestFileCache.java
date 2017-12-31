@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 public class TestFileCache extends FileCache<Object> {
 
-    public TestFileCache(final Config pConfig) {
+    TestFileCache(final Config pConfig) {
         super(pConfig);
     }
 
@@ -15,7 +15,5 @@ public class TestFileCache extends FileCache<Object> {
     protected void write(final Object pFileToCache, final OutputStream pTargetStream) throws IOException {
         pTargetStream.write(pFileToCache.toString().getBytes());
     }
-
-
 
 }

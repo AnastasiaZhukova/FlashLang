@@ -12,14 +12,6 @@ public interface IImageRequest extends IRequest {
 
     WeakReference<ImageView> getTarget();
 
-    int getWidth();
-
-    int getHeight();
-
-    void setWidth(int pWidth);
-
-    void setHeight(int pHeight);
-
     Integer getErrorImage();
 
     boolean isSaved();

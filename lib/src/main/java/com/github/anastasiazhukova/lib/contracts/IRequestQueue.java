@@ -1,6 +1,6 @@
 package com.github.anastasiazhukova.lib.contracts;
 
-public interface IRequestQueque<T extends IRequest> {
+public interface IRequestQueue<T extends IRequest> {
 
     T takeFirst() throws InterruptedException;
 

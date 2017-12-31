@@ -11,4 +11,10 @@ public interface IHttpClient extends IRequestHandler<IHttpRequest> {
 
     <Response> Response getResponse(IHttpRequest pRequest, IResponseConverter<Response> pResponseConverter) throws IOException;
 
+    final class Impl {
+
+        public static IHttpClient getClient() {
+            return new HttpClient();
+        }
+    }
 }

@@ -13,7 +13,6 @@ import com.github.anastasiazhukova.lib.httpclient.HttpClient;
 import com.github.anastasiazhukova.lib.httpclient.HttpMethod;
 import com.github.anastasiazhukova.lib.httpclient.HttpRequest;
 import com.github.anastasiazhukova.lib.httpclient.IHttpClient;
-import com.github.anastasiazhukova.lib.imageloader.Constants;
 import com.github.anastasiazhukova.lib.imageloader.cache.ICacheManager;
 import com.github.anastasiazhukova.lib.imageloader.cache.IImageFileCache;
 import com.github.anastasiazhukova.lib.imageloader.cache.IImageMemoryCache;
@@ -39,7 +38,7 @@ public final class ImageLoader {
         mQueue = new ImageRequestQueue();
 
         final IExecutorServiceFactory factory = new ExecutorServiceFactory();
-        mExecutorService = factory.createFixedThreadExecutor(Constants.ImageLoader.NUM_OF_THREADS);
+        mExecutorService = factory.createFixedThreadExecutor(com.github.anastasiazhukova.lib.Constants.ImageLoader.NUM_OF_THREADS);
     }
 
     public void setCacheManager(final ICacheManager pCacheManager) {
@@ -98,7 +97,6 @@ public final class ImageLoader {
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
 
                     if (view.getWidth() > 0 && imageView.getHeight() > 0) {
-                        ImageUtils.setSize(pImageRequest, view.getWidth(), view.getHeight());
                         enqueue(pImageRequest);
                     }
 
@@ -182,7 +180,7 @@ public final class ImageLoader {
 
             final IImageRequest imageRequest = mQueue.takeFirst();
             if (imageRequest == null) {
-                throw new NullPointerException("Queque is empty");
+                throw new NullPointerException("Queue is empty");
             }
 
             return imageRequest;

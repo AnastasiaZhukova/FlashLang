@@ -9,26 +9,24 @@ import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
 public final class ImageUtils {
 
     public static boolean imageHasSize(final IImageRequest pImageRequest) {
-
-        if (pImageRequest.getWidth() > 0 && pImageRequest.getHeight() > 0) {
-            return true;
-        }
-
         final ImageView imageView = pImageRequest.getTarget().get();
-        final int width;
-        final int height;
-        if (imageView != null && (width = imageView.getWidth()) > 0 && (height = imageView.getHeight()) > 0) {
-            setSize(pImageRequest, width, height);
-            return true;
-        }
-        return false;
+        return imageView != null && imageView.getWidth() > 0 && imageView.getHeight() > 0;
     }
 
-    public static void setSize(final IImageRequest pImageRequest, final int pWidth, final int pHeight) {
-        if (pImageRequest != null) {
-            pImageRequest.setWidth(pWidth);
-            pImageRequest.setHeight(pHeight);
+    public static int getImageWidth(final IImageRequest pImageRequest) {
+        final ImageView imageView = pImageRequest.getTarget().get();
+        if (imageView != null) {
+            return imageView.getWidth();
         }
+        return 0;
+    }
+
+    public static int getImageHeight(final IImageRequest pImageRequest) {
+        final ImageView imageView = pImageRequest.getTarget().get();
+        if (imageView != null) {
+            return imageView.getHeight();
+        }
+        return 0;
     }
 
     public static void setImage(@NonNull final ImageView pTarget, final Integer pImage) {

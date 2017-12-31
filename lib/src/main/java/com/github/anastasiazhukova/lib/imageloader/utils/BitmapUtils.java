@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
-import com.github.anastasiazhukova.lib.io.IOUtils;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,7 +15,11 @@ import java.io.InputStream;
 
 public final class BitmapUtils {
 
-    public static Bitmap getScaledBitmap(final InputStream pInputStream, final int pWidth, final int pHeight) throws IOException {
+    static Bitmap getBitmap(final InputStream pInputStream) {
+        return BitmapFactory.decodeStream(pInputStream);
+    }
+
+    static Bitmap getScaledBitmap(final InputStream pInputStream, final int pWidth, final int pHeight) throws IOException {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(pInputStream.available());
@@ -89,7 +93,19 @@ public final class BitmapUtils {
 
         @Override
         public Bitmap convert(final InputStream pInputStream) throws IOException {
-            return getScaledBitmap(pInputStream, mImageRequest.getWidth(), mImageRequest.getHeight());
+
+            final int imageWidth = ImageUtils.getImageWidth(mImageRequest);
+            final int imageHeight = ImageUtils.getImageHeight(mImageRequest);
+
+            if (imageHeight <= 0 || imageWidth <= 0) {
+                if (mImageRequest.isSaved()) {
+                    return getBitmap(pInputStream);
+                } else {
+                    return null;
+                }
+            }
+
+            return getScaledBitmap(pInputStream, imageWidth, imageHeight);
         }
     }
 }
