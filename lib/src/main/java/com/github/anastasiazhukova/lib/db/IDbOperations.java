@@ -20,8 +20,27 @@ public interface IDbOperations {
 
     final class Impl {
 
+        private static IDbOperations INSTANCE;
+        private static final Object syncLock = new Object();
+
         public static IDbOperations newInstance(final Context pContext, final IDb pDb) {
-            return new DbOperations(new DbHelper(pContext, pDb));
+            if (INSTANCE != null) {
+                return INSTANCE;
+            }
+            synchronized (syncLock) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DbOperations(new DbHelper(pContext, pDb));
+                }
+            }
+            return INSTANCE;
+        }
+
+        public static IDbOperations getInstance() throws IllegalStateException {
+            if (INSTANCE == null) {
+                throw new IllegalStateException("Db Operations not instantiated!");
+            } else {
+                return INSTANCE;
+            }
         }
     }
 

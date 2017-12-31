@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.github.anastasiazhukova.lib.executors.ExecutorServiceFactory;
 import com.github.anastasiazhukova.lib.executors.IExecutorServiceFactory;
-import com.github.anastasiazhukova.lib.httpclient.HttpClient;
 import com.github.anastasiazhukova.lib.httpclient.HttpMethod;
 import com.github.anastasiazhukova.lib.httpclient.HttpRequest;
 import com.github.anastasiazhukova.lib.httpclient.IHttpClient;
@@ -227,7 +226,7 @@ public final class ImageLoader {
 
         private Bitmap load(final IImageRequest pRequest) throws IOException {
 
-            final IHttpClient httpClient = new HttpClient();
+            final IHttpClient httpClient = IHttpClient.Impl.getClient();
 
             final HttpRequest.Builder request = new HttpRequest.Builder()
                     .setMethod(HttpMethod.GET)

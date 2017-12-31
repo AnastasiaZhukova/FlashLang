@@ -2,7 +2,7 @@ package com.github.anastasiazhukova.lib.imageloader.request;
 
 import android.widget.ImageView;
 
-import com.github.anastasiazhukova.lib.imageloader.Louvre;
+import com.github.anastasiazhukova.lib.imageloader.ILouvre;
 
 import java.lang.ref.WeakReference;
 
@@ -73,7 +73,7 @@ public class ImageRequest implements IImageRequest {
         }
 
         public void load() throws Exception {
-            Louvre.getInstance().handle(build());
+            ILouvre.Impl.getInstance().handle(build());
         }
 
     }

@@ -7,29 +7,12 @@ import com.github.anastasiazhukova.lib.imageloader.load.ImageLoader;
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
 import com.github.anastasiazhukova.lib.imageloader.request.ImageRequest;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class Louvre implements ILouvre {
-
-    private static volatile Louvre INSTANCE;
-    private static final Object lock = new Object();
 
     private final ImageLoader mImageLoader;
 
-    private Louvre() {
+    Louvre(final Config pConfig) {
         mImageLoader = new ImageLoader();
-    }
-
-    public static Louvre getInstance() {
-        if (INSTANCE == null) {
-            synchronized (lock) {
-                INSTANCE = new Louvre();
-            }
-        }
-        return INSTANCE;
-    }
-
-    public void setConfig(final Config pConfig) {
         mImageLoader.setCacheManager(new CacheManager(pConfig.mMemoryCache, pConfig.mFileCache));
     }
 
@@ -39,8 +22,11 @@ public final class Louvre implements ILouvre {
     }
 
     @Override
-    public void handle(@NotNull final IImageRequest pRequest) {
-        mImageLoader.load(pRequest);
+    public void handle(final IImageRequest pRequest) {
+
+        if (pRequest != null) {
+            mImageLoader.load(pRequest);
+        }
     }
 
     public static class Config {
@@ -48,12 +34,16 @@ public final class Louvre implements ILouvre {
         IImageFileCache mFileCache;
         IImageMemoryCache mMemoryCache;
 
-        public void setFileCache(@NotNull final IImageFileCache pFileCache) {
-            mFileCache = pFileCache;
+        public void setFileCache(final IImageFileCache pFileCache) {
+            if (pFileCache != null) {
+                mFileCache = pFileCache;
+            }
         }
 
-        public void setMemoryCache(@NotNull final IImageMemoryCache pMemoryCache) {
-            mMemoryCache = pMemoryCache;
+        public void setMemoryCache(final IImageMemoryCache pMemoryCache) {
+            if (pMemoryCache != null) {
+                mMemoryCache = pMemoryCache;
+            }
         }
 
     }

@@ -9,7 +9,6 @@ import com.github.anastasiazhukova.lib.db.annotations.type.dbLong;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 import com.github.anastasiazhukova.lib.utils.StringUtils;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -20,7 +19,12 @@ import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getTableName;
 public final class SqlUtils {
 
     @Nullable
-    public static String getCreateTableSql(@NotNull final Class<?> pTable) throws Exception {
+    public static String getCreateTableSql(final Class<?> pTable) throws Exception {
+
+        if (pTable == null) {
+            return null;
+        }
+
         final String tableName = getTableName(pTable);
         if (StringUtils.isNullOrEmpty(tableName)) {
             return null;
@@ -82,11 +86,18 @@ public final class SqlUtils {
         return String.format(Constants.SqlConnector.TABLE_TEMPLATE, tableName, queryBuilder.toString());
     }
 
-    private static boolean isForeignKey(@NotNull final Annotation pAnnotation) {
-        return pAnnotation.annotationType().equals(dbForeignKey.class);
+    private static boolean isForeignKey(final Annotation pAnnotation) {
+
+        return pAnnotation != null && pAnnotation.annotationType().equals(dbForeignKey.class);
+
     }
 
-    private static String getFieldType(@NotNull final Annotation pAnnotation) {
+    private static String getFieldType(final Annotation pAnnotation) {
+
+        if (pAnnotation == null) {
+            return null;
+        }
+
         final Class<? extends Annotation> annotationType = pAnnotation.annotationType();
         if (annotationType.equals(dbInteger.class)) {
             return ((dbInteger) pAnnotation).type();
