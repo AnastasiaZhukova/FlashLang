@@ -1,6 +1,8 @@
 package com.github.anastasiazhukova.flashlang.api.request;
 
-public interface ITranslationRequest {
+import com.github.anastasiazhukova.lib.contracts.IRequest;
+
+public interface ITranslationRequest extends IRequest {
 
     String getSourceText();
 

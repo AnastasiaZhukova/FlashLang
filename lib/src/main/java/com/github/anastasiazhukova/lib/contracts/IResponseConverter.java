@@ -1,9 +1,8 @@
 package com.github.anastasiazhukova.lib.contracts;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-public interface IResponseConverter<Response> {
+public interface IResponseConverter<Response, Source> {
 
-    Response convert(InputStream pInputStream) throws IOException;
+    Response convert(Source pSource) throws IOException;
 }

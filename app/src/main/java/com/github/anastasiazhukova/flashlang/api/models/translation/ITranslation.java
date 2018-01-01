@@ -1,9 +1,6 @@
 package com.github.anastasiazhukova.flashlang.api.models.translation;
 
-import com.github.anastasiazhukova.flashlang.api.models.examples.ITranslationExample;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
-
-import java.util.List;
 
 public interface ITranslation {
 
@@ -14,7 +11,5 @@ public interface ITranslation {
     ILanguage getTargetLanguage();
 
     String getTranslatedText();
-
-    List<ITranslationExample> getExamples();
 
 }

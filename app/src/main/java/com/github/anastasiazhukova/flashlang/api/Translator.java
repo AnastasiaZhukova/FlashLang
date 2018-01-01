@@ -2,24 +2,17 @@ package com.github.anastasiazhukova.flashlang.api;
 
 import android.content.Context;
 
-import com.github.anastasiazhukova.flashlang.api.models.examples.ITranslationExample;
-import com.github.anastasiazhukova.flashlang.api.models.examples.TranslationExample;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.api.models.languages.Language;
 import com.github.anastasiazhukova.flashlang.api.models.translation.ITranslation;
 import com.github.anastasiazhukova.flashlang.api.models.translation.TranslationBuilder;
 import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequest;
+import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequestHandler;
+import com.github.anastasiazhukova.flashlang.api.request.TranslationRequestHandler;
 import com.github.anastasiazhukova.flashlang.api.response.ITranslationResponse;
-import com.github.anastasiazhukova.flashlang.api.response.TranslationParser;
 import com.github.anastasiazhukova.flashlang.api.utils.LanguageUtils;
-import com.github.anastasiazhukova.flashlang.api.utils.UrlBuilder;
 import com.github.anastasiazhukova.lib.context.ContextHolder;
-import com.github.anastasiazhukova.lib.httpclient.HttpMethod;
-import com.github.anastasiazhukova.lib.httpclient.HttpRequest;
-import com.github.anastasiazhukova.lib.httpclient.IHttpClient;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,15 +21,20 @@ import java.util.Map;
 public class Translator implements ITranslator {
 
     private Map<ApiConstants.LanguageKeys, ILanguage> mSupportedLanguages;
+    private final ITranslationRequestHandler mRequestHandler;
 
-    public Translator(final Context pContext) {
+    Translator(final Context pContext) {
         mSupportedLanguages = getSupportedLanguages(pContext);
+        mRequestHandler = new TranslationRequestHandler();
     }
 
     @Override
-    public ITranslation translate(final ITranslationRequest pRequest) throws IOException {
-        final ITranslationResponse translationResponse = makeTranslation(pRequest);
-        return buildTranslation(pRequest, translationResponse);
+    public ITranslation translate(final ITranslationRequest pRequest) throws Exception {
+        final ITranslationResponse[] translationResponse = mRequestHandler.handle(pRequest);
+        if (translationResponse != null && translationResponse.length > 0) {
+            return buildTranslation(pRequest, translationResponse[0]);
+        }
+        return null;
     }
 
     @Override
@@ -73,45 +71,24 @@ public class Translator implements ITranslator {
 
     }
 
-    private ITranslationResponse makeTranslation(final ITranslationRequest pRequest) throws IOException {
-        if (pRequest != null) {
-
-            final UrlBuilder builder = new UrlBuilder();
-            final String translateUrl = builder.getTranslateUrl(pRequest);
-
-            final HttpRequest.Builder httpRequestBuilder = new HttpRequest.Builder();
-            httpRequestBuilder.setUrl(translateUrl).setMethod(HttpMethod.GET);
-
-            final ITranslationResponse response =
-                    IHttpClient.Impl.getClient().getResponse(httpRequestBuilder.build(), new TranslationParser());
-            return response;
-        }
-        return null;
-    }
-
     private ITranslation buildTranslation(final ITranslationRequest pRequest, final ITranslationResponse pResponse) {
 
         if (pRequest != null && pResponse != null) {
 
-            final ILanguage sourceLanguage = mSupportedLanguages.get(ApiConstants.LanguageKeys.valueOf(pRequest.getSourceLanguage()));
-            final ILanguage targetLanguage = mSupportedLanguages.get(ApiConstants.LanguageKeys.valueOf(pRequest.getTargetLanguage()));
-            final List<String> translateExamples = pResponse.getExamples();
-            List<ITranslationExample> examples = null;
-            if (translateExamples != null && !translateExamples.isEmpty()) {
-                examples = new ArrayList<>();
-                for (final String example :
-                        pResponse.getExamples()) {
-                    examples.add(new TranslationExample(example, pRequest.getSourceText()));
-                }
+            String sourceLanguageKey = pRequest.getSourceLanguage();
+            if (sourceLanguageKey == null || sourceLanguageKey.equals(ApiConstants.LanguageKeys.auto.name())) {
+                sourceLanguageKey = pResponse.getSourceLanguageKey();
             }
+
+            final ILanguage sourceLanguage = mSupportedLanguages.get(ApiConstants.LanguageKeys.valueOf(sourceLanguageKey));
+            final ILanguage targetLanguage = mSupportedLanguages.get(ApiConstants.LanguageKeys.valueOf(pRequest.getTargetLanguage()));
 
             final ITranslation translation = new TranslationBuilder()
                     .setSourceLanguage(sourceLanguage)
                     .setSourceText(pRequest.getSourceText())
                     .setTargetLanguage(targetLanguage)
                     .setTranslatedText(pResponse.getTranslatedText())
-                    .setTranslationExamples(examples)
-                    .createTranslation();
+                    .build();
             return translation;
         }
 

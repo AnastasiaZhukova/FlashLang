@@ -1,9 +1,6 @@
 package com.github.anastasiazhukova.flashlang.api.models.translation;
 
-import com.github.anastasiazhukova.flashlang.api.models.examples.ITranslationExample;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
-
-import java.util.List;
 
 public class TranslationBuilder {
 
@@ -11,7 +8,6 @@ public class TranslationBuilder {
     private String mSourceText;
     private ILanguage mTargetLanguage;
     private String mTranslatedText;
-    private List<ITranslationExample> mTranslationExamples;
 
     public TranslationBuilder setSourceLanguage(final ILanguage pSourceLanguage) {
         mSourceLanguage = pSourceLanguage;
@@ -33,12 +29,7 @@ public class TranslationBuilder {
         return this;
     }
 
-    public TranslationBuilder setTranslationExamples(final List<ITranslationExample> pTranslationExamples) {
-        mTranslationExamples = pTranslationExamples;
-        return this;
-    }
-
-    public Translation createTranslation() {
-        return new Translation(mSourceLanguage, mSourceText, mTargetLanguage, mTranslatedText, mTranslationExamples);
+    public ITranslation build() {
+        return new Translation(mSourceLanguage, mSourceText, mTargetLanguage, mTranslatedText);
     }
 }

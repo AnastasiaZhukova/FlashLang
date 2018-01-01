@@ -1,24 +1,10 @@
-[
-  [
-    [
-      "пытаться",
-      "try",
-      null,
-      null,
-      1
+{
+  "data": {
+    "translations": [
+      {
+        "translatedText": "Hallo",
+        "detectedSourceLanguage": "en"
+      }
     ]
-  ],
-  null,
-  "en",
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null
-]
+  }
+}

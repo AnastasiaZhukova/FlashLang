@@ -22,11 +22,12 @@ public final class Louvre implements ILouvre {
     }
 
     @Override
-    public void handle(final IImageRequest pRequest) {
+    public Void handle(final IImageRequest pRequest) {
 
         if (pRequest != null) {
             mImageLoader.load(pRequest);
         }
+        return null;
     }
 
     public static class Config {

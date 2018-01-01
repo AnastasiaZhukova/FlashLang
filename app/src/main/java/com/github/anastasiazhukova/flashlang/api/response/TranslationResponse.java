@@ -1,12 +1,13 @@
 package com.github.anastasiazhukova.flashlang.api.response;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class TranslationResponse implements ITranslationResponse {
 
+    @SerializedName("detectedSourceLanguage")
     private String mSourceLanguage;
+    @SerializedName("translatedText")
     private String mTranslatedText;
-    private List<String> mExamples;
 
     @Override
     public String getSourceLanguageKey() {
@@ -18,11 +19,6 @@ public class TranslationResponse implements ITranslationResponse {
         return mTranslatedText;
     }
 
-    @Override
-    public List<String> getExamples() {
-        return mExamples;
-    }
-
     public void setSourceLanguage(final String pSourceLanguage) {
         mSourceLanguage = pSourceLanguage;
     }
@@ -31,7 +27,4 @@ public class TranslationResponse implements ITranslationResponse {
         mTranslatedText = pTranslatedText;
     }
 
-    public void setExamples(final List<String> pExamples) {
-        mExamples = pExamples;
-    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="auto">Auto detection</string>
     <string name="af">Afrikaans</string>
     <string name="sq">Albanian</string>
     <string name="am">Amharic</string>

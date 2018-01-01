@@ -83,7 +83,7 @@ public final class BitmapUtils {
         return sampleSize;
     }
 
-    public static class BitmapConverter implements IResponseConverter<Bitmap> {
+    public static class BitmapConverter implements IResponseConverter<Bitmap, InputStream> {
 
         private final IImageRequest mImageRequest;
 
@@ -107,5 +107,6 @@ public final class BitmapUtils {
 
             return getScaledBitmap(pInputStream, imageWidth, imageHeight);
         }
+
     }
 }

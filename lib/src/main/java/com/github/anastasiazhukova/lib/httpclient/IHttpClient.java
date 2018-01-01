@@ -4,12 +4,11 @@ import com.github.anastasiazhukova.lib.contracts.IRequestHandler;
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 
 import java.io.IOException;
+import java.io.InputStream;
 
-public interface IHttpClient extends IRequestHandler<IHttpRequest> {
+public interface IHttpClient extends IRequestHandler<IHttpRequest, IHttpResponse> {
 
-    IHttpResponse getResponse(IHttpRequest pRequest) throws Exception;
-
-    <Response> Response getResponse(IHttpRequest pRequest, IResponseConverter<Response> pResponseConverter) throws IOException;
+    <Response> Response getResponse(IHttpRequest pRequest, IResponseConverter<Response, InputStream> pResponseConverter) throws IOException;
 
     final class Impl {
 
