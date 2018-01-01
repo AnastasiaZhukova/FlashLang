@@ -5,6 +5,8 @@ import android.database.Cursor;
 
 import com.github.anastasiazhukova.lib.BuildConfig;
 import com.github.anastasiazhukova.lib.TestConstants;
+import com.github.anastasiazhukova.lib.db.DbHelper;
+import com.github.anastasiazhukova.lib.db.DbOperations;
 import com.github.anastasiazhukova.lib.db.IDbOperations;
 
 import org.junit.Assert;
@@ -31,7 +33,7 @@ public class DbTest {
 
     @Before
     public void setUp() {
-        mDbOperations = IDbOperations.Impl.newInstance(RuntimeEnvironment.application, new TestDb());
+        mDbOperations = new DbOperations(new DbHelper(RuntimeEnvironment.application, new TestDb()));
     }
 
     @Test
@@ -53,7 +55,7 @@ public class DbTest {
 
     @Test
     public void delete() {
-        bulkInsert();
+        mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
         Assert.assertEquals(5,
                 mDbOperations.delete(TABLE_NAME, KEY_INT + " LIKE 1", null));
 
@@ -61,7 +63,7 @@ public class DbTest {
 
     @Test
     public void query() {
-        bulkInsert();
+        mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
         final Cursor cursor = mDbOperations.query(TABLE_NAME, null, KEY_INT + " LIKE 1", null, null);
         int count = 0;
         while (cursor.moveToNext()) {
@@ -76,7 +78,7 @@ public class DbTest {
 
     @Test
     public void update() {
-        bulkInsert();
+        mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
         Assert.assertEquals(5, mDbOperations.update(TABLE_NAME, generateContentValues(), KEY_INT + " LIKE 1", null));
     }
 

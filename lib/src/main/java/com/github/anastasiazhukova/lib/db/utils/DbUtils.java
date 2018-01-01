@@ -8,15 +8,17 @@ import com.github.anastasiazhukova.lib.db.annotations.type.dbInteger;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbLong;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public final class DbUtils {
 
     @Nullable
-    public static String getTableName(@NotNull final Class<?> pClass) {
+    public static String getTableName(final Class<?> pClass) {
+
+        if (pClass == null) {
+            return null;
+        }
 
         String name = null;
         final dbTable dbTableAnnotation = pClass.getAnnotation(dbTable.class);
@@ -32,7 +34,12 @@ public final class DbUtils {
     }
 
     @Nullable
-    public static String getFieldName(@NotNull final Field pField) {
+    public static String getFieldName(final Field pField) {
+
+        if (pField == null) {
+            return null;
+        }
+
         final Annotation[] annotations = pField.getAnnotations();
         for (final Annotation annotation :
                 annotations) {

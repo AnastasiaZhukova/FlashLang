@@ -29,14 +29,14 @@ public class ParserTest {
     private InputStream mThirdResource;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mFirstResource = this.getClass().getClassLoader().getResourceAsStream("first_translate_sample.json");
         mSecondResource = this.getClass().getClassLoader().getResourceAsStream("second_translate_sample.json");
         mThirdResource = this.getClass().getClassLoader().getResourceAsStream("third_translate_sample.json");
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
 
         final TranslatedObject firstObject = parse(mFirstResource);
         final TranslatedObject secondObject = parse(mSecondResource);
@@ -82,7 +82,7 @@ public class ParserTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         try {
             mFirstResource.close();
             mSecondResource.close();
