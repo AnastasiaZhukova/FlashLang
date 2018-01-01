@@ -27,7 +27,7 @@ public interface Constants {
     final class SqlConnector {
 
         public static final String TABLE_TEMPLATE =
-                "CREATE TABLE IF NOT EXISTS %s (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,%s)";
+                "CREATE TABLE IF NOT EXISTS %s (%s)";
 
         public static final String FOREIGN_KEY_TEMPLATE=
                 "FOREIGN KEY (%s) REFERENCES %s(%s)";

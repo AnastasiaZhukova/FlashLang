@@ -9,10 +9,10 @@ import static org.junit.Assert.assertNull;
 
 public class SqlTest {
 
-    private static final String CORRECT_SQL = "CREATE TABLE IF NOT EXISTS testTable (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+    private static final String CORRECT_SQL = "CREATE TABLE IF NOT EXISTS testTable ("+
             "mInt INTEGER," +
             "mLong BIGINT," +
-            "mString TEXT," +
+            "mString TEXT PRIMARY KEY NOT NULL," +
             "FOREIGN KEY (mInt) REFERENCES someTable(someColumn)," +
             "FOREIGN KEY (mLong) REFERENCES someTable(someColumn)," +
             "FOREIGN KEY (mString) REFERENCES someTable(someColumn))";

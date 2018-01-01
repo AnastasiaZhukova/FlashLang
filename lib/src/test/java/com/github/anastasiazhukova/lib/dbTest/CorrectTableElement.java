@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.lib.dbTest;
 
+import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbForeignKey;
@@ -23,6 +24,7 @@ class CorrectTableElement {
 
     @dbForeignKey(referredTableName = "someTable", referredTableColumnName = "someColumn")
     @dbString(name = "mString")
+    @dbPrimaryKey(isNull = false)
     private
     String mString;
 
