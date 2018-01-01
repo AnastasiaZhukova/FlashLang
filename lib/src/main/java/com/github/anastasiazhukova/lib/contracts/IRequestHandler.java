@@ -1,7 +1,7 @@
 package com.github.anastasiazhukova.lib.contracts;
 
-public interface IRequestHandler<T extends IRequest> {
+public interface IRequestHandler<Request extends IRequest, Response> {
 
-    void handle(T pRequest) throws Exception;
+    Response handle(Request pRequest) throws Exception;
 
 }

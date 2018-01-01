@@ -17,7 +17,7 @@ import java.util.Map;
 class HttpClient implements IHttpClient {
 
     @Override
-    public IHttpResponse getResponse(final IHttpRequest pRequest) throws Exception {
+    public IHttpResponse handle(final IHttpRequest pRequest) throws Exception {
         final HttpResponse response = new HttpResponse();
         response.setRequest(pRequest);
 
@@ -44,7 +44,7 @@ class HttpClient implements IHttpClient {
     }
 
     @Override
-    public <Response> Response getResponse(final IHttpRequest pRequest, final IResponseConverter<Response> pResponseConverter) throws IOException {
+    public <Response> Response getResponse(final IHttpRequest pRequest, final IResponseConverter<Response,InputStream> pResponseConverter) throws IOException {
 
         HttpURLConnection connection = null;
         InputStream stream = null;
@@ -59,11 +59,6 @@ class HttpClient implements IHttpClient {
             IOUtils.close(stream);
             IOUtils.disconnect(connection);
         }
-    }
-
-    @Override
-    public void handle(final IHttpRequest pRequest) throws Exception {
-        getResponse(pRequest);
     }
 
     private InputStream getInputStream(final HttpURLConnection pConnection) throws IOException {

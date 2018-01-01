@@ -1,9 +1,6 @@
 package com.github.anastasiazhukova.flashlang.api.models.translation;
 
-import com.github.anastasiazhukova.flashlang.api.models.examples.ITranslationExample;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
-
-import java.util.List;
 
 public class Translation implements ITranslation {
 
@@ -11,14 +8,12 @@ public class Translation implements ITranslation {
     private final String mSourceText;
     private final ILanguage mTargetLanguage;
     private final String mTranslatedText;
-    private final List<ITranslationExample> mTranslationExamples;
 
-    Translation(final ILanguage pSourceLanguage, final String pSourceText, final ILanguage pTargetLanguage, final String pTranslatedText, final List<ITranslationExample> pTranslationExamples) {
+    Translation(final ILanguage pSourceLanguage, final String pSourceText, final ILanguage pTargetLanguage, final String pTranslatedText) {
         mSourceLanguage = pSourceLanguage;
         mSourceText = pSourceText;
         mTargetLanguage = pTargetLanguage;
         mTranslatedText = pTranslatedText;
-        mTranslationExamples = pTranslationExamples;
     }
 
     @Override
@@ -41,8 +36,4 @@ public class Translation implements ITranslation {
         return mTranslatedText;
     }
 
-    @Override
-    public List<ITranslationExample> getExamples() {
-        return mTranslationExamples;
-    }
 }

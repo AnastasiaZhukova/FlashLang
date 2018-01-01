@@ -8,10 +8,10 @@ import java.net.URLEncoder;
 
 public class UrlBuilder {
 
-    public String getTranslateUrl(final ITranslationRequest pRequest) throws UnsupportedEncodingException {
+    public String getTranslateUrl(final String pApiKey, final ITranslationRequest pRequest) throws UnsupportedEncodingException {
         final String sourceText = URLEncoder.encode(pRequest.getSourceText(), "UTF-8");
         final String url = String.format(ApiConstants.Url.TRANSLATION_URL_TEMPLATE,
-                pRequest.getSourceLanguage(), pRequest.getTargetLanguage(), sourceText);
+                pApiKey, pRequest.getSourceLanguage(), pRequest.getTargetLanguage(), sourceText);
         return url;
     }
 

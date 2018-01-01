@@ -5,11 +5,15 @@ public interface ApiConstants {
     final class Url {
 
         public static final String TRANSLATION_URL_TEMPLATE =
-                "https://translate.googleapis.com/translate_a/single?client=gtx&sl=%s" +
-                        "&tl=%s&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&q=%s";
+                "https://translation.googleapis.com/language/translate/v2" +
+                        "?key=%s" +
+                        "&source=%s" +
+                        "&target=%s" +
+                        "&q=%s";
     }
 
     enum LanguageKeys {
+        auto,
         af,
         sq,
         am,
