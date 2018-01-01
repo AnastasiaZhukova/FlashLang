@@ -11,7 +11,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private final Class<?>[] mTables;
 
-    DbHelper(final Context pContext, final IDb pDb) {
+    public DbHelper(final Context pContext, final IDb pDb) {
         super(pContext, pDb.getName(), null, pDb.getVersion());
         mTables = pDb.getTableModels();
     }
