@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.lib.db.utils;
 
+import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 
 import com.github.anastasiazhukova.lib.Constants;
@@ -12,6 +13,7 @@ import com.github.anastasiazhukova.lib.utils.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 
 import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getFieldName;
 import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getTableName;
@@ -78,7 +80,7 @@ public final class SqlUtils {
                             foreignKeyBuilder.append(",");
                         }
 
-                        foreignKeyBuilder.append(String.format(Constants.SqlConnector.FOREIGN_KEY_TEMPLATE,
+                        foreignKeyBuilder.append(String.format(Constants.Sql.FOREIGN_KEY_TEMPLATE,
                                 fieldName,
                                 foreignKey.referredTableName(),
                                 foreignKey.referredTableColumnName()));
@@ -114,19 +116,37 @@ public final class SqlUtils {
         }
 
         if (!hasPrimaryKey) {
+            final Type[] genericInterfaces = pTable.getGenericInterfaces();
+            for (final Type type :
+                    genericInterfaces) {
+                if (((Class) type).getCanonicalName().equals(BaseColumns.class.getCanonicalName())) {
+                    queryBuilder.append(BaseColumns._ID)
+                            .append(" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,");
+                    hasPrimaryKey=true;
+                }
+            }
+        }
+
+        if(!hasPrimaryKey) {
             return null;
         }
 
-        if (StringUtils.isNullOrEmpty(queryBuilder)) {
+        if (StringUtils.isNullOrEmpty(queryBuilder))
+
+        {
             return null;
         }
-        if (!StringUtils.isNullOrEmpty(foreignKeyBuilder)) {
+        if (!StringUtils.isNullOrEmpty(foreignKeyBuilder))
+
+        {
             queryBuilder.append(foreignKeyBuilder);
         }
-        while (queryBuilder.charAt(queryBuilder.length() - 1) == ',') {
+        while (queryBuilder.charAt(queryBuilder.length() - 1) == ',')
+
+        {
             queryBuilder.deleteCharAt(queryBuilder.length() - 1);
         }
-        return String.format(Constants.SqlConnector.TABLE_TEMPLATE, tableName, queryBuilder.toString());
+        return String.format(Constants.Sql.TABLE_TEMPLATE, tableName, queryBuilder.toString());
     }
 
     private static boolean isPrimaryKeyNull(final Annotation pPrimaryKey) {

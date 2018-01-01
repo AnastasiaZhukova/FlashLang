@@ -1,5 +1,7 @@
 package com.github.anastasiazhukova.lib.dbTest;
 
+import android.provider.BaseColumns;
+
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
@@ -10,7 +12,7 @@ import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 
 @dbTable(name = "testTable")
 @dbTableElement(targetTableName = "testTable")
-class CorrectTableElement {
+class CorrectTableElement implements BaseColumns {
 
     @dbForeignKey(referredTableName = "someTable", referredTableColumnName = "someColumn")
     @dbInteger(name = "mInt")
@@ -19,12 +21,12 @@ class CorrectTableElement {
 
     @dbForeignKey(referredTableName = "someTable", referredTableColumnName = "someColumn")
     @dbLong(name = "mLong")
+    @dbPrimaryKey(isNull = false)
     private
     long mLong;
 
     @dbForeignKey(referredTableName = "someTable", referredTableColumnName = "someColumn")
     @dbString(name = "mString")
-    @dbPrimaryKey(isNull = false)
     private
     String mString;
 

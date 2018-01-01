@@ -11,8 +11,8 @@ public class SqlTest {
 
     private static final String CORRECT_SQL = "CREATE TABLE IF NOT EXISTS testTable ("+
             "mInt INTEGER," +
-            "mLong BIGINT," +
-            "mString TEXT PRIMARY KEY NOT NULL," +
+            "mLong BIGINT PRIMARY KEY NOT NULL," +
+            "mString TEXT," +
             "FOREIGN KEY (mInt) REFERENCES someTable(someColumn)," +
             "FOREIGN KEY (mLong) REFERENCES someTable(someColumn)," +
             "FOREIGN KEY (mString) REFERENCES someTable(someColumn))";
