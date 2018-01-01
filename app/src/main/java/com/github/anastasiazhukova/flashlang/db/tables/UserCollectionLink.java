@@ -19,7 +19,7 @@ import static com.github.anastasiazhukova.flashlang.db.tables.UserCollectionLink
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
-public class UserCollectionLink implements BaseColumns, IDbModel<UserCollectionLink> {
+public class UserCollectionLink implements BaseColumns, IDbModel {
 
     @dbForeignKey(referredTableName = User.DbKeys.TABLE_NAME, referredTableColumnName = User.DbKeys.ID)
     @dbString(name = USER_ID)

@@ -17,7 +17,7 @@ import static com.github.anastasiazhukova.flashlang.models.User.DbKeys.TABLE_NAM
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
-public class User implements IUser, IDbModel<IUser> {
+public class User implements IUser, IDbModel {
 
     @dbPrimaryKey(isNull = false)
     @dbString(name = ID)

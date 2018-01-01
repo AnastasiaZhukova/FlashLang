@@ -1,9 +1,8 @@
 package com.github.anastasiazhukova.flashlang.db;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 
-public interface IDbModel<Element> {
+public interface IDbModel {
 
     ContentValues convertToInsert();
 

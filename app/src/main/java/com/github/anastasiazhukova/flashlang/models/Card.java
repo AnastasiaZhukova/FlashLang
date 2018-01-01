@@ -19,7 +19,7 @@ import static com.github.anastasiazhukova.flashlang.models.Card.DbKeys.TRANSLATE
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
-public class Card implements ICard, IDbModel<ICard> {
+public class Card implements ICard, IDbModel {
 
     @dbPrimaryKey(isNull = false)
     @dbString(name = ID)

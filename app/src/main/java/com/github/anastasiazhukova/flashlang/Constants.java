@@ -9,6 +9,4 @@ public interface Constants {
         public static final int DB_VERSION = 1;
     }
 
-
-
 }

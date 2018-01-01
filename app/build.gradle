@@ -22,7 +22,7 @@ android {
 
 dependencies {
 
-    compile project (':lib')
+    compile project(':lib')
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {

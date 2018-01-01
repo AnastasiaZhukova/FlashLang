@@ -57,11 +57,11 @@ public class DbTableConnector<Element extends IDbModel> implements IDbTableConne
         return elements;
     }
 
-    ContentValues convertToInsert(final Element pElement) {
+    private ContentValues convertToInsert(final Element pElement) {
         return pElement.convertToInsert();
     }
 
-    ContentValues[] convertToInsert(final Element[] pElements) {
+    private ContentValues[] convertToInsert(final Element[] pElements) {
         final ContentValues[] contentValues = new ContentValues[pElements.length];
         for (int i = 0; i < pElements.length; i++) {
             contentValues[i] = convertToInsert(pElements[i]);
@@ -69,7 +69,7 @@ public class DbTableConnector<Element extends IDbModel> implements IDbTableConne
         return contentValues;
     }
 
-    ContentValues convertToUpdate(final Element pElement) {
+    private ContentValues convertToUpdate(final Element pElement) {
         return pElement.convertToUpdate();
     }
 

@@ -20,7 +20,7 @@ import static com.github.anastasiazhukova.flashlang.db.tables.CollectionCardLink
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
-public class CollectionCardLink implements BaseColumns, IDbModel<CollectionCardLink> {
+public class CollectionCardLink implements BaseColumns, IDbModel {
 
     @dbForeignKey(referredTableName = Collection.DbKeys.TABLE_NAME, referredTableColumnName = Collection.DbKeys.ID)
     @dbString(name = COLLECTION_ID)

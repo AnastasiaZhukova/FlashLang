@@ -10,7 +10,7 @@ import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 
 @dbTable(name = TestModel.TABLE_NAME)
-public class TestModel implements IDbModel<TestModel> {
+public class TestModel implements IDbModel {
 
     public static final String ID = "id";
     public static final String STRING_KEY = "string";
@@ -30,7 +30,7 @@ public class TestModel implements IDbModel<TestModel> {
         mSomeString = pSomeString;
     }
 
-     public String getId() {
+    public String getId() {
         return mId;
     }
 

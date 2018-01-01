@@ -76,8 +76,8 @@ public class DbConnectorTest {
     @Test
     public void update() {
         bulkInsert();
-        TestModel model = new TestModel("1", "NEW STRING");
-        boolean updated = mDbTableConnector.update(model, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+        final TestModel model = new TestModel("1", "NEW STRING");
+        final boolean updated = mDbTableConnector.update(model, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(updated);
     }
 

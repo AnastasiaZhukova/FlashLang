@@ -17,7 +17,7 @@ import static com.github.anastasiazhukova.flashlang.models.Collection.DbKeys.TAB
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
-public class Collection implements ICollection, IDbModel<ICollection> {
+public class Collection implements ICollection, IDbModel {
 
     @dbPrimaryKey(isNull = false)
     @dbString(name = ID)
