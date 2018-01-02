@@ -18,10 +18,12 @@ android {
         }
     }
     sourceSets { main { resources.srcDirs = ['src/main/resources', 'src/test/resources/'] } }
+    testOptions.unitTests.includeAndroidResources true
 }
 
 dependencies {
 
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
     compile project(':lib')
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -35,3 +37,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.6.1"
 }
+
+apply plugin: 'com.google.gms.google-services'
