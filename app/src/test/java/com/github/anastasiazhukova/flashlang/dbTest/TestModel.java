@@ -7,9 +7,11 @@ import com.github.anastasiazhukova.flashlang.db.IDbModel;
 import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
+import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 
 @dbTable(name = TestModel.TABLE_NAME)
+@dbTableElement(targetTableName = TestModel.TABLE_NAME)
 public class TestModel implements IDbModel {
 
     public static final String ID = "id";

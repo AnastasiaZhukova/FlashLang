@@ -28,7 +28,7 @@ public class DbConnectorTest {
     @Before
     public void setUp() throws Exception {
         IDbOperations.Impl.newInstance(RuntimeEnvironment.application, new TestDb());
-        mDbTableConnector = new DbTableConnector<>(TestModel.TABLE_NAME);
+        mDbTableConnector = new DbTableConnector<>();
     }
 
     @Test
@@ -45,11 +45,8 @@ public class DbConnectorTest {
     @Test
     public void bulkInsert() {
         final TestModel[] models = new TestModel[20];
-        for (int i = 0; i < 10; i++) {
-            models[i] = new TestModel(String.valueOf(i), "Model " + i);
-        }
-        for (int i = 0; i < 10; i++) {
-            models[i + 10] = new TestModel(String.valueOf(i * 10), "Model " + i);
+        for (int i = 0; i < models.length; i++) {
+            models[i] = new TestModel(String.valueOf(i), "Model " + i%10);
         }
         final boolean inserted = mDbTableConnector.insert(models);
         Assert.assertTrue(inserted);
@@ -58,14 +55,14 @@ public class DbConnectorTest {
     @Test
     public void delete() {
         bulkInsert();
-        final boolean deleted = mDbTableConnector.delete(new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+        final boolean deleted = mDbTableConnector.delete(TestModel.TABLE_NAME,new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(deleted);
     }
 
     @Test
     public void get() {
         bulkInsert();
-        final List<TestModel> testModels = mDbTableConnector.get(new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"),
+        final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME,new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"),
                 new TestModel.CursorConverter());
 
         Assert.assertEquals(2, testModels.size());

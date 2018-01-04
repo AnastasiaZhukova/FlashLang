@@ -9,15 +9,17 @@ import java.util.List;
 
 public interface IDbTableConnector<Element extends IDbModel> {
 
+    List<Element> get(String pTableName, ISelector pSelector, ICursorConverter<Element> pCursorConverter);
+
     boolean insert(Element pElement);
 
     boolean insert(Element[] pElements);
 
-    boolean delete(ISelector pSelector);
+    boolean insert(String pTableName, Element[] pElements);
+
+    boolean delete(String pTableName, ISelector pSelector);
 
     boolean update(Element pElement, ISelector pSelector);
-
-    List<Element> get(ISelector pSelector, ICursorConverter<Element> pCursorConverter);
 
     interface ISelector {
 
