@@ -5,10 +5,9 @@ import android.database.Cursor;
 
 import com.github.anastasiazhukova.lib.BuildConfig;
 import com.github.anastasiazhukova.lib.TestConstants;
-import com.github.anastasiazhukova.lib.db.DbHelper;
-import com.github.anastasiazhukova.lib.db.DbOperations;
 import com.github.anastasiazhukova.lib.db.IDbOperations;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+
+import java.lang.reflect.Field;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
@@ -33,7 +34,8 @@ public class DbTest {
 
     @Before
     public void setUp() {
-        mDbOperations = new DbOperations(new DbHelper(RuntimeEnvironment.application, new TestDb()));
+        IDbOperations.Impl.newInstance(RuntimeEnvironment.application, new TestDb());
+        mDbOperations = IDbOperations.Impl.getInstance();
     }
 
     @Test
@@ -79,7 +81,9 @@ public class DbTest {
     @Test
     public void update() {
         mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
-        Assert.assertEquals(5, mDbOperations.update(TABLE_NAME, generateContentValues(), KEY_INT + " LIKE 1", null));
+        ContentValues values = new ContentValues();
+        values.put(KEY_STRING, "string");
+        Assert.assertEquals(5, mDbOperations.update(TABLE_NAME, values, KEY_INT + " LIKE 1", null));
     }
 
     private ContentValues generateContentValues() {
@@ -109,5 +113,21 @@ public class DbTest {
         }
         return elements;
 
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        resetSingleton(IDbOperations.Impl.class);
+    }
+
+    private void resetSingleton(final Class clazz) {
+        final Field instance;
+        try {
+            instance = clazz.getDeclaredField("INSTANCE");
+            instance.setAccessible(true);
+            instance.set(null, null);
+        } catch (final Exception e) {
+            throw new RuntimeException();
+        }
     }
 }

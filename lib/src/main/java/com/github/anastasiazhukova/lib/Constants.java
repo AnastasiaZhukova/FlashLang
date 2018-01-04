@@ -1,11 +1,10 @@
 package com.github.anastasiazhukova.lib;
 
 import android.graphics.Bitmap;
-import android.provider.BaseColumns;
 
 public interface Constants {
 
-    final class HttpClient{
+    final class HttpClient {
 
         public static final int MIN_SUCCESS_CODE = 200;
         public static final int MAX_SUCCESS_CODE = 300;
@@ -24,13 +23,21 @@ public interface Constants {
         public static final int DEFAULT_CACHE_SIZE = 10 * 1024 * 1024;
     }
 
-    final class SqlConnector {
+    final class Sql {
 
         public static final String TABLE_TEMPLATE =
-                "CREATE TABLE IF NOT EXISTS %s (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,%s)";
+                "CREATE TABLE IF NOT EXISTS %s (%s)";
 
-        public static final String FOREIGN_KEY_TEMPLATE=
+        public static final String FOREIGN_KEY_TEMPLATE =
                 "FOREIGN KEY (%s) REFERENCES %s(%s)";
+
+        public static final String WHERE_EQUAL_TEMPLATE = "%s = '%s'";
+
+        public static final String WHERE_OR_TEMPLATE = "%s = '%s' OR %s = '%s'";
+
+        public static final String WHERE_AND_TEMPLATE = "%s = '%s' AND %s = '%s'";
+
+        public static final String WHERE_LIKE_TEMPLATE = "%s LIKE '%s'";
     }
 
     final class ImageFileCache {
