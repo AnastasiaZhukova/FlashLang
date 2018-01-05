@@ -2,6 +2,7 @@ package com.github.anastasiazhukova.lib.logs;
 
 public final class Log {
 
+    //TODO add config to enable/disable logs
     public static void d(final String pTag, final String pMessage) {
         android.util.Log.d(pTag, pMessage);
     }

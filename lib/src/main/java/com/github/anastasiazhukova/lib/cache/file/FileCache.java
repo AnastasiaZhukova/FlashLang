@@ -131,6 +131,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         try {
             final StatFs statFs = new StatFs(dir.getAbsolutePath());
             final long available = ((long) statFs.getBlockCount()) * statFs.getBlockSize();
+            //TODO magic number 50
             size = available / 50;
         } catch (final IllegalArgumentException ignored) {
         }

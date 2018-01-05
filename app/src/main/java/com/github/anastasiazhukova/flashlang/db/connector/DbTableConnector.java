@@ -84,6 +84,7 @@ public class DbTableConnector<Element extends IDbModel> implements IDbTableConne
                 while (cursor.moveToNext()) {
                     elements.add(pCursorConverter.convert(cursor));
                 }
+                //TODO cursor needs to be closed in final block
                 cursor.close();
             }
             return elements;

@@ -92,7 +92,7 @@ public final class ImageLoader {
                     if (view == null) {
                         return true;
                     }
-
+                    //TODO move line to top of the method to avoid memory leak
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
 
                     if (view.getWidth() > 0 && imageView.getHeight() > 0) {

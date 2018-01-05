@@ -13,6 +13,7 @@ public class TranslationParser implements IResponseConverter<ITranslationRespons
 
     @Override
     public ITranslationResponse[] convert(final InputStream pInputStream) throws IOException {
+        //TODO stream is not closed
         final Reader reader = new InputStreamReader(pInputStream);
         final ResponseModel responseModel = new Gson().fromJson(reader, ResponseModel.class);
         if (responseModel != null) {

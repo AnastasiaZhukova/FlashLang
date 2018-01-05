@@ -20,6 +20,7 @@ import static com.github.anastasiazhukova.lib.db.utils.DbUtils.getTableName;
 
 public final class SqlUtils {
 
+    //TODO split method to small ones, for example logic related to primary key can be in separate method
     @Nullable
     public static String getCreateTableSql(final Class<?> pTable) throws Exception {
 

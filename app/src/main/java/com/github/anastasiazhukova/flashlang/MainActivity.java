@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO image loader needs to be initialized in the Application
         Louvre.Config config = new Louvre.Config();
 
         config.setFileCache(new ImageFileCache((ImageFileCache.Config) new ImageFileCache.Config().setCacheDirName(getCacheDir().getAbsolutePath())));

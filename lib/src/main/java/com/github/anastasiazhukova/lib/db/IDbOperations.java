@@ -12,6 +12,8 @@ public interface IDbOperations {
 
     int bulkInsert(@NonNull String pTable, ContentValues[] pValues);
 
+    //improvement a big number of arguments, maybe can be converted to builder like:
+    //new Query.Builder().table(pTable).projection(pProjection).cursor();
     Cursor query(@NonNull String pTable, @Nullable final String[] pProjection, @Nullable final String pSelection, @Nullable final String[] pSelectionArgs, @Nullable final String pSortOrder);
 
     int delete(@NonNull String pTable, @Nullable final String pSelection, @Nullable final String[] pSelectionArgs);

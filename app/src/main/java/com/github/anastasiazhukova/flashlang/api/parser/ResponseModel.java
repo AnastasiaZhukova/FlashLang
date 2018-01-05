@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseModel {
 
+    //TODO code formatting
     @SerializedName("data")
     private
     Translations mTranslations;
