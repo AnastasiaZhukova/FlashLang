@@ -11,7 +11,7 @@ public class DbOperations implements IDbOperations {
 
     private final SQLiteOpenHelper mHelper;
 
-    public DbOperations(final SQLiteOpenHelper pHelper) {
+    DbOperations(final SQLiteOpenHelper pHelper) {
         mHelper = pHelper;
     }
 
@@ -48,8 +48,19 @@ public class DbOperations implements IDbOperations {
     }
 
     @Override
-    public Cursor query(@NonNull final String pTable, @Nullable final String[] pProjection, @Nullable final String pSelection, @Nullable final String[] pSelectionArgs, @Nullable final String pSortOrder) {
-        return mHelper.getWritableDatabase().query(pTable, pProjection, pSelection, pSelectionArgs, null, null, pSortOrder);
+    public Query.Builder query() {
+        return new Query.Builder();
+    }
+
+    @Override
+    public Cursor query(final Query pQuery) {
+        final String table = pQuery.getTable();
+        final String[] projection = pQuery.getProjection();
+        final String selection = pQuery.getSelection();
+        final String[] selectionArgs = pQuery.getSelectionArgs();
+        final String sortOrder = pQuery.getSortOrder();
+        return mHelper.getWritableDatabase().query(table, projection, selection, selectionArgs,
+                null, null, sortOrder);
     }
 
     @Override

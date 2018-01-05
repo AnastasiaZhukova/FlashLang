@@ -17,7 +17,7 @@ public final class ContextHolder {
     }
 
     public static void setContext(final Context pContext) {
-        if (sContext == null) {
+        if (pContext == null) {
             throw new RuntimeException("Wrong context!");
         }
         sContext = pContext;

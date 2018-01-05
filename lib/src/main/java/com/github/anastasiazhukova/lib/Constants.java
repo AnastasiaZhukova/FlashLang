@@ -15,7 +15,7 @@ public interface Constants {
         public static final int MIN_DISK_CACHE_SIZE = 5 * 1024 * 1024;
         public static final int MAX_DISK_CACHE_SIZE = 50 * 1024 * 1024;
         public static final int BUFFER_SIZE = 4096;
-
+        public static final int PERCENT_OF_TOTAL_SPACE = 1 / 50; //i.e. 2%
     }
 
     final class MemoryCache {
@@ -30,6 +30,14 @@ public interface Constants {
 
         public static final String FOREIGN_KEY_TEMPLATE =
                 "FOREIGN KEY (%s) REFERENCES %s(%s)";
+
+        public static final char WORD_SEPARATOR = ' ';
+
+        public static final char STATEMENT_SEPARATOR = ',';
+
+        public static final String PRIMARY_KEY = "PRIMARY KEY";
+
+        public static final String NOT_NULL = "NOT NULL";
 
         public static final String WHERE_EQUAL_TEMPLATE = "%s = '%s'";
 

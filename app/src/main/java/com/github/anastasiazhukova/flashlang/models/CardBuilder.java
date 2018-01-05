@@ -13,6 +13,26 @@ public class CardBuilder {
         return this;
     }
 
+    public String getId() {
+        return mId;
+    }
+
+    public String getSourceLanguageKey() {
+        return mSourceLanguageKey;
+    }
+
+    public String getSourceText() {
+        return mSourceText;
+    }
+
+    public String getTargetLanguage() {
+        return mTargetLanguage;
+    }
+
+    public String getTranslatedText() {
+        return mTranslatedText;
+    }
+
     public CardBuilder setSourceLanguageKey(final String pSourceLanguageKey) {
         mSourceLanguageKey = pSourceLanguageKey;
         return this;
@@ -34,6 +54,6 @@ public class CardBuilder {
     }
 
     public Card createCard() {
-        return new Card(mId, mSourceLanguageKey, mSourceText, mTargetLanguage, mTranslatedText);
+        return new Card(this);
     }
 }

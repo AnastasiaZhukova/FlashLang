@@ -14,26 +14,20 @@ import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 @dbTableElement(targetTableName = TestModel.TABLE_NAME)
 public class TestModel implements IDbModel {
 
-    public static final String ID = "id";
+    static final String ID = "id";
     public static final String STRING_KEY = "string";
     public static final String TABLE_NAME = "testTable";
 
     @dbString(name = ID)
     @dbPrimaryKey(isNull = false)
-    private final
-    String mId;
+    private final String mId;
 
     @dbString(name = STRING_KEY)
-    private final
-    String mSomeString;
+    private final String mSomeString;
 
     TestModel(final String pId, final String pSomeString) {
         mId = pId;
         mSomeString = pSomeString;
-    }
-
-    public String getId() {
-        return mId;
     }
 
     public String getSomeString() {
