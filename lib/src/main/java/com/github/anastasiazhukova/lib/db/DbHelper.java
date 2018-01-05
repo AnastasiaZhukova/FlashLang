@@ -4,14 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.github.anastasiazhukova.lib.db.utils.SqlUtils;
+import com.github.anastasiazhukova.lib.db.sql.SqlBuilder;
 import com.github.anastasiazhukova.lib.utils.StringUtils;
 
 public class DbHelper extends SQLiteOpenHelper {
 
     private final Class<?>[] mTables;
 
-    public DbHelper(final Context pContext, final IDb pDb) {
+    DbHelper(final Context pContext, final IDb pDb) {
         super(pContext, pDb.getName(), null, pDb.getVersion());
         mTables = pDb.getTableModels();
     }
@@ -32,7 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
             for (final Class<?> table :
                     pTables) {
                 try {
-                    final String sql = SqlUtils.getCreateTableSql(table);
+                    final String sql = SqlBuilder.getCreateTableSql(table);
                     if (!StringUtils.isNullOrEmpty(sql)) {
                         pDatabase.execSQL(sql);
                     }

@@ -1,5 +1,7 @@
 package com.github.anastasiazhukova.lib.utils;
 
+import android.database.Cursor;
+
 import com.github.anastasiazhukova.lib.logs.Log;
 
 import java.io.Closeable;
@@ -16,6 +18,20 @@ public final class IOUtils {
                 pCloseable.close();
             } catch (final IOException pE) {
                 Log.e(LOG_TAG, pE.getMessage());
+            }
+        }
+    }
+
+    //Casting Cursor to closable requires API level 16,
+    //So this method is called if min API level is less than 16
+    public static void close(final Cursor pCursor) {
+        if (pCursor != null) {
+            if (!pCursor.isClosed()) {
+                try {
+                    pCursor.close();
+                } catch (final Exception pE) {
+                    Log.e(LOG_TAG, pE.getMessage());
+                }
             }
         }
     }

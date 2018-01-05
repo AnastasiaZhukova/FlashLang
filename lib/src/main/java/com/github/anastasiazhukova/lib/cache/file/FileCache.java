@@ -4,6 +4,7 @@ import android.os.StatFs;
 
 import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.cache.MD5;
+import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.io.BufferedOutputStream;
@@ -15,12 +16,18 @@ import java.io.OutputStream;
 
 public abstract class FileCache<PFile> implements IFileCache<PFile> {
 
+    private static final String LOG_TAG = FileCache.class.getSimpleName();
+
     private final File mCacheDir;
     private final long mCacheSize;
 
     private final IFreeSpaceStrategy mFreeSpaceStrategy;
 
     protected FileCache(final Config pConfig) throws IllegalStateException {
+
+        Log.d(LOG_TAG, "FileCache: start create");
+        Log.d(LOG_TAG, "FileCache() called with: pConfig = [" + pConfig + "]");
+
         if (pConfig != null) {
             final String cacheDirName = pConfig.mCacheDir;
             if (cacheDirName == null || cacheDirName.isEmpty()) {
@@ -50,6 +57,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
             throw new IllegalStateException("Wrong disk cache config");
         }
 
+        Log.d(LOG_TAG, "FileCache: finish create");
     }
 
     @Override
@@ -131,8 +139,7 @@ public abstract class FileCache<PFile> implements IFileCache<PFile> {
         try {
             final StatFs statFs = new StatFs(dir.getAbsolutePath());
             final long available = ((long) statFs.getBlockCount()) * statFs.getBlockSize();
-            //TODO magic number 50
-            size = available / 50;
+            size = available * Constants.FileCache.PERCENT_OF_TOTAL_SPACE;
         } catch (final IllegalArgumentException ignored) {
         }
 

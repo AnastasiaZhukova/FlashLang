@@ -4,6 +4,7 @@ import com.github.anastasiazhukova.flashlang.BuildConfig;
 import com.github.anastasiazhukova.flashlang.TestConstants;
 import com.github.anastasiazhukova.flashlang.db.connector.DbTableConnector;
 import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.mocks.TestApplication;
 import com.github.anastasiazhukova.lib.db.IDbOperations;
 
 import org.junit.After;
@@ -20,13 +21,14 @@ import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
-        sdk = TestConstants.SDK_VERSION)
+        sdk = TestConstants.SDK_VERSION,
+        application = TestApplication.class)
 public class DbConnectorTest {
 
     private DbTableConnector<TestModel> mDbTableConnector;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         IDbOperations.Impl.newInstance(RuntimeEnvironment.application, new TestDb());
         mDbTableConnector = new DbTableConnector<>();
     }
@@ -46,7 +48,7 @@ public class DbConnectorTest {
     public void bulkInsert() {
         final TestModel[] models = new TestModel[20];
         for (int i = 0; i < models.length; i++) {
-            models[i] = new TestModel(String.valueOf(i), "Model " + i%10);
+            models[i] = new TestModel(String.valueOf(i), "Model " + i % 10);
         }
         final boolean inserted = mDbTableConnector.insert(models);
         Assert.assertTrue(inserted);
@@ -55,14 +57,14 @@ public class DbConnectorTest {
     @Test
     public void delete() {
         bulkInsert();
-        final boolean deleted = mDbTableConnector.delete(TestModel.TABLE_NAME,new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+        final boolean deleted = mDbTableConnector.delete(TestModel.TABLE_NAME, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(deleted);
     }
 
     @Test
     public void get() {
         bulkInsert();
-        final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME,new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"),
+        final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"),
                 new TestModel.CursorConverter());
 
         Assert.assertEquals(2, testModels.size());
@@ -79,7 +81,7 @@ public class DbConnectorTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         resetSingleton(IDbOperations.Impl.class);
     }
 

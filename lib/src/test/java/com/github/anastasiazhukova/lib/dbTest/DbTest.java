@@ -66,7 +66,11 @@ public class DbTest {
     @Test
     public void query() {
         mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
-        final Cursor cursor = mDbOperations.query(TABLE_NAME, null, KEY_INT + " LIKE 1", null, null);
+        final Cursor cursor = mDbOperations.query()
+                .table(TABLE_NAME)
+                .selection(KEY_INT + " LIKE 1")
+                .cursor();
+
         int count = 0;
         while (cursor.moveToNext()) {
             count++;
@@ -81,7 +85,7 @@ public class DbTest {
     @Test
     public void update() {
         mDbOperations.bulkInsert(TABLE_NAME, generateContentValuesArray());
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(KEY_STRING, "string");
         Assert.assertEquals(5, mDbOperations.update(TABLE_NAME, values, KEY_INT + " LIKE 1", null));
     }
@@ -116,7 +120,7 @@ public class DbTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         resetSingleton(IDbOperations.Impl.class);
     }
 

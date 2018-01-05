@@ -37,12 +37,20 @@ public class Card implements ICard, IDbModel {
     @dbString(name = TRANSLATED_TEXT)
     private String mTranslatedText;
 
-    public Card(final String pId, final String pSourceLanguageKey, final String pSourceText, final String pTargetLanguage, final String pTranslatedText) {
+    Card(final String pId, final String pSourceLanguageKey, final String pSourceText, final String pTargetLanguage, final String pTranslatedText) {
         mId = pId;
         mSourceLanguageKey = pSourceLanguageKey;
         mSourceText = pSourceText;
         mTargetLanguage = pTargetLanguage;
         mTranslatedText = pTranslatedText;
+    }
+
+    public Card(final CardBuilder pCardBuilder) {
+        mId = pCardBuilder.getId();
+        mSourceLanguageKey = getSourceLanguageKey();
+        mSourceText = getSourceText();
+        mTargetLanguage = getTargetLanguageKey();
+        mTranslatedText = getTranslatedText();
     }
 
     public void setTranslatedText(final String pTranslatedText) {

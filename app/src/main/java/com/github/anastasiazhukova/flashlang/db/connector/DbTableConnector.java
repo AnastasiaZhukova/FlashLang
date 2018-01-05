@@ -8,6 +8,7 @@ import com.github.anastasiazhukova.lib.db.IDbOperations;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
 import com.github.anastasiazhukova.lib.db.utils.DbUtils;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,10 @@ public class DbTableConnector<Element extends IDbModel> implements IDbTableConne
 
     @Override
     public boolean insert(@dbTableElement final Element[] pElements) {
-        boolean isInserted=true;
+        boolean isInserted = true;
         for (final Element element :
                 pElements) {
-            isInserted&=insert(element);
+            isInserted &= insert(element);
         }
         return isInserted;
     }
@@ -76,20 +77,24 @@ public class DbTableConnector<Element extends IDbModel> implements IDbTableConne
 
     @Override
     public List<Element> get(final String pTableName, final ISelector pSelector, final ICursorConverter<Element> pCursorConverter) {
+        Cursor cursor = null;
         try {
-            final Cursor cursor = mDbOperations.query(pTableName, null, pSelector.getSelection(), null, null);
+            cursor = mDbOperations.query()
+                    .table(pTableName)
+                    .selection(pSelector.getSelection())
+                    .cursor();
             List<Element> elements = null;
             if (cursor != null) {
                 elements = new ArrayList<>();
                 while (cursor.moveToNext()) {
                     elements.add(pCursorConverter.convert(cursor));
                 }
-                //TODO cursor needs to be closed in final block
-                cursor.close();
             }
             return elements;
         } catch (final Exception pE) {
             Log.e(LOG_TAG, pE.getMessage());
+        } finally {
+            IOUtils.close(cursor);
         }
         return null;
     }

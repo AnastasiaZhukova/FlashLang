@@ -22,6 +22,7 @@ import com.github.anastasiazhukova.lib.imageloader.result.IImageResponse;
 import com.github.anastasiazhukova.lib.imageloader.result.ImageResponse;
 import com.github.anastasiazhukova.lib.imageloader.utils.BitmapUtils;
 import com.github.anastasiazhukova.lib.imageloader.utils.ImageUtils;
+import com.github.anastasiazhukova.lib.logs.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,14 +88,13 @@ public final class ImageLoader {
                 @Override
                 public boolean onPreDraw() {
 
+                    imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+
                     final ImageView view = pImageRequest.getTarget().get();
 
                     if (view == null) {
                         return true;
                     }
-                    //TODO move line to top of the method to avoid memory leak
-                    view.getViewTreeObserver().removeOnPreDrawListener(this);
-
                     if (view.getWidth() > 0 && imageView.getHeight() > 0) {
                         enqueue(pImageRequest);
                     }
@@ -125,6 +125,8 @@ public final class ImageLoader {
     @SuppressLint("StaticFieldLeak")
     class ImageLoadAsyncTask extends AsyncTask<Void, Void, IImageResponse> {
 
+        private final String LOG_TAG = ImageLoadAsyncTask.class.getSimpleName();
+
         @Override
         protected IImageResponse doInBackground(final Void... params) {
 
@@ -144,9 +146,10 @@ public final class ImageLoader {
 
             //try get from cache
             try {
+                Log.d(LOG_TAG, "doInBackground: Try get from cache");
                 bitmap = getFromCache(imageRequest.getUrl());
             } catch (final IOException ignored) {
-
+                Log.e(LOG_TAG, "doInBackground: ", ignored);
             }
             if (bitmap != null) {
                 result.setResult(bitmap);
@@ -155,6 +158,7 @@ public final class ImageLoader {
 
             //try load
             try {
+                Log.d(LOG_TAG, "doInBackground: Try load");
                 bitmap = load(imageRequest);
                 if (bitmap != null) {
                     result.setResult(bitmap);
@@ -189,8 +193,10 @@ public final class ImageLoader {
 
             if (mCacheManager != null) {
                 Bitmap result;
+                Log.d(LOG_TAG, "getFromCache: Try get from memory cache");
                 result = getFromMemoryCache(pKey);
                 if (result == null) {
+                    Log.d(LOG_TAG, "getFromCache: Try get from disk cache");
                     result = getFromFileCache(pKey);
                 }
 
@@ -201,10 +207,8 @@ public final class ImageLoader {
         }
 
         private Bitmap getFromMemoryCache(final String pKey) throws IOException {
-
             final IImageMemoryCache memoryCache = mCacheManager.getMemoryCache();
             if (memoryCache != null) {
-
                 return memoryCache.get(pKey);
             }
 
@@ -212,7 +216,6 @@ public final class ImageLoader {
         }
 
         private Bitmap getFromFileCache(final String pKey) throws IOException {
-
             final IImageFileCache fileCache = mCacheManager.getFileCache();
             if (fileCache != null) {
                 final File file = fileCache.get(pKey);
@@ -220,7 +223,6 @@ public final class ImageLoader {
                     return BitmapUtils.getBitmapFromFile(file);
                 }
             }
-
             return null;
         }
 

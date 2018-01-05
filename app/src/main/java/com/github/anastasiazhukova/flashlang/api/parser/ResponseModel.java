@@ -5,12 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseModel {
 
-    //TODO code formatting
-    @SerializedName("data")
-    private
-    Translations mTranslations;
+    @SerializedName(Keys.DATA)
+    private Translations mTranslations;
 
-    @SerializedName("error")
+    @SerializedName(Keys.ERROR)
     private Error mError;
 
     public Translations getTranslations() {
@@ -23,7 +21,7 @@ public class ResponseModel {
 
     class Translations {
 
-        @SerializedName("translations")
+        @SerializedName(Keys.DATA_TRANSLATIONS)
         private TranslationResponse[] mElements;
 
         public TranslationResponse[] getElements() {
@@ -33,10 +31,10 @@ public class ResponseModel {
 
     class Error {
 
-        @SerializedName("code")
+        @SerializedName(Keys.ERROR_CODE)
         private int mCode;
 
-        @SerializedName("message")
+        @SerializedName(Keys.ERROR_MESSAGE)
         private String mMessage;
 
         public int getCode() {
@@ -46,5 +44,15 @@ public class ResponseModel {
         public String getMessage() {
             return mMessage;
         }
+    }
+
+    final class Keys {
+
+        static final String DATA = "data";
+        static final String ERROR = "error";
+        public static final String DATA_TRANSLATIONS = "translations";
+        public static final String ERROR_CODE = "code";
+        public static final String ERROR_MESSAGE = "message";
+
     }
 }
