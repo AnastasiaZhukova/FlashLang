@@ -1,14 +1,13 @@
 package com.github.anastasiazhukova.lib.imageloader.load;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.github.anastasiazhukova.lib.executors.ExecutorServiceFactory;
-import com.github.anastasiazhukova.lib.executors.IExecutorServiceFactory;
+import com.github.anastasiazhukova.lib.Constants;
+import com.github.anastasiazhukova.lib.contracts.ICallback;
+import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.httpclient.HttpMethod;
 import com.github.anastasiazhukova.lib.httpclient.HttpRequest;
 import com.github.anastasiazhukova.lib.httpclient.IHttpClient;
@@ -23,22 +22,22 @@ import com.github.anastasiazhukova.lib.imageloader.result.ImageResponse;
 import com.github.anastasiazhukova.lib.imageloader.utils.BitmapUtils;
 import com.github.anastasiazhukova.lib.imageloader.utils.ImageUtils;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.github.anastasiazhukova.lib.threading.IThreadingManager;
+import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
 
 public final class ImageLoader {
 
     private final IImageRequestQueue mQueue;
     private ICacheManager mCacheManager;
-    private final ExecutorService mExecutorService;
+    private final IExecutor mExecutor;
 
     public ImageLoader() {
         mQueue = new ImageRequestQueue();
-
-        final IExecutorServiceFactory factory = new ExecutorServiceFactory();
-        mExecutorService = factory.createFixedThreadExecutor(com.github.anastasiazhukova.lib.Constants.ImageLoader.NUM_OF_THREADS);
+        mExecutor = IThreadingManager.Imlp.getThreadingManager()
+                .getExecutor(Constants.ImageLoader.DEFAULT_EXECUTOR_TYPE);
     }
 
     public void setCacheManager(final ICacheManager pCacheManager) {
@@ -75,7 +74,17 @@ public final class ImageLoader {
     }
 
     private void dispatchLoading() {
-        new ImageLoadAsyncTask().executeOnExecutor(mExecutorService);
+        mExecutor.execute(new ImageLoadOperation(), new ICallback<ImageResponse>() {
+
+            @Override
+            public void onSuccess(final ImageResponse pImageResponse) {
+                processImageResponse(pImageResponse);
+            }
+
+            @Override
+            public void onError(final Throwable pThrowable) {
+            }
+        });
     }
 
     private void deferImageRequest(final IImageRequest pImageRequest) {
@@ -122,14 +131,12 @@ public final class ImageLoader {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class ImageLoadAsyncTask extends AsyncTask<Void, Void, IImageResponse> {
+    class ImageLoadOperation implements IOperation<ImageResponse> {
 
-        private final String LOG_TAG = ImageLoadAsyncTask.class.getSimpleName();
+        private final String LOG_TAG = ImageLoadOperation.class.getSimpleName();
 
         @Override
-        protected IImageResponse doInBackground(final Void... params) {
-
+        public ImageResponse perform() {
             final ImageResponse result;
             final IImageRequest imageRequest;
 
@@ -171,11 +178,6 @@ public final class ImageLoader {
             }
 
             return result;
-        }
-
-        @Override
-        protected void onPostExecute(final IImageResponse pResponse) {
-            processImageResponse(pResponse);
         }
 
         @NonNull
@@ -252,7 +254,8 @@ public final class ImageLoader {
                 }
             }
         }
-
     }
 
 }
+
+
