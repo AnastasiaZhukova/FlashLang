@@ -6,14 +6,12 @@ import com.github.anastasiazhukova.flashlang.firebase.db.FirebaseQuery
 import com.github.anastasiazhukova.flashlang.firebase.db.annotations.FirebaseDbElement
 import com.github.anastasiazhukova.flashlang.firebase.utils.DbUtils
 import com.github.anastasiazhukova.flashlang.firebase.utils.SelectorUtils
-import com.github.anastasiazhukova.lib.logs.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 
 class FirebaseDbConnector : IFirebaseDbConnector {
 
     private val mFirebaseDatabase = FirebaseDatabase.getInstance()
-    val LOG_TAG: String = "FirebaseConnector"
 
     override fun getKeyForElement(pTableName: String): String {
         val key = mFirebaseDatabase.reference.child(pTableName).push().key
@@ -93,62 +91,45 @@ class FirebaseDbConnector : IFirebaseDbConnector {
         }
     }
 
-    override fun query(pFirebaseQuery: FirebaseQuery): Query? {
+    override fun <Element : IDbModel<String>> query(pFirebaseQuery: FirebaseQuery<Element>): Query? {
         val tableName = pFirebaseQuery.tableName ?: return null
         val selector = pFirebaseQuery.selector
-        val limit = pFirebaseQuery.limit
-        val startAt = pFirebaseQuery.startAt
 
         val query = query(tableName, selector)
-        if (query != null) {
-            if (startAt != null) {
-                query.startAt(startAt)
-            }
-        }
         return query
     }
 
-    override fun query(): FirebaseQuery {
-        return FirebaseQuery()
+    override fun <Element : IDbModel<String>> query(): FirebaseQuery<Element> {
+        return FirebaseQuery<Element>()
     }
 
-    override fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery,
-                                                  pConverter: IDataSnapshotConverter<Element>,
+    override fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery<Element>,
                                                   pCallback: IGetCallback<Element>) {
         val query = query(pFirebaseQuery)
         if (query != null) {
-            val limit = pFirebaseQuery.limit
-            val elements: MutableList<Element> = mutableListOf()
-            val listener: ValueEventListener = object : ValueEventListener {
-                override fun onCancelled(pError: DatabaseError?) {
-                    query.removeEventListener(this)
-                    pCallback.onError(InterruptedException("Event Canceled"))
-                }
-
-                override fun onDataChange(pSnapshot: DataSnapshot?) {
-                    Log.d(LOG_TAG, "onDataChange: " + pSnapshot)
-                    query.removeEventListener(this)
-
-                    if (pSnapshot != null) {
-                        val children = pSnapshot.children
-                        if (limit == 0) {
-                            children.mapTo(elements) {
-                                pConverter.convert(it)
-                            }
-                        } else {
-                            var count = 0
-                            for (child in children) {
-                                if (count == limit) break
-                                elements.add(pConverter.convert(child))
-                                count++
-                            }
-                        }
-
+            val converter = pFirebaseQuery.converter
+            if (converter != null) {
+                val elements: MutableList<Element> = mutableListOf()
+                val listener: ValueEventListener = object : ValueEventListener {
+                    override fun onCancelled(pError: DatabaseError?) {
+                        query.removeEventListener(this)
+                        pCallback.onError(InterruptedException("Event Canceled"))
                     }
-                    pCallback.onSuccess(elements)
+
+                    override fun onDataChange(pSnapshot: DataSnapshot?) {
+                        query.removeEventListener(this)
+
+                        if (pSnapshot != null) {
+                            val children = pSnapshot.children
+                            children.mapTo(elements) { converter.convert(it) }
+                        }
+                        pCallback.onSuccess(elements)
+                    }
                 }
+                query.addListenerForSingleValueEvent(listener)
+            } else {
+                pCallback.onError(NullPointerException("Converter is null!"))
             }
-            query.addListenerForSingleValueEvent(listener)
         } else {
             pCallback.onError(NullPointerException("FirebaseQuery is null!"))
         }

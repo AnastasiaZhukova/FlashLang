@@ -18,12 +18,11 @@ interface IFirebaseDbConnector {
 
     fun <Element : IDbModel<String>> update(@FirebaseDbElement pElement: Element, pSelector: Selector)
 
-    fun query(pFirebaseQuery: FirebaseQuery): Query?
+    fun <Element : IDbModel<String>> query(pFirebaseQuery: FirebaseQuery<Element>): Query?
 
-    fun query(): FirebaseQuery
+    fun <Element : IDbModel<String>> query(): FirebaseQuery<Element>
 
-    fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery,
-                                         pConverter: IDataSnapshotConverter<Element>,
+    fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery<Element>,
                                          pCallback: IGetCallback<Element>)
 
     class Impl {

@@ -9,12 +9,11 @@ import com.github.anastasiazhukova.flashlang.firebase.db.connector.IFirebaseDbCo
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IGetCallback;
 import com.google.firebase.database.Query;
 
-public class FirebaseQuery {
+public class FirebaseQuery<Element extends IDbModel<String>> {
 
     private String mTableName;
     private Selector mSelector;
-    private String mStartAt;
-    private int limit;
+    private IDataSnapshotConverter<Element> mConverter;
 
     @Nullable
     public String getTableName() {
@@ -26,14 +25,11 @@ public class FirebaseQuery {
         return mSelector;
     }
 
-    @Nullable
-    public String getStartAt() {
-        return mStartAt;
-    }
 
     @Nullable
-    public int getLimit() {
-        return limit;
+    public IDataSnapshotConverter<Element> getConverter() {
+
+        return mConverter;
     }
 
     public FirebaseQuery tableName(final String pTableName) {
@@ -46,23 +42,17 @@ public class FirebaseQuery {
         return this;
     }
 
-    public FirebaseQuery startAt(final String pStartAt) {
-        mStartAt = pStartAt;
+    public FirebaseQuery converter(final IDataSnapshotConverter<Element> pConverter) {
+        mConverter = pConverter;
         return this;
     }
 
-    public FirebaseQuery limit(final int pLimit) {
-        limit = pLimit;
-        return this;
-    }
-
-    public <Element extends IDbModel<String>> void get(final IDataSnapshotConverter<Element> pConverter,
-                                                       final IGetCallback<Element> pCallback) {
-        IFirebaseDbConnector.Impl.Companion.getInstance().get(this, pConverter, pCallback);
+    public void get(final IGetCallback<Element> pCallback) {
+        IFirebaseDbConnector.Impl.Companion.getInstance().get(this, pCallback);
     }
 
     public Query query() {
-        Query query = IFirebaseDbConnector.Impl.Companion.getInstance().query(this);
+        final Query query = IFirebaseDbConnector.Impl.Companion.getInstance().query(this);
         return query;
     }
 }
