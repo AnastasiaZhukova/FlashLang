@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.provider.BaseColumns;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
@@ -39,14 +39,17 @@ public class UserCollectionLink implements BaseColumns, IDbModel<String> {
     @dbForeignKey(referredTableName = User.DbKeys.TABLE_NAME, referredTableColumnName = User.DbKeys.ID)
     @dbString(name = USER_ID)
     @PropertyName(USER_ID)
-    private String mUserId;
+    private final String mUserId;
 
     @dbForeignKey(referredTableName = Collection.DbKeys.TABLE_NAME, referredTableColumnName = Collection.DbKeys.ID)
     @dbString(name = COLLECTION_ID)
     @PropertyName(COLLECTION_ID)
-    private String mCollectionId;
+    private final String mCollectionId;
 
-    public UserCollectionLink() {
+    UserCollectionLink(final String pLinkId, final String pUserId, final String pCollectionId) {
+        mLinkId = pLinkId;
+        mUserId = pUserId;
+        mCollectionId = pCollectionId;
     }
 
     public UserCollectionLink(final String pUserId, final String pCollectionId) {
@@ -92,13 +95,14 @@ public class UserCollectionLink implements BaseColumns, IDbModel<String> {
         static final String COLLECTION_ID = "collectionId";
     }
 
-    public static final class CursorConverter implements IDbTableConnector.ICursorConverter<UserCollectionLink> {
+    public static final class CursorConverter implements ICursorConverter<UserCollectionLink> {
 
         @Override
         public UserCollectionLink convert(final Cursor pCursor) {
+            final String linkID = pCursor.getColumnName(pCursor.getColumnIndex(LINK_ID));
             final String userId = pCursor.getString(pCursor.getColumnIndex(USER_ID));
             final String collectionId = pCursor.getString(pCursor.getColumnIndex(COLLECTION_ID));
-            return new UserCollectionLink(userId, collectionId);
+            return new UserCollectionLink(linkID, userId, collectionId);
         }
     }
 
@@ -106,8 +110,10 @@ public class UserCollectionLink implements BaseColumns, IDbModel<String> {
 
         @Override
         public UserCollectionLink convert(@NotNull final DataSnapshot pSnapshot) {
-            UserCollectionLink link = pSnapshot.getValue(UserCollectionLink.class);
-            return link;
+            final String linkId = (String) pSnapshot.child(LINK_ID).getValue();
+            final String userId = (String) pSnapshot.child(USER_ID).getValue();
+            final String collectionId = (String) pSnapshot.child(COLLECTION_ID).getValue();
+            return new UserCollectionLink(linkId, userId, collectionId);
         }
     }
 

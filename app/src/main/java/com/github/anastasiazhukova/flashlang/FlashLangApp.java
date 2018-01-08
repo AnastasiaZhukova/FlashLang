@@ -19,8 +19,8 @@ public class FlashLangApp extends Application {
 
     @Override
     public void onCreate() {
-       super.onCreate();
-       init();
+        super.onCreate();
+        init();
     }
 
     private void init() {

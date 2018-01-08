@@ -4,7 +4,8 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.IDbModel;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.firebase.db.annotations.FirebaseDbElement;
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshotConverter;
@@ -28,12 +29,12 @@ import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKe
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
 @FirebaseDbElement(targetTableName = TABLE_NAME)
-public class User implements IUser {
+public class User implements IUser, IDbModel<String> {
 
     @dbPrimaryKey(isNull = false)
     @dbString(name = ID)
     @PropertyName(ID)
-    private String mId;
+    private final String mId;
 
     @dbString(name = NAME)
     @PropertyName(NAME)
@@ -42,12 +43,6 @@ public class User implements IUser {
     @dbString(name = PICTURE)
     @PropertyName(PICTURE)
     private String mPictureUrl;
-
-    User(final DataSnapshotConverter.POJO pPOJO) {
-        mId = pPOJO.mId;
-        mName = pPOJO.mName;
-        mPictureUrl = pPOJO.mPictureUrl;
-    }
 
     public User(final UserInfo pUser) {
         mId = pUser.getUid();
@@ -109,7 +104,7 @@ public class User implements IUser {
         public static final String PICTURE = "picture";
     }
 
-    public static class CursorConverter implements IDbTableConnector.ICursorConverter<IUser> {
+    public static class CursorConverter implements ICursorConverter<IUser> {
 
         @Override
         public User convert(@NonNull final Cursor pCursor) {
@@ -121,29 +116,14 @@ public class User implements IUser {
         }
     }
 
-    public static class DataSnapshotConverter implements IDataSnapshotConverter<User> {
-
-        private static final String LOG_TAG = DataSnapshotConverter.class.getSimpleName();
-
-        static class POJO {
-
-            @PropertyName(ID)
-            String mId;
-
-            @PropertyName(NAME)
-            String mName;
-
-            @PropertyName(PICTURE)
-            String mPictureUrl;
-
-        }
+    public static class DataSnapshotConverter implements IDataSnapshotConverter<IUser> {
 
         @Override
         @Nullable
         public User convert(@NotNull final DataSnapshot pSnapshot) {
-            String id = (String) pSnapshot.child(ID).getValue();
-            String name = (String) pSnapshot.child(NAME).getValue();
-            String pic = (String) pSnapshot.child(PICTURE).getValue();
+            final String id = (String) pSnapshot.child(ID).getValue();
+            final String name = (String) pSnapshot.child(NAME).getValue();
+            final String pic = (String) pSnapshot.child(PICTURE).getValue();
             return new User(id, name, pic);
         }
     }
@@ -159,14 +139,6 @@ public class User implements IUser {
 
         public ByNameSelector(@NotNull final String fieldValue) {
             super(NAME, fieldValue);
-        }
-    }
-
-    //todo remove
-    public static class ByCoverSeelctor extends Selector.ByFieldSelector{
-
-        public ByCoverSeelctor(@NotNull String fieldValue) {
-            super(PICTURE, fieldValue);
         }
     }
 

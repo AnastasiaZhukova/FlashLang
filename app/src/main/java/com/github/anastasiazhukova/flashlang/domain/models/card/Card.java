@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.firebase.db.annotations.FirebaseDbElement;
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshotConverter;
@@ -131,7 +131,7 @@ public class Card implements ICard, IDbModel<String> {
         public static final String TRANSLATED_TEXT = "translatedText";
     }
 
-    public static class CursorConverter implements IDbTableConnector.ICursorConverter<ICard> {
+    public static class CursorConverter implements ICursorConverter<ICard> {
 
         @Override
         public ICard convert(@NonNull final Cursor pCursor) {
@@ -145,12 +145,18 @@ public class Card implements ICard, IDbModel<String> {
         }
     }
 
-    public static class DataSnapshotConverter implements IDataSnapshotConverter<Card> {
+    public static class DataSnapshotConverter implements IDataSnapshotConverter<ICard> {
 
+        @NonNull
         @Override
-        public Card convert(@NotNull final DataSnapshot pSnapshot) {
-            Card card = pSnapshot.getValue(Card.class);
-            return card;
+        public ICard convert(@NotNull final DataSnapshot pSnapshot) {
+            final String id = (String) pSnapshot.child(ID).getValue();
+            final String sl = (String) pSnapshot.child(SOURCE_LANGUAGE).getValue();
+            final String st = (String) pSnapshot.child(SOURCE_TEXT).getValue();
+            final String tl = (String) pSnapshot.child(TARGET_LANGUAGE).getValue();
+            final String tt = (String) pSnapshot.child(TRANSLATED_TEXT).getValue();
+
+            return new Card(id, sl, st, tl, tt);
         }
     }
 

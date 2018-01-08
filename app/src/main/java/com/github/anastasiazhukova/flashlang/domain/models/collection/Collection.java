@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.firebase.db.annotations.FirebaseDbElement;
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshotConverter;
@@ -45,7 +45,7 @@ public class Collection implements ICollection, IDbModel<String> {
     public Collection() {
     }
 
-    public Collection(final String pId, final String pName, final String pCoverUrl) {
+    Collection(final String pId, final String pName, final String pCoverUrl) {
         mId = pId;
         mName = pName;
         mCoverUrl = pCoverUrl;
@@ -99,7 +99,7 @@ public class Collection implements ICollection, IDbModel<String> {
         public static final String COVER = "cover";
     }
 
-    public static class CursorConverter implements IDbTableConnector.ICursorConverter<ICollection> {
+    public static class CursorConverter implements ICursorConverter<ICollection> {
 
         @Override
         public ICollection convert(@NonNull final Cursor pCursor) {
@@ -111,12 +111,14 @@ public class Collection implements ICollection, IDbModel<String> {
         }
     }
 
-    public static class DataShanpshotConverter implements IDataSnapshotConverter<Collection> {
+    public static class DataShanpshotConverter implements IDataSnapshotConverter<ICollection> {
 
         @Override
         public Collection convert(@NotNull final DataSnapshot pSnapshot) {
-            Collection collection = pSnapshot.getValue(Collection.class);
-            return collection;
+            final String id = (String) pSnapshot.child(ID).getValue();
+            final String name = (String) pSnapshot.child(NAME).getValue();
+            final String cover = (String) pSnapshot.child(COVER).getValue();
+            return new Collection(id, name, cover);
         }
     }
 

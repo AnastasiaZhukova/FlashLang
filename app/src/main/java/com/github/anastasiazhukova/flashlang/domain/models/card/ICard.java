@@ -1,6 +1,8 @@
 package com.github.anastasiazhukova.flashlang.domain.models.card;
 
-public interface ICard {
+import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
+
+public interface ICard extends IIdentifiable<String> {
 
     String getSourceLanguageKey();
 

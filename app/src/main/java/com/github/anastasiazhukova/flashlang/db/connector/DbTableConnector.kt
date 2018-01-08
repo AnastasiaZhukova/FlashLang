@@ -1,10 +1,10 @@
 package com.github.anastasiazhukova.flashlang.db.connector
 
-import android.content.ContentValues
 import android.database.Cursor
 import com.github.anastasiazhukova.flashlang.db.IDbModel
+import com.github.anastasiazhukova.flashlang.db.utils.ConversionUtils.Companion.convertToInsert
+import com.github.anastasiazhukova.flashlang.db.utils.ConversionUtils.Companion.convertToUpdate
 import com.github.anastasiazhukova.flashlang.db.utils.SelectorUtils
-import com.github.anastasiazhukova.flashlang.domain.db.MapUtils
 import com.github.anastasiazhukova.flashlang.domain.db.Selector
 import com.github.anastasiazhukova.lib.db.IDbOperations
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement
@@ -68,7 +68,7 @@ class DbTableConnector : IDbTableConnector {
         return false
     }
 
-    override fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: IDbTableConnector.ICursorConverter<Element>,
+    override fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: ICursorConverter<Element>,
                                                   vararg pSelectors: Selector): List<Element>? {
         var cursor: Cursor? = null
         try {
@@ -100,20 +100,6 @@ class DbTableConnector : IDbTableConnector {
             Log.e(LOG_TAG, pE.message)
         }
         return null
-    }
-
-    private fun <Element : IDbModel<String>> convertToInsert(pElement: Element): ContentValues {
-        return MapUtils.toContentValues(pElement.convertToInsert())
-    }
-
-    private fun <Element : IDbModel<String>> convertToInsert(pElements: Array<Element>): Array<ContentValues> {
-        return Array(pElements.size, { i ->
-            convertToInsert(pElements[i])
-        })
-    }
-
-    private fun <Element : IDbModel<String>> convertToUpdate(pElement: Element): ContentValues {
-        return MapUtils.toContentValues(pElement.convertToUpdate())
     }
 
     private fun <Element : IDbModel<String>> getTableName(@dbTableElement pElement: Element): String? {

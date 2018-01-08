@@ -3,7 +3,7 @@ package com.github.anastasiazhukova.flashlang.dbTest;
 import android.database.Cursor;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
@@ -55,7 +55,7 @@ public class TestModel implements IDbModel<String> {
         return map;
     }
 
-    public static final class CursorConverter implements IDbTableConnector.ICursorConverter<TestModel> {
+    public static final class CursorConverter implements ICursorConverter<TestModel> {
 
         @Override
         public TestModel convert(final Cursor pCursor) {

@@ -1,6 +1,8 @@
 package com.github.anastasiazhukova.flashlang.domain.models.collection;
 
-public interface ICollection {
+import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
+
+public interface ICollection extends IIdentifiable<String> {
 
     String getName();
 

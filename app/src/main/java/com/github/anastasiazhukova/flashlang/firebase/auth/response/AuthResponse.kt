@@ -1,10 +1,10 @@
 package com.github.anastasiazhukova.flashlang.firebase.auth.response
 
-import com.github.anastasiazhukova.flashlang.domain.models.user.IUser
+import com.google.firebase.auth.FirebaseUser
 
 class AuthResponse : IAuthResponse {
 
-    override var user: IUser? = null
+    override var user: FirebaseUser? = null
 
     override var error: Throwable? = null
 }

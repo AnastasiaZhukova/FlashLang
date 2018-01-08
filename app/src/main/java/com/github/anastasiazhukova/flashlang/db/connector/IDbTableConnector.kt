@@ -20,10 +20,4 @@ interface IDbTableConnector {
 
     fun get(pTableName: String, vararg pSelectors: Selector): Cursor?
 
-    interface ICursorConverter<out Element> {
-
-        fun convert(pCursor: Cursor): Element
-
-    }
-
 }

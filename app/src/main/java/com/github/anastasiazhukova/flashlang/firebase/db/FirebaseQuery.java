@@ -25,7 +25,6 @@ public class FirebaseQuery<Element extends IDbModel<String>> {
         return mSelector;
     }
 
-
     @Nullable
     public IDataSnapshotConverter<Element> getConverter() {
 

@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.db.connector.ICursorConverter;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
@@ -39,14 +39,17 @@ public class CollectionCardLink implements IDbModel<String> {
     @dbForeignKey(referredTableName = Collection.DbKeys.TABLE_NAME, referredTableColumnName = Collection.DbKeys.ID)
     @dbString(name = COLLECTION_ID)
     @PropertyName(COLLECTION_ID)
-    private String mCollectionId;
+    private final String mCollectionId;
 
     @dbForeignKey(referredTableName = Card.DbKeys.TABLE_NAME, referredTableColumnName = Card.DbKeys.ID)
     @dbString(name = CARD_ID)
     @PropertyName(CARD_ID)
-    private String mCardId;
+    private final String mCardId;
 
-    public CollectionCardLink() {
+    CollectionCardLink(final String pLinkId, final String pCollectionId, final String pCardId) {
+        mLinkId = pLinkId;
+        mCollectionId = pCollectionId;
+        mCardId = pCardId;
     }
 
     public CollectionCardLink(final String pCollectionId, final String pCardId) {
@@ -92,13 +95,14 @@ public class CollectionCardLink implements IDbModel<String> {
         static final String CARD_ID = "cardId";
     }
 
-    public static class CursorConverter implements IDbTableConnector.ICursorConverter<CollectionCardLink> {
+    public static class CursorConverter implements ICursorConverter<CollectionCardLink> {
 
         @Override
         public CollectionCardLink convert(@NonNull final Cursor pCursor) {
+            final String linkId = pCursor.getString(pCursor.getColumnIndex(LINK_ID));
             final String collectionId = pCursor.getString(pCursor.getColumnIndex(COLLECTION_ID));
             final String cardId = pCursor.getString(pCursor.getColumnIndex(CARD_ID));
-            return new CollectionCardLink(collectionId, cardId);
+            return new CollectionCardLink(linkId, collectionId, cardId);
         }
     }
 
@@ -106,8 +110,10 @@ public class CollectionCardLink implements IDbModel<String> {
 
         @Override
         public CollectionCardLink convert(@NotNull final DataSnapshot pSnapshot) {
-            CollectionCardLink link = pSnapshot.getValue(CollectionCardLink.class);
-            return link;
+            final String linkId = (String) pSnapshot.child(LINK_ID).getValue();
+            final String collectionId = (String) pSnapshot.child(COLLECTION_ID).getValue();
+            final String cardId = (String) pSnapshot.child(CARD_ID).getValue();
+            return new CollectionCardLink(linkId, collectionId, cardId);
         }
     }
 

@@ -2,11 +2,11 @@ package com.github.anastasiazhukova.flashlang.db;
 
 import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface IDbModel<IdType> extends IIdentifiable<IdType> {
 
-    HashMap<String, Object> convertToInsert();
+    Map<String, Object> convertToInsert();
 
-    HashMap<String, Object> convertToUpdate();
+    Map<String, Object> convertToUpdate();
 }

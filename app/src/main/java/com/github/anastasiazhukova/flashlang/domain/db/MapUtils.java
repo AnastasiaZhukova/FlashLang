@@ -5,7 +5,7 @@ import android.os.Parcel;
 
 import java.util.Map;
 
-public class MapUtils {
+public final class MapUtils {
 
     public static ContentValues toContentValues(final Map<String, Object> pMap) {
         final Parcel parcel = Parcel.obtain();

@@ -10,9 +10,9 @@ interface IFirebaseDbConnector {
 
     fun getKeyForElement(pTableName: String): String
 
-    fun <Element : IDbModel<String>> insert(@FirebaseDbElement pElement: Element): Boolean
+    fun <Element : IDbModel<String>> insert(@FirebaseDbElement pElement: Element)
 
-    fun <Element : IDbModel<String>> insert(@FirebaseDbElement pElements: Array<Element>): Boolean
+    fun <Element : IDbModel<String>> insert(@FirebaseDbElement pElements: Array<Element>)
 
     fun delete(pTableName: String, pSelector: Selector)
 

@@ -6,7 +6,6 @@ import com.github.anastasiazhukova.flashlang.firebase.db.FirebaseQuery
 import com.github.anastasiazhukova.flashlang.firebase.db.annotations.FirebaseDbElement
 import com.github.anastasiazhukova.flashlang.firebase.utils.DbUtils
 import com.github.anastasiazhukova.flashlang.firebase.utils.SelectorUtils
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 
 class FirebaseDbConnector : IFirebaseDbConnector {
@@ -18,29 +17,20 @@ class FirebaseDbConnector : IFirebaseDbConnector {
         return key
     }
 
-    override fun <Element : IDbModel<String>> insert(pElement: Element): Boolean {
+    override fun <Element : IDbModel<String>> insert(pElement: Element) {
         val tableName = getTableName(pElement)
-        var isSuccessful = false
         if (!tableName.isNullOrBlank()) {
-            val task = mFirebaseDatabase.reference.child(tableName).child(pElement.id)
+            mFirebaseDatabase.reference.child(tableName).child(pElement.id)
                     .setValue(pElement.convertToInsert())
-                    .addOnCompleteListener({ task ->
-                        isSuccessful = task.isSuccessful
-                    })
-            try {
-                Tasks.await(task)
-            } catch (e: Exception) {
-            }
         }
-        return isSuccessful
+
     }
 
-    override fun <Element : IDbModel<String>> insert(pElements: Array<Element>): Boolean {
-        var isSuccessful = true
+    override fun <Element : IDbModel<String>> insert(pElements: Array<Element>) {
         for (element in pElements) {
-            isSuccessful = (isSuccessful and (insert(element)))
+            insert(element)
         }
-        return isSuccessful
+
     }
 
     override fun delete(pTableName: String, pSelector: Selector) {

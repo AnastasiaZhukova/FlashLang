@@ -1,17 +1,19 @@
 package com.github.anastasiazhukova.flashlang.firebase.auth
 
 import com.github.anastasiazhukova.flashlang.firebase.auth.request.IAuthRequest
-import com.github.anastasiazhukova.flashlang.firebase.auth.response.IAuthResponse
-import com.github.anastasiazhukova.flashlang.domain.models.user.IUser
+import com.github.anastasiazhukova.lib.contracts.ICallback
+import com.google.firebase.auth.FirebaseUser
 
 interface IFirebaseUserManager {
 
-    fun getCurrentUser(): IUser?
+    fun getCurrentUser(): FirebaseUser?
 
-    fun register(pRequest: IAuthRequest): IAuthResponse?
+    fun signUp(pRequest: IAuthRequest, pCallback: IAuthCallback)
 
-    fun logIn(pRequest: IAuthRequest): IAuthResponse?
+    fun signIn(pRequest: IAuthRequest, pCallback: IAuthCallback)
 
     fun singOut()
+
+    interface IAuthCallback : ICallback<FirebaseUser>
 
 }

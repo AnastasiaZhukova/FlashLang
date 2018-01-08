@@ -1,8 +1,8 @@
 package com.github.anastasiazhukova.flashlang.domain.models.user;
 
-import com.github.anastasiazhukova.flashlang.db.IDbModel;
+import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
 
-public interface IUser extends IDbModel<String> {
+public interface IUser extends IIdentifiable<String> {
 
     String getName();
 
