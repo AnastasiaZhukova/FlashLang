@@ -2,7 +2,6 @@ package com.github.anastasiazhukova.flashlang.apiTest;
 
 import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequest;
 import com.github.anastasiazhukova.flashlang.api.utils.UrlBuilder;
-import com.github.anastasiazhukova.flashlang.mocks.TestTranslateRequest;
 
 import org.junit.Assert;
 import org.junit.Test;

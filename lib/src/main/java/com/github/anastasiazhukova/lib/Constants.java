@@ -44,9 +44,9 @@ public interface Constants {
 
         public static final String WHERE_EQUAL_TEMPLATE = "%s = '%s'";
 
-        public static final String WHERE_OR_TEMPLATE = "%s = '%s' OR %s = '%s'";
+        public static final String WHERE_OR_TEMPLATE = "(%s) OR (%s)";
 
-        public static final String WHERE_AND_TEMPLATE = "%s = '%s' AND %s = '%s'";
+        public static final String WHERE_AND_TEMPLATE = "(%s) AND (%s)";
 
         public static final String WHERE_LIKE_TEMPLATE = "%s LIKE '%s'";
     }

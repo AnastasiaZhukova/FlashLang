@@ -13,12 +13,13 @@ import com.github.anastasiazhukova.lib.imageloader.cache.IImageMemoryCache;
 import com.github.anastasiazhukova.lib.imageloader.cache.ImageFileCache;
 import com.github.anastasiazhukova.lib.imageloader.cache.ImageMemoryCache;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.google.firebase.FirebaseApp;
 
 public class FlashLangApp extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
+       super.onCreate();
        init();
     }
 
@@ -27,6 +28,7 @@ public class FlashLangApp extends Application {
         ContextHolder.setContext(this);
         initDb();
         initImageLoader();
+        FirebaseApp.initializeApp(this);
     }
 
     private void initDb() {

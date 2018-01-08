@@ -1,6 +1,5 @@
 package com.github.anastasiazhukova.flashlang.api.request;
 
-import com.github.anastasiazhukova.flashlang.api.ApiKey;
 import com.github.anastasiazhukova.flashlang.api.parser.TranslationParser;
 import com.github.anastasiazhukova.flashlang.api.response.ITranslationResponse;
 import com.github.anastasiazhukova.flashlang.api.utils.UrlBuilder;
@@ -16,7 +15,7 @@ public class TranslationRequestHandler implements ITranslationRequestHandler {
 
             final UrlBuilder builder = new UrlBuilder();
             //todo get ApiKey not from constants
-            final String translateUrl = builder.getTranslateUrl(ApiKey.KEY, pRequest);
+            final String translateUrl = builder.getTranslateUrl("Some key", pRequest);
 
             final HttpRequest.Builder httpRequestBuilder = new HttpRequest.Builder();
             httpRequestBuilder.setUrl(translateUrl).setMethod(HttpMethod.GET);

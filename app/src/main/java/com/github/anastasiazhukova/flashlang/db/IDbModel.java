@@ -1,10 +1,12 @@
 package com.github.anastasiazhukova.flashlang.db;
 
-import android.content.ContentValues;
+import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
 
-public interface IDbModel {
+import java.util.HashMap;
 
-    ContentValues convertToInsert();
+public interface IDbModel<IdType> extends IIdentifiable<IdType> {
 
-    ContentValues convertToUpdate();
+    HashMap<String, Object> convertToInsert();
+
+    HashMap<String, Object> convertToUpdate();
 }

@@ -1,6 +1,5 @@
 package com.github.anastasiazhukova.flashlang.dbTest;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.github.anastasiazhukova.flashlang.db.IDbModel;
@@ -10,9 +9,11 @@ import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 
+import java.util.HashMap;
+
 @dbTable(name = TestModel.TABLE_NAME)
 @dbTableElement(targetTableName = TestModel.TABLE_NAME)
-public class TestModel implements IDbModel {
+public class TestModel implements IDbModel<String> {
 
     static final String ID = "id";
     public static final String STRING_KEY = "string";
@@ -30,23 +31,28 @@ public class TestModel implements IDbModel {
         mSomeString = pSomeString;
     }
 
+    @Override
+    public String getId() {
+        return mId;
+    }
+
     public String getSomeString() {
         return mSomeString;
     }
 
     @Override
-    public ContentValues convertToInsert() {
-        final ContentValues contentValues = new ContentValues();
-        contentValues.put(ID, mId);
-        contentValues.put(STRING_KEY, mSomeString);
-        return contentValues;
+    public HashMap<String, Object> convertToInsert() {
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put(ID, mId);
+        map.put(STRING_KEY, mSomeString);
+        return map;
     }
 
     @Override
-    public ContentValues convertToUpdate() {
-        final ContentValues contentValues = new ContentValues();
-        contentValues.put(STRING_KEY, mSomeString);
-        return contentValues;
+    public HashMap<String, Object> convertToUpdate() {
+        final HashMap<String, Object> map = new HashMap<>();
+        map.put(STRING_KEY, mSomeString);
+        return map;
     }
 
     public static final class CursorConverter implements IDbTableConnector.ICursorConverter<TestModel> {
