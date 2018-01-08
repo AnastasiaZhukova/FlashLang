@@ -16,4 +16,12 @@ interface IFirebaseUserManager {
 
     interface IAuthCallback : ICallback<FirebaseUser>
 
+    class Impl {
+        companion object {
+            fun getInstance(): IFirebaseUserManager {
+                return FirebaseUserManager();
+            }
+        }
+    }
+
 }

@@ -17,4 +17,12 @@ public interface IFirebaseStorageManager {
 
     }
 
+    final class Impl {
+
+        public static IFirebaseStorageManager getInstence() {
+            return new FirebaseStorageManager();
+        }
+
+    }
+
 }
