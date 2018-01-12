@@ -90,7 +90,7 @@ class FirebaseDbConnector : IFirebaseDbConnector {
     }
 
     override fun <Element : IDbModel<String>> query(): FirebaseQuery<Element> {
-        return FirebaseQuery<Element>()
+        return FirebaseQuery()
     }
 
     override fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery<Element>,
@@ -127,11 +127,11 @@ class FirebaseDbConnector : IFirebaseDbConnector {
 
     private fun query(pTableName: String, pSelector: Selector?): Query? {
         val ref = mFirebaseDatabase.reference.child(pTableName)
-        if (pSelector == null) {
-            return ref
+        return if (pSelector == null) {
+            ref
         } else {
-            var query: Query? = SelectorUtils.applySelector(ref, pSelector)
-            return query
+            val query: Query? = SelectorUtils.applySelector(ref, pSelector)
+            query
         }
     }
 

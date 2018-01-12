@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.ui.contract.AuthContract;
-import com.github.anastasiazhukova.lib.logs.Log;
 
 public class SignUpFragment extends BaseAuthFragment implements View.OnClickListener {
 

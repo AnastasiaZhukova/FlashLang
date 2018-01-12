@@ -20,12 +20,6 @@ class SelectorUtils {
                 }
             }
         }
-
-        private fun Query.applySelector(pSelector: Selector.ByFieldSelector) {
-            this.orderByChild(pSelector.mFieldName)
-                    .orderByChild(pSelector.mFieldValue)
-        }
-
     }
 
 }

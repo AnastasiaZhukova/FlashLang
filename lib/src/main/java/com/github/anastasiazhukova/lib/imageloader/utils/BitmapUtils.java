@@ -83,8 +83,6 @@ public final class BitmapUtils {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(pBitmap, rect, rect, paint);
 
-        pBitmap.recycle();
-
         return output;
     }
 

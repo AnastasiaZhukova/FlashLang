@@ -19,7 +19,7 @@ interface IFirebaseUserManager {
     class Impl {
         companion object {
             fun getInstance(): IFirebaseUserManager {
-                return FirebaseUserManager();
+                return FirebaseUserManager()
             }
         }
     }
