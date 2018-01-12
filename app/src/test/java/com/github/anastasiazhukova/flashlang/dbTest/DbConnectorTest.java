@@ -65,7 +65,7 @@ public class DbConnectorTest {
     public void get() {
         bulkInsert();
         final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME,
-                new TestModel.CursorConverter(), new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+                new TestModel.CursorConverter(), null, new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
 
         Assert.assertNotNull(testModels);
         Assert.assertEquals(2, testModels.size());

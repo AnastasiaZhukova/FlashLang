@@ -21,9 +21,9 @@ class DbTableConnector : IDbTableConnector {
     override fun <Element : IDbModel<String>> insert(@dbTableElement pElement: Element): Boolean {
         val tableName = getTableName(pElement)
         if (tableName != null) {
-            try {
+            return try {
                 val inserted = mDbOperations.insert(tableName, convertToInsert(pElement))
-                return inserted > 0
+                inserted > 0
             } catch (pE: Exception) {
                 Log.e(LOG_TAG, pE.message)
                 throw pE
@@ -56,9 +56,9 @@ class DbTableConnector : IDbTableConnector {
         val selection = SelectorUtils.getSelection(*pSelectors)
         val tableName = getTableName(pElement)
         if (tableName != null) {
-            try {
+            return try {
                 val updated = mDbOperations.update(tableName, convertToUpdate(pElement), selection, null)
-                return updated > 0
+                updated > 0
             } catch (pE: Exception) {
                 Log.e(LOG_TAG, pE.message)
                 throw pE
@@ -68,11 +68,11 @@ class DbTableConnector : IDbTableConnector {
         return false
     }
 
-    override fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: ICursorConverter<Element>,
+    override fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: ICursorConverter<Element>, groupBy: String?,
                                                   vararg pSelectors: Selector): List<Element>? {
         var cursor: Cursor? = null
         try {
-            cursor = get(pTableName, *pSelectors) ?: return null
+            cursor = get(pTableName, groupBy, *pSelectors) ?: return null
             val elements: MutableList<Element>?
             elements = ArrayList()
             while (cursor.moveToNext()) {
@@ -87,7 +87,7 @@ class DbTableConnector : IDbTableConnector {
         return null
     }
 
-    override fun get(pTableName: String, vararg pSelectors: Selector): Cursor? {
+    override fun get(pTableName: String, groupBy: String?, vararg pSelectors: Selector): Cursor? {
         val selection = SelectorUtils.getSelection(*pSelectors)
         val cursor: Cursor?
         try {

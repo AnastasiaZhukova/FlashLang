@@ -16,8 +16,8 @@ interface IDbTableConnector {
 
     fun <Element : IDbModel<String>> update(pElement: Element, vararg pSelectors: Selector): Boolean
 
-    fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: ICursorConverter<Element>, vararg pSelectors: Selector): List<Element>?
+    fun <Element : IDbModel<String>> get(pTableName: String, pCursorConverter: ICursorConverter<Element>, groupBy: String?, vararg pSelectors: Selector): List<Element>?
 
-    fun get(pTableName: String, vararg pSelectors: Selector): Cursor?
+    fun get(pTableName: String, groupBy: String?, vararg pSelectors: Selector): Cursor?
 
 }

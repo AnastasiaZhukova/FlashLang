@@ -9,6 +9,7 @@ public class Query {
     private final String mSelection;
     private final String[] mSelectionArg;
     private final String mSortOrder;
+    private final String mGroupBy;
 
     public Query(final Builder pBuilder) {
         mTable = pBuilder.mTable;
@@ -16,6 +17,7 @@ public class Query {
         mSelection = pBuilder.mSelection;
         mSelectionArg = pBuilder.mSelectionArg;
         mSortOrder = pBuilder.mSortOrder;
+        mGroupBy=pBuilder.mGroupBy;
     }
 
     public String getTable() {
@@ -38,6 +40,10 @@ public class Query {
         return mSortOrder;
     }
 
+    public String getGroupBy(){
+        return mGroupBy;
+    }
+
     public static final class Builder {
 
         private String mTable;
@@ -45,6 +51,7 @@ public class Query {
         private String mSelection;
         private String[] mSelectionArg;
         private String mSortOrder;
+        private String mGroupBy;
 
         public Builder table(final String pTable) {
             mTable = pTable;
@@ -68,6 +75,11 @@ public class Query {
 
         public Builder sortOrder(final String pSortOrder) {
             mSortOrder = pSortOrder;
+            return this;
+        }
+
+        public Builder groupBy(final String pGroupBy){
+            mGroupBy=pGroupBy;
             return this;
         }
 
