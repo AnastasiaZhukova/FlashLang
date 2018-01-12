@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.lib.imageloader.request;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.github.anastasiazhukova.lib.contracts.IRequest;
@@ -12,8 +13,10 @@ public interface IImageRequest extends IRequest {
 
     WeakReference<ImageView> getTarget();
 
-    Integer getErrorImage();
+    Bitmap getErrorImage();
 
     boolean isSaved();
+
+    boolean isRounded();
 
 }

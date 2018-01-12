@@ -33,11 +33,13 @@ public final class ImageLoader {
     private final IImageRequestQueue mQueue;
     private ICacheManager mCacheManager;
     private final IExecutor mExecutor;
+    private final ResponseProcessor mResponseProcessor;
 
     public ImageLoader() {
         mQueue = new ImageRequestQueue();
         mExecutor = IThreadingManager.Imlp.getThreadingManager()
                 .getExecutor(Constants.ImageLoader.DEFAULT_EXECUTOR_TYPE);
+        mResponseProcessor = new ResponseProcessor();
     }
 
     public void setCacheManager(final ICacheManager pCacheManager) {
@@ -78,7 +80,7 @@ public final class ImageLoader {
 
             @Override
             public void onSuccess(final ImageResponse pImageResponse) {
-                processImageResponse(pImageResponse);
+                mResponseProcessor.processImageResponse(pImageResponse);
             }
 
             @Override
@@ -113,22 +115,6 @@ public final class ImageLoader {
             });
         }
 
-    }
-
-    private void processImageResponse(final IImageResponse pResponse) {
-        if (pResponse != null) {
-            final IImageRequest request = pResponse.getRequest();
-            if (request != null) {
-                final ImageView imageView = request.getTarget().get();
-                if (imageView != null) {
-                    if (pResponse.getResult() != null) {
-                        ImageUtils.setImage(imageView, pResponse.getResult());
-                    } else {
-                        ImageUtils.setImage(imageView, request.getErrorImage());
-                    }
-                }
-            }
-        }
     }
 
     class ImageLoadOperation implements IOperation<ImageResponse> {

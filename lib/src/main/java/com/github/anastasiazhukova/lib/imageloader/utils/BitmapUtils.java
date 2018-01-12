@@ -2,6 +2,13 @@ package com.github.anastasiazhukova.lib.imageloader.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.github.anastasiazhukova.lib.contracts.IResponseConverter;
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
@@ -53,6 +60,32 @@ public final class BitmapUtils {
             return bitmap;
         }
         return null;
+    }
+
+    public static Bitmap getRoundBitmap(final Bitmap pBitmap) {
+        final int width = pBitmap.getWidth();
+        final int height = pBitmap.getHeight();
+        int radius = calculateRadius(width, height);
+        final Bitmap output = Bitmap.createBitmap(radius,
+                radius, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(output);
+
+        final int color = Color.RED;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, radius, radius);
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawOval(rectF, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(pBitmap, rect, rect, paint);
+
+        pBitmap.recycle();
+
+        return output;
     }
 
     private static int calculateInSampleSize(final BitmapFactory.Options pOptions, final int pRequiredWidth, final int pRequiredHeight) {
@@ -108,5 +141,9 @@ public final class BitmapUtils {
             return getScaledBitmap(pInputStream, imageWidth, imageHeight);
         }
 
+    }
+
+    private static int calculateRadius(final int pWidth, final int pHeight) {
+        return Math.min(pWidth, pHeight);
     }
 }
