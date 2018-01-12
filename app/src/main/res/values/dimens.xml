@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="auth_fragment_height">300dp</dimen>
+    <dimen name="main_ic_wh">200dp</dimen>
+    <dimen name="auth_fields_width">300dp</dimen>
+</resources>

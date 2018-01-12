@@ -26,7 +26,7 @@ class SignUpManager : ISignUpManager {
         val email = pRequestInfo.email
         val password = pRequestInfo.password
         var response: IAuthResponse
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener({ task ->
                     response = AuthUtils.retrieveResponse(task)
                     if (response.error != null) {

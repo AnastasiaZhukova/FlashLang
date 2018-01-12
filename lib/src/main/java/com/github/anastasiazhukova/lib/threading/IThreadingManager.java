@@ -8,17 +8,20 @@ public interface IThreadingManager {
 
     final class Imlp {
 
-        public static IThreadingManager getThreadingManager(){
-            return new ThreadingManager(ThreadingManager.Config.getDefaultConfig());
+        private static ThreadingManager.Config mConfig;
+
+        public static void setConfig(final ThreadingManager.Config pConfig) {
+            mConfig = pConfig;
         }
 
-        public static IThreadingManager getThreadingManager(final ThreadingManager.Config pConfig) {
-            if (pConfig != null) {
-                return new ThreadingManager(pConfig);
+        public static IThreadingManager getThreadingManager() {
+            if (mConfig == null) {
+                return new ThreadingManager(ThreadingManager.Config.getDefaultConfig());
             } else {
-                throw new IllegalStateException("Wrong config");
+                return new ThreadingManager(mConfig);
             }
         }
+
     }
 
 }

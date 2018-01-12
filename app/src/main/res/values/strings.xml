@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">FlashLang</string>
+    <string name="sign_up_text">Don\'t have account? Sign up</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="sign_in_text">I have account! Sign in</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="wrong_auth_info_message">Wrong email or password</string>
+    <string name="no_connection_message">No internet connection</string>
+    <string name="no_user_message">Can\'t find user</string>
+    <string name="weak_password_message">Password should be at least 6 characters</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
 </resources>

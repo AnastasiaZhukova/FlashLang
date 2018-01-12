@@ -23,7 +23,9 @@ public class Publisher implements IPublisher {
 
             @Override
             public void run() {
-                pCallback.onSuccess(pResult);
+                if (pCallback != null) {
+                    pCallback.onSuccess(pResult);
+                }
             }
         });
 
@@ -36,7 +38,9 @@ public class Publisher implements IPublisher {
 
             @Override
             public void run() {
-                pCallback.onError(pThrowable);
+                if (pCallback != null) {
+                    pCallback.onError(pThrowable);
+                }
             }
         });
 
