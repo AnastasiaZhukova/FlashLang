@@ -11,4 +11,13 @@
     <string name="unknown_error">Unknown Error</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
+    <string name="new_card_added">New card added!</string>
+    <string name="log_out_button_text">I wanna leave this planet</string>
+    <string name="total_languages">Languages</string>
+    <string name="total_words">Words</string>
+    <string name="source_word">Source word</string>
+    <string name="translated_word">Translated word</string>
+    <string name="ok">OK</string>
+    <string name="take_galactic_photo">Take GALACTIC photo</string>
+    <string name="choose_photo_from_home">Choose photo from home</string>
 </resources>

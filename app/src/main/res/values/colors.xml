@@ -6,8 +6,12 @@
     <color name="colorPlatinum">#E5E5E5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDarkTangerine">#FCA311</color>
-    <color name="colorMidnightBlue">#201549</color>
-    <color name="colorMidnightPurple">#1B1C51</color>
+    <color name="colorDarkTangerineTransparent55">#FFFCA311</color>
+    <color name="colorMidnightPurple">#201549</color>
+    <color name="colorMidnightBlue">#1B1C51</color>
     <color name="colorBeautifulPurple">#482f77</color>
+    <color name="colorBeautifulPurpleTransparent50">#80482f77</color>
+    <color name="colorBeautifulPurpleTransparent80">#CC482f77</color>
+    <color name="colorPlatinumTransparent80">#CCE5E5E5</color>
     <color name="colorPurple">#610E50</color>
 </resources>

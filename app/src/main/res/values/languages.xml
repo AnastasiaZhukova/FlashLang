@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="langstest">
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+        <item>Auto detection</item>
+    </array>
     <string name="auto">Auto detection</string>
     <string name="af">Afrikaans</string>
     <string name="sq">Albanian</string>

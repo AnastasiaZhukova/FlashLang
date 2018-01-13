@@ -14,6 +14,8 @@
         <item name="colorPrimary">@color/colorPlatinum</item>
         <item name="colorPrimaryDark">@color/colorBeautifulPurple</item>
         <item name="colorAccent">@color/colorDarkTangerine</item>
+        <item name="android:textColor">@color/colorPlatinum</item>
+        <item name="android:colorBackground">@color/colorBeautifulPurpleTransparent50</item>
     </style>
 
     <style name="AuthFields">
@@ -29,6 +31,24 @@
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TranslateCardStyle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">4</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CardRowStyle">
+        <item name="android:layout_height">@dimen/card_row_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorBeautifulPurple</item>
+        <item name="android:textSize">@dimen/card_row_text_size</item>
     </style>
 
 </resources>
