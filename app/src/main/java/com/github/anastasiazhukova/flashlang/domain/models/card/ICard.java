@@ -4,6 +4,8 @@ import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
 
 public interface ICard extends IIdentifiable<String> {
 
+    String getOwnerId();
+
     String getSourceLanguageKey();
 
     String getSourceText();
@@ -11,5 +13,7 @@ public interface ICard extends IIdentifiable<String> {
     String getTargetLanguageKey();
 
     String getTranslatedText();
+
+    String getPictureUrl();
 
 }

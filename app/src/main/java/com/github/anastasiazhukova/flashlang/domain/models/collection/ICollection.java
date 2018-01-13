@@ -4,8 +4,10 @@ import com.github.anastasiazhukova.flashlang.domain.models.IIdentifiable;
 
 public interface ICollection extends IIdentifiable<String> {
 
-    String getName();
+    String getOwnerId();
 
-    String getCoverUrl();
+    String getSourceLanguage();
+
+    String getTargetLanguage();
 
 }

@@ -3,18 +3,19 @@ package com.github.anastasiazhukova.flashlang.domain.models.card;
 public class CardBuilder {
 
     private String mId;
+    private String mOwnerId;
     private String mSourceLanguageKey;
     private String mSourceText;
-    private String mTargetLanguage;
+    private String mTargetLanguageKey;
     private String mTranslatedText;
-
-    public CardBuilder setId(final String pId) {
-        mId = pId;
-        return this;
-    }
+    private String mPictureUrl;
 
     public String getId() {
         return mId;
+    }
+
+    public String getOwnerId() {
+        return mOwnerId;
     }
 
     public String getSourceLanguageKey() {
@@ -25,12 +26,26 @@ public class CardBuilder {
         return mSourceText;
     }
 
-    public String getTargetLanguage() {
-        return mTargetLanguage;
+    public String getTargetLanguageKey() {
+        return mTargetLanguageKey;
     }
 
     public String getTranslatedText() {
         return mTranslatedText;
+    }
+
+    public String getPictureUrl() {
+        return mPictureUrl;
+    }
+
+    public CardBuilder setId(final String pId) {
+        mId = pId;
+        return this;
+    }
+
+    public CardBuilder setOwnerId(final String pOwnerId) {
+        mOwnerId = pOwnerId;
+        return this;
     }
 
     public CardBuilder setSourceLanguageKey(final String pSourceLanguageKey) {
@@ -43,13 +58,18 @@ public class CardBuilder {
         return this;
     }
 
-    public CardBuilder setTargetLanguage(final String pTargetLanguage) {
-        mTargetLanguage = pTargetLanguage;
+    public CardBuilder setTargetLanguageKey(final String pTargetLanguage) {
+        mTargetLanguageKey = pTargetLanguage;
         return this;
     }
 
     public CardBuilder setTranslatedText(final String pTranslatedText) {
         mTranslatedText = pTranslatedText;
+        return this;
+    }
+
+    public CardBuilder setPictureUrl(final String pPictureUrl) {
+        mPictureUrl = pPictureUrl;
         return this;
     }
 

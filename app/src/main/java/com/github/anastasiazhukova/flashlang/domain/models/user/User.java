@@ -12,7 +12,9 @@ import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshot
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
+import com.github.anastasiazhukova.lib.db.annotations.type.dbInteger;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
+import com.github.anastasiazhukova.lib.utils.StringUtils;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.PropertyName;
@@ -22,9 +24,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.ID;
+import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.LANGUAGES_COUNT;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.NAME;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.PICTURE;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.TABLE_NAME;
+import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.WORDS_COUNT;
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
@@ -44,16 +48,29 @@ public class User implements IUser, IDbModel<String> {
     @PropertyName(PICTURE)
     private String mPictureUrl;
 
+    @dbInteger(name = WORDS_COUNT)
+    @PropertyName(WORDS_COUNT)
+    private int mTotalWords;
+
+    @dbInteger(name = LANGUAGES_COUNT)
+    @PropertyName(LANGUAGES_COUNT)
+    private int mTotalLanguages;
+
     public User(final UserInfo pUser) {
         mId = pUser.getUid();
-        mName = pUser.getDisplayName();
+        mName = pUser.getEmail();
+        if (StringUtils.isNullOrEmpty(mName)) {
+            mName = StringUtils.extractNameFromEmail(pUser.getEmail());
+        }
         mPictureUrl = String.valueOf(pUser.getPhotoUrl());
     }
 
-    public User(final String pId, final String pName, final String pPictureUrl) {
-        mId = pId;
-        mName = pName;
-        mPictureUrl = pPictureUrl;
+    public User(final UserBuilder pUserBuilder) {
+        mId = pUserBuilder.getId();
+        mName = pUserBuilder.getName();
+        mPictureUrl = pUserBuilder.getPictureUrl();
+        mTotalWords = pUserBuilder.getWordsCount();
+        mTotalLanguages = pUserBuilder.getLanguagesCount();
     }
 
     public void setName(final String pName) {
@@ -62,6 +79,20 @@ public class User implements IUser, IDbModel<String> {
 
     public void setPictureUrl(final String pPictureUrl) {
         mPictureUrl = pPictureUrl;
+    }
+
+    public void increaseWordCount(final int pCount) {
+        if (pCount < 0) {
+            throw new IllegalStateException("Count is negative");
+        }
+        mTotalWords += pCount;
+    }
+
+    public void increaseLanguagesCount(final int pCount) {
+        if (pCount < 0) {
+            throw new IllegalStateException("Count is negative");
+        }
+        mTotalLanguages += pCount;
     }
 
     @Override
@@ -80,11 +111,23 @@ public class User implements IUser, IDbModel<String> {
     }
 
     @Override
+    public int getWordCount() {
+        return mTotalWords;
+    }
+
+    @Override
+    public int getLanguagesCount() {
+        return mTotalLanguages;
+    }
+
+    @Override
     public HashMap<String, Object> convertToInsert() {
         final HashMap<String, Object> map = new HashMap<>();
         map.put(ID, this.getId());
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
+        map.put(WORDS_COUNT, this.getWordCount());
+        map.put(LANGUAGES_COUNT, this.getLanguagesCount());
         return map;
     }
 
@@ -93,6 +136,8 @@ public class User implements IUser, IDbModel<String> {
         final HashMap<String, Object> map = new HashMap<>();
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
+        map.put(WORDS_COUNT, this.getWordCount());
+        map.put(LANGUAGES_COUNT, this.getLanguagesCount());
         return map;
     }
 
@@ -102,21 +147,30 @@ public class User implements IUser, IDbModel<String> {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String PICTURE = "picture";
+        public static final String WORDS_COUNT = "wordscount";
+        public static final String LANGUAGES_COUNT = "languagescount";
     }
 
-    public static class CursorConverter implements ICursorConverter<IUser> {
+    public static class CursorConverter implements ICursorConverter<User> {
 
         @Override
         public User convert(@NonNull final Cursor pCursor) {
             final String id = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.ID));
             final String name = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.NAME));
             final String picture = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.PICTURE));
+            final int words = pCursor.getInt(pCursor.getColumnIndex(DbKeys.WORDS_COUNT));
+            final int languages = pCursor.getInt(pCursor.getColumnIndex(DbKeys.LANGUAGES_COUNT));
 
-            return new User(id, name, picture);
+            return new UserBuilder().setId(id)
+                    .setName(name)
+                    .setPictureUrl(picture)
+                    .setWordsCount(words)
+                    .setLanguagesCount(languages)
+                    .createUser();
         }
     }
 
-    public static class DataSnapshotConverter implements IDataSnapshotConverter<IUser> {
+    public static class DataSnapshotConverter implements IDataSnapshotConverter<User> {
 
         @Override
         @Nullable
@@ -124,7 +178,14 @@ public class User implements IUser, IDbModel<String> {
             final String id = (String) pSnapshot.child(ID).getValue();
             final String name = (String) pSnapshot.child(NAME).getValue();
             final String pic = (String) pSnapshot.child(PICTURE).getValue();
-            return new User(id, name, pic);
+            final int words = (int) pSnapshot.child(WORDS_COUNT).getValue();
+            final int languages = (int) pSnapshot.child(LANGUAGES_COUNT).getValue();
+            return new UserBuilder().setId(id)
+                    .setName(name)
+                    .setPictureUrl(pic)
+                    .setWordsCount(words)
+                    .setLanguagesCount(languages)
+                    .createUser();
         }
     }
 

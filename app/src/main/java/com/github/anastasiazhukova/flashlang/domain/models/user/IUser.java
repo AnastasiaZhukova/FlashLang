@@ -7,4 +7,8 @@ public interface IUser extends IIdentifiable<String> {
     String getName();
 
     String getPictureUrl();
+
+    int getWordCount();
+
+    int getLanguagesCount();
 }

@@ -29,11 +29,20 @@ public interface Constants {
 
         public static final int DEFAULT_COMPRESS_QUALITY = 100;
 
-        public static final String IMAGE_FOLDER_NAME = "images";
+        public static final String CARD_IMAGE_FOLDER_NAME = "cards";
+
+        public static final String USER_IMAGE_FOLDER_NAME = "users";
+
+        public static final String LANGUAGES_IMAGE_FOLDER_NAME = "languages";
 
         public static final String IMAGE_FORMAT = ".jpg";
 
-        public static final String FULL_IMAGE_PATH_TEMPLATE = IMAGE_FOLDER_NAME + "/%s" + IMAGE_FORMAT;
+        public static final String FULL_IMAGE_PATH_TEMPLATE = "%s/%s" + IMAGE_FORMAT;
+    }
+
+    final class FirebaseDb {
+
+        public static final String API_KEY_REF = "apikey";
     }
 
 }

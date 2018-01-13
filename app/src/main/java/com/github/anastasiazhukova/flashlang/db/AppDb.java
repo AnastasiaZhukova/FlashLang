@@ -3,8 +3,6 @@ package com.github.anastasiazhukova.flashlang.db;
 import com.github.anastasiazhukova.flashlang.Constants;
 import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
-import com.github.anastasiazhukova.flashlang.domain.models.link.CollectionCardLink;
-import com.github.anastasiazhukova.flashlang.domain.models.link.UserCollectionLink;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.lib.db.IDb;
 
@@ -26,8 +24,6 @@ public final class AppDb implements IDb {
                 User.class,
                 Collection.class,
                 Card.class,
-                CollectionCardLink.class,
-                UserCollectionLink.class
         };
     }
 }

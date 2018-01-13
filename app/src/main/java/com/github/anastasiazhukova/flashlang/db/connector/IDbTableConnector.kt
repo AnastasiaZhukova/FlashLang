@@ -20,4 +20,11 @@ interface IDbTableConnector {
 
     fun get(pTableName: String, groupBy: String?, vararg pSelectors: Selector): Cursor?
 
+    companion object {
+        fun getInstance(): IDbTableConnector {
+            return DbTableConnector();
+        }
+    }
+
+
 }
