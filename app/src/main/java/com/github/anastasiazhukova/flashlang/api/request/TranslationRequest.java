@@ -10,14 +10,17 @@ public class TranslationRequest implements ITranslationRequest {
 
     private final String mTargetLanguage;
 
-    public TranslationRequest(final String pInputText, final String pSourceLanguage, final String pTargetLanguage) {
+    private final String mApiKey;
+
+    public TranslationRequest(final String pApiKey, final String pInputText, final String pSourceLanguageKey, final String pTargetLanguageKey) {
+        mApiKey = pApiKey;
         mInputText = pInputText;
-        mSourceLanguage = pSourceLanguage;
-        mTargetLanguage = pTargetLanguage;
+        mSourceLanguage = pSourceLanguageKey;
+        mTargetLanguage = pTargetLanguageKey;
     }
 
-    public TranslationRequest(final String pInputText, final ApiConstants.LanguageKeys pSourceLanguage, final ApiConstants.LanguageKeys pTargetLanguage) {
-        this(pInputText, pSourceLanguage.name(), pTargetLanguage.name());
+    public TranslationRequest(final String pApiKey, final String pInputText, final ApiConstants.LanguageKeys pSourceLanguageKey, final ApiConstants.LanguageKeys pTargetLanguageKey) {
+        this(pApiKey, pInputText, pSourceLanguageKey.name(), pTargetLanguageKey.name());
     }
 
     @Override
@@ -33,6 +36,11 @@ public class TranslationRequest implements ITranslationRequest {
     @Override
     public String getTargetLanguage() {
         return mTargetLanguage;
+    }
+
+    @Override
+    public String getApiKey() {
+        return null;
     }
 
 }

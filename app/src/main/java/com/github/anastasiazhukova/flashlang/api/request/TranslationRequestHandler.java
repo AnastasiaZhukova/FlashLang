@@ -14,8 +14,7 @@ public class TranslationRequestHandler implements ITranslationRequestHandler {
         if (pRequest != null) {
 
             final UrlBuilder builder = new UrlBuilder();
-            //todo get ApiKey not from constants
-            final String translateUrl = builder.getTranslateUrl("Some key", pRequest);
+            final String translateUrl = builder.getTranslateUrl(pRequest.getApiKey(), pRequest);
 
             final HttpRequest.Builder httpRequestBuilder = new HttpRequest.Builder();
             httpRequestBuilder.setUrl(translateUrl).setMethod(HttpMethod.GET);
