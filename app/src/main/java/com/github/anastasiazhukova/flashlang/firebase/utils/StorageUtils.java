@@ -10,8 +10,8 @@ import java.io.ByteArrayOutputStream;
 public class StorageUtils {
 
     @NonNull
-    public static String getChildReference(final String pName) {
-        return String.format(Constants.FirebaseStorage.FULL_IMAGE_PATH_TEMPLATE, pName);
+    public static String getChildReference(final String pCollectionName, final String pPicName) {
+        return String.format(Constants.FirebaseStorage.FULL_IMAGE_PATH_TEMPLATE, pCollectionName, pPicName);
     }
 
     public static byte[] toBytes(final Bitmap pBitmap) {

@@ -1,6 +1,7 @@
 package com.github.anastasiazhukova.flashlang.firebase.storage;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.flashlang.firebase.utils.StorageUtils;
@@ -17,23 +18,39 @@ public class FirebaseStorageManager implements IFirebaseStorageManager {
     private final StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
-    public void upload(final String pName, final Bitmap pBitmap, final ILoadListener pListener) {
+    public void upload(final String pCollectionName, final String pPicName, final Bitmap pBitmap, final ILoadListener pListener) {
         final byte[] data = StorageUtils.toBytes(pBitmap);
-        final StorageReference imageReference = getImageReference(pName);
-        imageReference.putBytes(data)
-                .addOnCompleteListener(new LoadOnCompleteListener(pListener));
+        final StorageReference imageReference = getImageReference(pCollectionName, pPicName);
+        final UploadTask uploadTask = imageReference.putBytes(data);
+        if (pListener != null) {
+            uploadTask.addOnCompleteListener(new LoadOnCompleteListener(pListener));
+        }
+
     }
 
     @Override
-    public void upload(final String pName, final InputStream pStream, final ILoadListener pListener) {
-        final StorageReference imageReference = getImageReference(pName);
-        imageReference.putStream(pStream)
-                .addOnCompleteListener(new LoadOnCompleteListener(pListener));
+    public void upload(final String pCollectionName, final String pPicName, final InputStream pStream, final ILoadListener pListener) {
+        final StorageReference imageReference = getImageReference(pCollectionName, pPicName);
+        final UploadTask uploadTask = imageReference.putStream(pStream);
+        if (pListener != null) {
+            uploadTask.addOnCompleteListener(new LoadOnCompleteListener(pListener));
+        }
+    }
+
+    @Override
+    public Uri getImageUrl(final String pCollectionName, final String pPicName) {
+        final StorageReference imageReference = getImageReference(pCollectionName, pPicName);
+        final Task<Uri> downloadUrl = imageReference.getDownloadUrl();
+        if (downloadUrl.isSuccessful()) {
+            return downloadUrl.getResult();
+        } else {
+            return null;
+        }
     }
 
     @NonNull
-    private StorageReference getImageReference(final String pName) {
-        return mStorageReference.child(StorageUtils.getChildReference(pName));
+    private StorageReference getImageReference(final String pCollectionName, final String pPicName) {
+        return mStorageReference.child(StorageUtils.getChildReference(pCollectionName, pPicName));
     }
 
     private class LoadOnCompleteListener implements OnCompleteListener<UploadTask.TaskSnapshot> {

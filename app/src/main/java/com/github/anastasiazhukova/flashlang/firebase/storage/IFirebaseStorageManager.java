@@ -9,9 +9,11 @@ import java.io.InputStream;
 
 public interface IFirebaseStorageManager {
 
-    void upload(String pName, Bitmap pBitmap, ILoadListener pListener);
+    void upload(String pCollectionName, String pPicName, Bitmap pBitmap, ILoadListener pListener);
 
-    void upload(String pName, InputStream pStream, ILoadListener pListener);
+    void upload(String pCollectionName, String pPicName, InputStream pStream, ILoadListener pListener);
+
+    Uri getImageUrl(String pCollectionName, String pPicName);
 
     interface ILoadListener extends ICallback<Uri> {
 
@@ -19,7 +21,7 @@ public interface IFirebaseStorageManager {
 
     final class Impl {
 
-        public static IFirebaseStorageManager getInstence() {
+        public static IFirebaseStorageManager getInstance() {
             return new FirebaseStorageManager();
         }
 
