@@ -40,13 +40,13 @@
         tools:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
     <ImageView
-        android:id="@+id/plat_button"
+        android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:padding="16dp"
         android:layout_margin="4dp"
-        tools:src="@drawable/ic_play_36dp"/>
+        tools:src="@drawable/play"/>
 
 
 </FrameLayout>
