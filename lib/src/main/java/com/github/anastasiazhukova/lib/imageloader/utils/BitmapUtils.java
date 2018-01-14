@@ -135,8 +135,12 @@ public final class BitmapUtils {
                     return null;
                 }
             }
+            if (mImageRequest.isScaled()) {
+                return getScaledBitmap(pInputStream, imageWidth, imageHeight);
+            } else {
+                return getBitmap(pInputStream);
+            }
 
-            return getScaledBitmap(pInputStream, imageWidth, imageHeight);
         }
 
     }

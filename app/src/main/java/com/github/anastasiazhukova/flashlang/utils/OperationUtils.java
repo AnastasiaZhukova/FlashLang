@@ -33,14 +33,10 @@ public final class OperationUtils {
                         new Collection.ByTargetLanguageSelector(pTargetLanguage));
         if (collections != null && !collections.isEmpty()) {
             return collections.get(0).getId();
-        } else {
-            try {
-                return new CreateCollectionOperation(pUserID, pSourceLanguage, pTargetLanguage).perform();
-            } catch (final Exception pE) {
-                return null;
-            }
         }
-
+        else {
+            return null;
+        }
     }
 
     public static boolean isCollectionEmpty(final String pCollectionId) {

@@ -7,8 +7,14 @@
     <include layout="@layout/scroll_background"/>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/main_view_pager"
+        android:id="@+id/activity_main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <!--todo remove-->
+    <ImageView
+        android:id="@+id/test_image_view"
+        android:layout_width="156dp"
+        android:layout_height="156dp"/>
 
 </FrameLayout>

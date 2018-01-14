@@ -15,6 +15,7 @@
             android:background="@drawable/card_row_bg">
 
             <TextView
+                android:id="@+id/source_text_view"
                 style="@style/CardRowStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -23,6 +24,7 @@
             <include layout="@layout/card_row_vertical_separator"/>
 
             <TextView
+                android:id="@+id/target_text_view"
                 style="@style/CardRowStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"

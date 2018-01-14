@@ -19,4 +19,6 @@ public interface IImageRequest extends IRequest {
 
     boolean isRounded();
 
+    boolean isScaled();
+
 }

@@ -94,6 +94,7 @@ class DbTableConnector : IDbTableConnector {
             cursor = mDbOperations.query()
                     .table(pTableName)
                     .selection(selection)
+                    .groupBy(groupBy)
                     .cursor()
             return cursor
         } catch (pE: Exception) {

@@ -11,14 +11,14 @@ import android.view.View;
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesDialogRecyclerViewAdapter;
-import com.github.anastasiazhukova.flashlang.ui.domain.IChoiceCallback;
+import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 
 import java.util.List;
 
 public class LanguagesDialogBuilder extends AlertDialog.Builder {
 
     private List<ILanguage> mLanguages;
-    private IChoiceCallback<ILanguage> mCallback;
+    private IRecycleClickCallback<ILanguage> mCallback;
     private Context mContext;
     private RecyclerView mRecyclerView;
     private View mView;
@@ -46,7 +46,7 @@ public class LanguagesDialogBuilder extends AlertDialog.Builder {
         mLanguages = pLanguages;
     }
 
-    public void setChoiceCallback(final IChoiceCallback<ILanguage> pCallback) {
+    public void setChoiceCallback(final IRecycleClickCallback<ILanguage> pCallback) {
         mCallback = pCallback;
     }
 

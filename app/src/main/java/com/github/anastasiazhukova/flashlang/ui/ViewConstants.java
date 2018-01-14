@@ -14,4 +14,21 @@ public interface ViewConstants {
         public static final int FRAGMENT_COUNT = 2;
     }
 
+    final class Collection {
+
+        public static final String SOURCE_COLLECTION_FRAGMENT_TAG = "sourcecollection";
+        public static final String TARGET_COLLECTION_FRAGMENT_TAG = "targetcollection";
+        public static final String CARDS_COLLECTION_FRAGMENT_TAG = "cardscollection";
+    }
+
+    final class TargetCollection {
+
+        public static final String SOURCE_LANGUAGE_KEY = "sourcelanguage";
+    }
+
+    final class CardsCollection {
+
+        public static final String COLLECTION_ID_KEY = "collectionid";
+    }
+
 }

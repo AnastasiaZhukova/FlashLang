@@ -1,10 +1,15 @@
 package com.github.anastasiazhukova.lib.imageloader.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
+
+import static com.github.anastasiazhukova.lib.Constants.ImageLoader.EMPTY_DRAWABLE;
 
 public final class ImageUtils {
 
@@ -37,7 +42,9 @@ public final class ImageUtils {
 
     public static void setImage(@NonNull final ImageView pTarget, final Bitmap pBitmap) {
         if (pBitmap != null) {
-            pTarget.setImageBitmap(pBitmap);
+            final TransitionDrawable drawable = new TransitionDrawable(new Drawable[]{EMPTY_DRAWABLE, new BitmapDrawable(pBitmap)});
+            pTarget.setImageDrawable(drawable);
+            drawable.startTransition(1000);
         }
     }
 }

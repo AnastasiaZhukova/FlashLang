@@ -22,7 +22,7 @@ import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.ui.contract.TranslateContract;
 import com.github.anastasiazhukova.flashlang.ui.dialog.LanguagesDialogBuilder;
-import com.github.anastasiazhukova.flashlang.ui.domain.IChoiceCallback;
+import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.presenter.TranslatePresenter;
 import com.github.anastasiazhukova.lib.utils.StringUtils;
 
@@ -231,19 +231,15 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
 
     private void showTargetLanguageDialog() {
 
-        showChooseLanguageDialog(new IChoiceCallback<ILanguage>() {
+        showChooseLanguageDialog(new IRecycleClickCallback<ILanguage>() {
 
             @Override
-            public void onSuccess(final ILanguage pLanguage) {
+            public void onClick(final ILanguage pLanguage) {
                 mTargetLanguage = pLanguage;
                 mTargetLanguageTextView.setText(pLanguage.getLanguageName());
                 mAlertDialog.dismiss();
             }
 
-            @Override
-            public void onError(final Throwable pThrowable) {
-                mAlertDialog.dismiss();
-            }
         });
 
     }
@@ -263,17 +259,12 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
     }
 
     private void showSourceLanguageDialog() {
-        showChooseLanguageDialog(new IChoiceCallback<ILanguage>() {
+        showChooseLanguageDialog(new IRecycleClickCallback<ILanguage>() {
 
             @Override
-            public void onSuccess(final ILanguage pLanguage) {
+            public void onClick(final ILanguage pLanguage) {
                 mSourceLanguage = pLanguage;
                 mSourceLanguageTextView.setText(pLanguage.getLanguageName());
-                mAlertDialog.dismiss();
-            }
-
-            @Override
-            public void onError(final Throwable pThrowable) {
                 mAlertDialog.dismiss();
             }
         });
@@ -310,7 +301,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
         Snackbar.make(mView, pString, Snackbar.LENGTH_SHORT).show();
     }
 
-    private void showChooseLanguageDialog(final IChoiceCallback<ILanguage> pCallback) {
+    private void showChooseLanguageDialog(final IRecycleClickCallback<ILanguage> pCallback) {
         final List<ILanguage> languages = mPresenter.loadSupportedLanguages();
         final LanguagesDialogBuilder builder = new LanguagesDialogBuilder(this.getContext());
         builder.setLanguages(languages);

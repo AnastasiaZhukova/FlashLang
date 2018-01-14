@@ -1,6 +1,8 @@
 package com.github.anastasiazhukova.lib;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.executors.ExecutorServiceType;
@@ -61,6 +63,8 @@ public interface Constants {
     final class ImageLoader {
 
         public static final ExecutorType DEFAULT_EXECUTOR_TYPE = ExecutorType.ASYNC_TASK;
+
+        public static final Drawable EMPTY_DRAWABLE = new ColorDrawable(255);
     }
 
     final class Executor {

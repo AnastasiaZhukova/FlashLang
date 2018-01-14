@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
-import com.github.anastasiazhukova.flashlang.ui.domain.IChoiceCallback;
+import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.domain.RecyclerClickListener;
 import com.github.anastasiazhukova.flashlang.ui.viewholder.LanguageDialogRowViewHolder;
 
@@ -16,9 +16,9 @@ import java.util.List;
 public class LanguagesDialogRecyclerViewAdapter extends RecyclerView.Adapter<LanguageDialogRowViewHolder> implements RecyclerClickListener {
 
     private final List<ILanguage> mLanguages;
-    private final IChoiceCallback<ILanguage> mCallback;
+    private final IRecycleClickCallback<ILanguage> mCallback;
 
-    public LanguagesDialogRecyclerViewAdapter(final List<ILanguage> pLanguages, IChoiceCallback<ILanguage> pCallback) {
+    public LanguagesDialogRecyclerViewAdapter(final List<ILanguage> pLanguages, final IRecycleClickCallback<ILanguage> pCallback) {
         mLanguages = pLanguages;
         mCallback = pCallback;
     }
@@ -43,6 +43,6 @@ public class LanguagesDialogRecyclerViewAdapter extends RecyclerView.Adapter<Lan
 
     @Override
     public void onClick(final int pPosition) {
-        mCallback.onSuccess(mLanguages.get(pPosition));
+        mCallback.onClick(mLanguages.get(pPosition));
     }
 }

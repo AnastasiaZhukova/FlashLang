@@ -14,6 +14,7 @@ public class ImageRequest implements IImageRequest {
     private final boolean isSaved;
     private final boolean isRounded;
     private final Bitmap mErrorImage;
+    private final boolean isScaled;
 
     ImageRequest(final Builder pBuilder) {
         mUrl = pBuilder.mUrl;
@@ -21,6 +22,7 @@ public class ImageRequest implements IImageRequest {
         isSaved = pBuilder.isSaved;
         isRounded = pBuilder.isRounded;
         mErrorImage = pBuilder.mErrorImage;
+        isScaled = pBuilder.isScaled;
     }
 
     @Override
@@ -44,6 +46,11 @@ public class ImageRequest implements IImageRequest {
     }
 
     @Override
+    public boolean isScaled() {
+        return isScaled;
+    }
+
+    @Override
     public Bitmap getErrorImage() {
         return mErrorImage;
     }
@@ -55,6 +62,7 @@ public class ImageRequest implements IImageRequest {
         private boolean isSaved;
         private Bitmap mErrorImage;
         private boolean isRounded;
+        private boolean isScaled;
 
         public Builder from(final String pUrl) {
             mUrl = pUrl;
@@ -78,6 +86,12 @@ public class ImageRequest implements IImageRequest {
 
         public Builder setErrorImage(final Bitmap pErrorImage) {
             mErrorImage = pErrorImage;
+            return this;
+        }
+
+
+        public Builder isScaled(final boolean pScaled) {
+            isScaled = pScaled;
             return this;
         }
 

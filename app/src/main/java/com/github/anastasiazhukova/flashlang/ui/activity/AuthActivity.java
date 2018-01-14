@@ -16,7 +16,7 @@ import com.github.anastasiazhukova.flashlang.ui.ViewConstants;
 import com.github.anastasiazhukova.flashlang.ui.animator.AnimatorFactory;
 import com.github.anastasiazhukova.flashlang.ui.contract.AuthContract;
 import com.github.anastasiazhukova.flashlang.ui.domain.ScrollPageListener;
-import com.github.anastasiazhukova.flashlang.ui.domain.ScrollPagerAdapter;
+import com.github.anastasiazhukova.flashlang.ui.adapter.ScrollPagerAdapter;
 import com.github.anastasiazhukova.flashlang.ui.fragment.auth.SignInFragment;
 import com.github.anastasiazhukova.flashlang.ui.fragment.auth.SignUpFragment;
 import com.github.anastasiazhukova.flashlang.ui.presenter.AuthPresenter;

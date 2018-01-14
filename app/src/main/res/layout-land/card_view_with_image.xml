@@ -2,8 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/card_back"
@@ -26,7 +26,7 @@
             tools:src="@drawable/bg_mount"/>
 
         <TextView
-            android:id="@+id/card_top_text_view"
+            android:id="@+id/source_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

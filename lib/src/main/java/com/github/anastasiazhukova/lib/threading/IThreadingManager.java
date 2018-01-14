@@ -22,6 +22,10 @@ public interface IThreadingManager {
             }
         }
 
+        public static IThreadingManager getThreadingManager(ThreadingManager.Config pConfig) {
+            return new ThreadingManager(mConfig);
+        }
+
     }
 
 }

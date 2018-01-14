@@ -20,4 +20,10 @@ public final class SystemConfigUtils {
         }
     }
 
+    public static int gerOrientation() {
+        final Context context = ContextHolder.getContext();
+        int orientation = context.getResources().getConfiguration().orientation;
+        return orientation;
+    }
+
 }

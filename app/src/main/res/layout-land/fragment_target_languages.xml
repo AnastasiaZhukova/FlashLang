@@ -7,7 +7,7 @@
              tools:background="@color/colorDarkTangerine">
 
     <ImageView
-        android:id="@+id/parent_language_image_view"
+        android:id="@+id/source_language_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_margin="8dp"
@@ -15,7 +15,7 @@
         tools:src="@mipmap/ic_launcher_round"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/child_collection_recycler_view"
+        android:id="@+id/target_languages_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
