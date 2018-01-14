@@ -11,7 +11,13 @@ public class StorageUtils {
 
     @NonNull
     public static String getChildReference(final String pCollectionName, final String pPicName) {
-        return String.format(Constants.FirebaseStorage.FULL_IMAGE_PATH_TEMPLATE, pCollectionName, pPicName);
+        String picFormat;
+        if (pCollectionName.equals(Constants.FirebaseStorage.LANGUAGES_IMAGE_FOLDER_NAME)) {
+            picFormat = Constants.FirebaseStorage.LANGUAGE_IMAGE_FORMAT;
+        } else {
+            picFormat = Constants.FirebaseStorage.BASE_IMAGE_FORMAT;
+        }
+        return String.format(Constants.FirebaseStorage.FULL_IMAGE_PATH_TEMPLATE, pCollectionName, pPicName, picFormat);
     }
 
     public static byte[] toBytes(final Bitmap pBitmap) {

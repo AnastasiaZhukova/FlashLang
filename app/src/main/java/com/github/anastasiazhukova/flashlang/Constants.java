@@ -35,9 +35,11 @@ public interface Constants {
 
         public static final String LANGUAGES_IMAGE_FOLDER_NAME = "languages";
 
-        public static final String IMAGE_FORMAT = ".jpg";
+        public static final String BASE_IMAGE_FORMAT = ".jpg";
 
-        public static final String FULL_IMAGE_PATH_TEMPLATE = "%s/%s" + IMAGE_FORMAT;
+        public static final String LANGUAGE_IMAGE_FORMAT = ".png";
+
+        public static final String FULL_IMAGE_PATH_TEMPLATE = "%s/%s%s";
     }
 
     final class FirebaseDb {

@@ -13,7 +13,7 @@ public interface IFirebaseStorageManager {
 
     void upload(String pCollectionName, String pPicName, InputStream pStream, ILoadListener pListener);
 
-    Uri getImageUrl(String pCollectionName, String pPicName);
+    void getImageUrl(String pCollectionName, String pPicName, final ILoadListener pListener);
 
     interface ILoadListener extends ICallback<Uri> {
 

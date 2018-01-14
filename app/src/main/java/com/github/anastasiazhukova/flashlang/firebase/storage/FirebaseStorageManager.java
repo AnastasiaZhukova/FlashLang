@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.github.anastasiazhukova.flashlang.firebase.utils.StorageUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,14 +40,23 @@ public class FirebaseStorageManager implements IFirebaseStorageManager {
     }
 
     @Override
-    public Uri getImageUrl(final String pCollectionName, final String pPicName) {
+    public void getImageUrl(final String pCollectionName, final String pPicName, final ILoadListener pListener) {
         final StorageReference imageReference = getImageReference(pCollectionName, pPicName);
-        final Task<Uri> downloadUrl = imageReference.getDownloadUrl();
-        if (downloadUrl.isSuccessful()) {
-            return downloadUrl.getResult();
-        } else {
-            return null;
-        }
+        imageReference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                    @Override
+                    public void onSuccess(final Uri pUri) {
+                        pListener.onSuccess(pUri);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+
+                    @Override
+                    public void onFailure(@NonNull final Exception pE) {
+                        pListener.onError(pE);
+                    }
+                });
     }
 
     @NonNull
