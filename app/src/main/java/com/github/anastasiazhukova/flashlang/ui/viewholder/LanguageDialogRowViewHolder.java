@@ -8,11 +8,11 @@ import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.ui.domain.RecyclerClickListener;
 
-public class LanguageRowViewHolder extends RecyclerView.ViewHolder {
+public class LanguageDialogRowViewHolder extends RecyclerView.ViewHolder {
 
     public TextView mLanguageName;
 
-    public LanguageRowViewHolder(final View pItemView, final RecyclerClickListener pClickListener) {
+    public LanguageDialogRowViewHolder(final View pItemView, final RecyclerClickListener pClickListener) {
         super(pItemView);
         mLanguageName = pItemView.findViewById(R.id.language_row_text_view);
 

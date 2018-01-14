@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
-import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesRecyclerViewAdapter;
+import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesDialogRecyclerViewAdapter;
 import com.github.anastasiazhukova.flashlang.ui.domain.IChoiceCallback;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class LanguagesDialogBuilder extends AlertDialog.Builder {
 
     @Override
     public AlertDialog create() {
-        final LanguagesRecyclerViewAdapter adapter = new LanguagesRecyclerViewAdapter(mLanguages, mCallback);
+        final LanguagesDialogRecyclerViewAdapter adapter = new LanguagesDialogRecyclerViewAdapter(mLanguages, mCallback);
         mRecyclerView.setAdapter(adapter);
         return super.create();
     }
