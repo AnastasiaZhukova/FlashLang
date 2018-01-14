@@ -26,10 +26,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         mFlImage = findViewById(R.id.fl_image_view);
-        initAnimation();
+        init();
     }
 
-    private void initAnimation() {
+    private void init() {
         final Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator());
         mFlImage.setAnimation(fadeIn);

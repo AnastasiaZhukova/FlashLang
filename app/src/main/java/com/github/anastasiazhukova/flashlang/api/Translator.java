@@ -76,7 +76,7 @@ public class Translator implements ITranslator {
         if (pRequest != null && pResponse != null) {
 
             String sourceLanguageKey = pRequest.getSourceLanguage();
-            if (sourceLanguageKey == null || sourceLanguageKey.equals(ApiConstants.LanguageKeys.auto.name())) {
+            if (sourceLanguageKey == null) {
                 sourceLanguageKey = pResponse.getSourceLanguageKey();
             }
 
