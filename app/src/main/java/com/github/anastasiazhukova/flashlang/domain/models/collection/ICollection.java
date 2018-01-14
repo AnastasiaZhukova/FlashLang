@@ -10,4 +10,8 @@ public interface ICollection extends IIdentifiable<String> {
 
     String getTargetLanguage();
 
+    String getSourceLanguageCover();
+
+    String getTargetLanguageCover();
+
 }
