@@ -1,11 +1,13 @@
 package com.github.anastasiazhukova.flashlang.ui.presenter;
 
+import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.api.ITranslator;
 import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.api.models.translation.ITranslation;
 import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequest;
 import com.github.anastasiazhukova.flashlang.api.request.TranslationRequestBuilder;
 import com.github.anastasiazhukova.flashlang.operations.GetTranslateApiKeyOperation;
+import com.github.anastasiazhukova.flashlang.operations.SaveTranslationOperation;
 import com.github.anastasiazhukova.flashlang.operations.TranslateOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.TranslateContract;
 import com.github.anastasiazhukova.flashlang.utils.ConnectionManager;
@@ -82,7 +84,7 @@ public class TranslatePresenter implements TranslateContract.Presenter {
                     builder.setApiKey(mApiKey);
                     performTranslation(builder.createTranslationRequest());
                 }
-            } catch (Exception pE) {
+            } catch (final Exception pE) {
                 publishTranslationError(pE);
             }
         }
@@ -121,6 +123,7 @@ public class TranslatePresenter implements TranslateContract.Presenter {
             @Override
             public void onSuccess(final ITranslation pTranslation) {
                 publishTranslation(pTranslation);
+                saveTranslation(pTranslation);
             }
 
             @Override
@@ -128,6 +131,11 @@ public class TranslatePresenter implements TranslateContract.Presenter {
                 publishTranslationError(pThrowable);
             }
         });
+    }
+
+    private void saveTranslation(final ITranslation pTranslation) {
+        final IOperation saveTranslationOperation = new SaveTranslationOperation(UserManager.getCurrentUser(), pTranslation);
+        mThreadingManager.getExecutor(ExecutorType.THREAD).execute(saveTranslationOperation);
     }
 
 }
