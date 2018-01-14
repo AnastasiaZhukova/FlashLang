@@ -7,11 +7,13 @@
     tools:background="@color/colorPlatinum">
 
     <TextView
+        android:id="@+id/language_row_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:padding="8dp"
         android:textColor="@color/colorBeautifulPurple"
         android:textSize="20sp"
-        tools:text="@tools:sample/lorem"/>
+        tools:text="English"/>
 
 </LinearLayout>

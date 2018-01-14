@@ -24,6 +24,7 @@
         android:layout_weight="1">
 
         <FrameLayout
+            android:id="@+id/translate_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
@@ -31,10 +32,12 @@
             tools:visibility="visible">
 
             <ImageView
+                android:id="@+id/translation_close_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="4dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_close_18dp"/>
 
             <TextView
@@ -55,8 +58,9 @@
             android:layout_gravity="bottom"
             android:layout_margin="4dp"
             android:background="@drawable/translate_button_bg"
-            android:gravity="start"
+            android:gravity="center"
             android:padding="4dp"
+            android:text="@string/translate"
             android:textSize="16sp"/>
 
     </FrameLayout>

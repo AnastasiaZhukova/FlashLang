@@ -1,0 +1,69 @@
+package com.github.anastasiazhukova.flashlang.ui.dialog;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import com.github.anastasiazhukova.flashlang.R;
+import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
+import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesRecyclerViewAdapter;
+import com.github.anastasiazhukova.flashlang.ui.domain.IChoiceCallback;
+
+import java.util.List;
+
+public class LanguagesDialogBuilder extends AlertDialog.Builder {
+
+    private List<ILanguage> mLanguages;
+    private IChoiceCallback<ILanguage> mCallback;
+    private Context mContext;
+    private RecyclerView mRecyclerView;
+    private View mView;
+
+    public LanguagesDialogBuilder(final Context pContext) {
+        super(pContext);
+        mContext = pContext;
+        init();
+    }
+
+    private void init() {
+        final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        if (layoutInflater != null) {
+            mView = layoutInflater.inflate(R.layout.dialog_language_choose, null);
+            mRecyclerView = mView.findViewById(R.id.choose_language_recycler_view);
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.addItemDecoration(dividerItemDecoration);
+        }
+
+    }
+
+    public void setLanguages(final List<ILanguage> pLanguages) {
+        mLanguages = pLanguages;
+    }
+
+    public void setChoiceCallback(final IChoiceCallback<ILanguage> pCallback) {
+        mCallback = pCallback;
+    }
+
+    public LanguagesDialogBuilder initView() {
+        this.setView(mView);
+        return this;
+    }
+
+    @Override
+    public AlertDialog.Builder setView(final View view) {
+        return super.setView(view);
+    }
+
+    @Override
+    public AlertDialog create() {
+        final LanguagesRecyclerViewAdapter adapter = new LanguagesRecyclerViewAdapter(mLanguages, mCallback);
+        mRecyclerView.setAdapter(adapter);
+        return super.create();
+    }
+}

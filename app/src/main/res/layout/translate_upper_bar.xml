@@ -19,17 +19,19 @@
 
 
             <TextView
-                android:id="@+id/source_languages_spinner"
+                android:id="@+id/source_languages_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="TO"
+                android:hint="@string/from"
+                android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
 
             <ImageView
+                android:id="@+id/swap_languages_image_view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -37,12 +39,12 @@
 
 
             <TextView
-                android:id="@+id/target_languages_spinner"
+                android:id="@+id/target_languages_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="FROM"
+                android:hint="@string/to"
                 android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"/>

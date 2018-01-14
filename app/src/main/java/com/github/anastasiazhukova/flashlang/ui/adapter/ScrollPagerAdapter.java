@@ -1,4 +1,4 @@
-package com.github.anastasiazhukova.flashlang.ui.domain;
+package com.github.anastasiazhukova.flashlang.ui.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
