@@ -2,9 +2,9 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 
 import android.database.Cursor;
 
+import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.operations.LoadSourceLanguagesCollectionOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.SourceLanguagesCollectionContract;
-import com.github.anastasiazhukova.flashlang.utils.UserUtils;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
@@ -26,7 +26,7 @@ public class SourceLanguagesCollectionPresenter implements SourceLanguagesCollec
 
     @Override
     public void load() {
-        final String currentUserId = UserUtils.getCurrentUserId();
+        final String currentUserId = UserManager.getCurrentUser().getId();
         final IOperation<Cursor> loadOperation = new LoadSourceLanguagesCollectionOperation(currentUserId);
         ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)
                 .execute(loadOperation, new ICallback<Cursor>() {

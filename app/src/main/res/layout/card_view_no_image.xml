@@ -23,6 +23,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:maxLines="4"
+            android:lines="1"
             android:textColor="@color/colorBeautifulPurple"
             android:textSize="24sp"
             android:textStyle="bold"

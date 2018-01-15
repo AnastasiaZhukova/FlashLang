@@ -68,6 +68,7 @@ public class SaveTranslationOperation implements IOperation<Void> {
                 .setSourceText(sourceText)
                 .setTargetLanguageKey(targetLanguage)
                 .setTranslatedText(translatedText)
+                .setPictureUrl("")
                 .createCard();
     }
 

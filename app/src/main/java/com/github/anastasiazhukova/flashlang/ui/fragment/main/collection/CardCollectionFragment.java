@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.flashlang.ui.fragment.main.collection;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.domain.models.card.ICard;
 import com.github.anastasiazhukova.flashlang.ui.ViewConstants;
+import com.github.anastasiazhukova.flashlang.ui.activity.GameActivity;
 import com.github.anastasiazhukova.flashlang.ui.adapter.CardRowRecyclerViewCursorAdapter;
 import com.github.anastasiazhukova.flashlang.ui.contract.CardCollectionContract;
 import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
@@ -105,7 +107,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
 
     @Override
     public void onClick(final View v) {
-        int id = v.getId();
+        final int id = v.getId();
         switch (id) {
             case R.id.target_language_image_view: {
                 mListener.onBackClick();
@@ -118,7 +120,11 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
     }
 
     private void startGameActivity() {
+        final Intent intent = new Intent(this.getContext(), GameActivity.class);
+        intent.putExtra(ViewConstants.CardGame.ARGS_SOURCE_LANGUAGE_KEY, mSourceLanguageKey);
+        intent.putExtra(ViewConstants.CardGame.ARGS_TARGET_LANGUAGE_KEY, mTargetLanguageKey);
 
+        startActivity(intent);
     }
 
     private void init() {
@@ -129,6 +135,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         mTargetLanguageImageView = mView.findViewById(R.id.target_language_image_view);
         mTargetLanguageImageView.setOnClickListener(this);
         mPlayTextView = mView.findViewById(R.id.play_text_view);
+        mPlayTextView.setOnClickListener(this);
         loadImages();
         initAnimation();
         initSwipeRefresh();
@@ -153,7 +160,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
     }
 
     private void initAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this.getContext(), R.anim.pulse);
+        final Animation animation = AnimationUtils.loadAnimation(this.getContext(), R.anim.pulse);
         mPlayTextView.startAnimation(animation);
     }
 
@@ -216,7 +223,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         return LinearLayoutManager.VERTICAL;
     }
 
-    private void showError(String pMessage) {
+    private void showError(final String pMessage) {
         Toast.makeText(this.getContext(), pMessage, Toast.LENGTH_SHORT)
                 .show();
     }

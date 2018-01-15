@@ -28,5 +28,12 @@ public interface ViewConstants {
         public static final String ARGS_TARGET_COVER_KEY = "targetcover";
     }
 
+    final class CardGame {
+
+        public static final String ARGS = "args";
+
+        public static final String ARGS_SOURCE_LANGUAGE_KEY = "sourcelang";
+        public static final String ARGS_TARGET_LANGUAGE_KEY = "targetlang";
+    }
 
 }

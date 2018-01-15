@@ -2,11 +2,11 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 
 import android.database.Cursor;
 
+import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.domain.models.card.ICard;
 import com.github.anastasiazhukova.flashlang.operations.DeleteCardOperation;
 import com.github.anastasiazhukova.flashlang.operations.LoadCardCollectionOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.CardCollectionContract;
-import com.github.anastasiazhukova.flashlang.utils.UserUtils;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
@@ -28,7 +28,7 @@ public class CardCollectionPresenter implements CardCollectionContract.Presenter
 
     @Override
     public void load() {
-        final String currentUserId = UserUtils.getCurrentUserId();
+        final String currentUserId = UserManager.getCurrentUser().getId();
         final String sourceLanguageKey = mView.getSourceLanguageKey();
         final String targetLanguageKey = mView.getTargetLanguageKey();
 

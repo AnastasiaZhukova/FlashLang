@@ -28,8 +28,8 @@ public class BaseCardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setInfo(final ICard pCard) {
-        mSourceTextView.setText(pCard.getSourceText());
-        mTargetTextView.setText(pCard.getTranslatedText());
+        mSourceTextView.setText(pCard.getSourceText().trim());
+        mTargetTextView.setText(pCard.getTranslatedText().trim());
     }
 
 }

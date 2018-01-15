@@ -22,8 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.AuthActivity"/>
-        <activity android:name=".ui.activity.MainActivity"
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:screenOrientation="locked"/>
+        <activity android:name=".ui.activity.GameActivity"/>
     </application>
 
 </manifest>
