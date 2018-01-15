@@ -29,7 +29,7 @@ public class ThreadingManagerTest {
     @Before
     public void setUp() {
         final ThreadingManager.Config config = new ThreadingManager.Config();
-        mThreadingManager = IThreadingManager.Imlp.getThreadingManager(config);
+        mThreadingManager = IThreadingManager.Imlp.getThreadingManager();
     }
 
     @Test
