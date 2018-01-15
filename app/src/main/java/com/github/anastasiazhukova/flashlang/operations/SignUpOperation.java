@@ -23,7 +23,7 @@ public class SignUpOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final IFirebaseUserManager userManager = IFirebaseUserManager.Impl.Companion.getInstance();
         final EmailAuthInfo authInfo = new EmailAuthInfo(mEmail, mPassword);
         final IAuthRequest request = new AuthRequest(authInfo);

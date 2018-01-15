@@ -22,7 +22,7 @@ interface IDbTableConnector {
 
     companion object {
         fun getInstance(): IDbTableConnector {
-            return DbTableConnector();
+            return DbTableConnector()
         }
     }
 

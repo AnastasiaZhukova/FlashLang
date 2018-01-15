@@ -7,22 +7,22 @@ public class TranslationRequestBuilder {
     private String mSourceLanguageKey;
     private String mTargetLanguageKey;
 
-    public TranslationRequestBuilder setApiKey(String pApiKey) {
+    public TranslationRequestBuilder setApiKey(final String pApiKey) {
         mApiKey = pApiKey;
         return this;
     }
 
-    public TranslationRequestBuilder setInputText(String pInputText) {
+    public TranslationRequestBuilder setInputText(final String pInputText) {
         mInputText = pInputText;
         return this;
     }
 
-    public TranslationRequestBuilder setSourceLanguageKey(String pSourceLanguageKey) {
+    public TranslationRequestBuilder setSourceLanguageKey(final String pSourceLanguageKey) {
         mSourceLanguageKey = pSourceLanguageKey;
         return this;
     }
 
-    public TranslationRequestBuilder setTargetLanguageKey(String pTargetLanguageKey) {
+    public TranslationRequestBuilder setTargetLanguageKey(final String pTargetLanguageKey) {
         mTargetLanguageKey = pTargetLanguageKey;
         return this;
     }
@@ -43,7 +43,7 @@ public class TranslationRequestBuilder {
         return mTargetLanguageKey;
     }
 
-    public TranslationRequest createTranslationRequest() {
+    public ITranslationRequest createTranslationRequest() {
         return new TranslationRequest(this);
     }
 }

@@ -14,7 +14,7 @@ public class UploadCardToDbOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         IDbTableConnector.Companion.getInstance()
                 .insert(mCard);
         IFirebaseDbConnector.Impl.Companion.getInstance()

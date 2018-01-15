@@ -29,7 +29,7 @@ public class SourceLanguageViewHolder extends BaseLanguageViewHolder {
                     .from(pCollection.getSourceLanguageCover())
                     .setErrorImage(DrawableUtils.bitmapFromDrawable(R.drawable.moon))
                     .load();
-        } catch (Exception pE) {
+        } catch (final Exception pE) {
             Log.e(LOG_TAG, "setInfo: ", pE);
         }
 

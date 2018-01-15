@@ -45,10 +45,10 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         if (mPresenter == null) {
+            Log.d(LOG_TAG, "onCreate: presenter is null");
             mPresenter = new SourceLanguagesCollectionPresenter();
         }
     }
@@ -118,6 +118,7 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     public void onLoaded(final Cursor pCursor) {
         Log.d(LOG_TAG, "onLoaded() called with: pCursor = [" + pCursor + "]");
         mAdapter.setCursor(pCursor);
+        mAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -131,15 +132,12 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     public int getOrientation() {
         final int orientation = SystemConfigUtils.gerOrientation();
         switch (orientation) {
-            case Configuration.ORIENTATION_PORTRAIT: {
+            case Configuration.ORIENTATION_PORTRAIT:
                 return LinearLayoutManager.VERTICAL;
-            }
-            case Configuration.ORIENTATION_LANDSCAPE: {
+            case Configuration.ORIENTATION_LANDSCAPE:
                 return LinearLayoutManager.HORIZONTAL;
-            }
-            default: {
+            default:
                 return LinearLayoutManager.VERTICAL;
-            }
         }
 
     }
@@ -150,8 +148,10 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
         super.onDestroy();
     }
 
-    private void showError(String pMessage) {
+    private void showError(final CharSequence pMessage) {
         Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
                 .show();
     }
+
+
 }

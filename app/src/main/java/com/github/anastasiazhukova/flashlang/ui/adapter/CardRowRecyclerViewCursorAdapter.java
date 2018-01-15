@@ -19,7 +19,6 @@ public class CardRowRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseC
     private Cursor mCursor;
     private final IRecycleClickCallback<ICard> mCallback;
     private final Card.CursorConverter mConverter;
-    private CardItemType mItemType;
 
     public CardRowRecyclerViewCursorAdapter(final IRecycleClickCallback<ICard> pCallback) {
         mCallback = pCallback;
@@ -72,5 +71,8 @@ public class CardRowRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseC
 
     public void release() {
         IOUtils.close(mCursor);
+        if (mCursor != null) {
+            mCursor = null;
+        }
     }
 }

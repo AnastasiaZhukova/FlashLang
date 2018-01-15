@@ -1,7 +1,5 @@
 package com.github.anastasiazhukova.flashlang.domain.models.user;
 
-import com.google.firebase.auth.UserInfo;
-
 public class UserBuilder {
 
     private String mId;

@@ -56,9 +56,8 @@ public class SignInFragment extends BaseAuthFragment implements View.OnClickList
     public void onClick(final View pView) {
         final int id = pView.getId();
         switch (id) {
-            case R.id.sign_in_button: {
+            case R.id.sign_in_button:
                 mPresenter.signIn();
-            }
         }
     }
 }

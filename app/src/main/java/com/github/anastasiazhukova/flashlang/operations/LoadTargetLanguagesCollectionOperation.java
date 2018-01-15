@@ -17,7 +17,7 @@ public class LoadTargetLanguagesCollectionOperation implements IOperation<Cursor
     }
 
     @Override
-    public Cursor perform() throws Exception {
+    public Cursor perform() {
         final Cursor cursor = IDbTableConnector.Companion.getInstance()
                 .get(Collection.DbKeys.TABLE_NAME, null, new Collection.ByOwnerIdSelector(mUserId),
                         new Collection.BySourceLanguageSelector(mSourceLanguageKeys));

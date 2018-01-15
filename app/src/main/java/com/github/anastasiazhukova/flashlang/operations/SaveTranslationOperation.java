@@ -27,7 +27,7 @@ public class SaveTranslationOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final String collectionId = OperationUtils.getCollectionId(mUser.getId(),
                 mTranslation.getSourceLanguage().getLanguageCode(),
                 mTranslation.getTargetLanguage().getLanguageCode());

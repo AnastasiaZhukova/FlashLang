@@ -32,6 +32,7 @@ public class LanguagesRecyclerViewCursorAdapter extends RecyclerView.Adapter<Bas
     }
 
     public void setCursor(final Cursor pCursor) {
+        release();
         mCursor = pCursor;
         notifyDataSetChanged();
     }
@@ -83,5 +84,8 @@ public class LanguagesRecyclerViewCursorAdapter extends RecyclerView.Adapter<Bas
 
     public void release() {
         IOUtils.close(mCursor);
+        if (mCursor != null) {
+            mCursor = null;
+        }
     }
 }

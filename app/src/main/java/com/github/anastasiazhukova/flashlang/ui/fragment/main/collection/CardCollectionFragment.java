@@ -1,6 +1,7 @@
 package com.github.anastasiazhukova.flashlang.ui.fragment.main.collection;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.presenter.CardCollectionPresenter;
 import com.github.anastasiazhukova.flashlang.utils.DrawableUtils;
 import com.github.anastasiazhukova.flashlang.utils.ResourceUtils;
+import com.github.anastasiazhukova.flashlang.utils.SystemConfigUtils;
 import com.github.anastasiazhukova.lib.imageloader.ILouvre;
 import com.github.anastasiazhukova.lib.logs.Log;
 
@@ -109,23 +112,13 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
     public void onClick(final View v) {
         final int id = v.getId();
         switch (id) {
-            case R.id.target_language_image_view: {
+            case R.id.target_language_image_view:
                 mListener.onBackClick();
                 break;
-            }
-            case R.id.play_text_view: {
+            case R.id.play_text_view:
                 startGameActivity();
-            }
         }
 
-    }
-
-    private void startGameActivity() {
-        final Intent intent = new Intent(this.getContext(), GameActivity.class);
-        intent.putExtra(ViewConstants.CardGame.ARGS_SOURCE_LANGUAGE_KEY, mSourceLanguageKey);
-        intent.putExtra(ViewConstants.CardGame.ARGS_TARGET_LANGUAGE_KEY, mTargetLanguageKey);
-
-        startActivity(intent);
     }
 
     private void init() {
@@ -187,6 +180,8 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         layoutManager.setOrientation(getOrientation());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this.getContext(), R.anim.layout_fall_down);
+        mRecyclerView.setLayoutAnimation(animation);
         mPresenter.load();
 
     }
@@ -214,19 +209,42 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         Log.e(LOG_TAG, "onError: " + pErrorMessage);
     }
 
+    private void startGameActivity() {
+        final Intent intent = new Intent(this.getContext(), GameActivity.class);
+        intent.putExtra(ViewConstants.CardGame.ARGS_SOURCE_LANGUAGE_KEY, mSourceLanguageKey);
+        intent.putExtra(ViewConstants.CardGame.ARGS_TARGET_LANGUAGE_KEY, mTargetLanguageKey);
+
+        startActivity(intent);
+    }
+
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBundle(ViewConstants.Collection.ARGS, mArgs);
+    public void onSaveInstanceState(final Bundle pOutState) {
+        super.onSaveInstanceState(pOutState);
+        pOutState.putBundle(ViewConstants.Collection.ARGS, mArgs);
     }
 
     public int getOrientation() {
-        return LinearLayoutManager.VERTICAL;
+        final int orientation = SystemConfigUtils.gerOrientation();
+        switch (orientation) {
+            case Configuration.ORIENTATION_PORTRAIT:
+                return LinearLayoutManager.VERTICAL;
+            case Configuration.ORIENTATION_LANDSCAPE:
+                return LinearLayoutManager.HORIZONTAL;
+            default:
+                return LinearLayoutManager.VERTICAL;
+        }
+
     }
 
-    private void showError(final String pMessage) {
+    private void showError(final CharSequence pMessage) {
         Toast.makeText(this.getContext(), pMessage, Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    @Override
+    public void onDestroy() {
+        mAdapter.release();
+        super.onDestroy();
     }
 
 }

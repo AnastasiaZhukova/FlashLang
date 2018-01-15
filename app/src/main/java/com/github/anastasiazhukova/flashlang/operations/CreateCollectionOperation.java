@@ -16,7 +16,7 @@ public class CreateCollectionOperation implements IOperation<String> {
     private final String mUserId;
     private final String mSourceLanguageKey;
     private final String mTargetLanguageKey;
-    private ICallback<String> mCallback;
+    private final ICallback<String> mCallback;
 
     public CreateCollectionOperation(final String pUserId, final String pSourceLanguageKey, final String pTargetLanguageKey, final ICallback<String> pCallback) {
         mUserId = pUserId;
@@ -26,7 +26,7 @@ public class CreateCollectionOperation implements IOperation<String> {
     }
 
     @Override
-    public String perform() throws Exception {
+    public String perform() {
         final String id = OperationUtils.getIdForCollection();
         mCallback.onSuccess(id);
         final CollectionBuilder collectionBuilder = new CollectionBuilder().setId(id)
@@ -89,7 +89,7 @@ public class CreateCollectionOperation implements IOperation<String> {
     }
 
     private void putToDb(final Collection mCollection) {
-        UploadCollectionToDbOperation operation = new UploadCollectionToDbOperation(mCollection);
+        final IOperation operation = new UploadCollectionToDbOperation(mCollection);
         ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD)
                 .execute(operation);
     }

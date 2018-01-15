@@ -1,12 +1,9 @@
 package com.github.anastasiazhukova.flashlang.ui.fragment.main;
 
 import android.animation.ValueAnimator;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,18 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.anastasiazhukova.flashlang.R;
-import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.ui.activity.AuthActivity;
 import com.github.anastasiazhukova.flashlang.ui.contract.UserInfoContract;
-import com.github.anastasiazhukova.flashlang.ui.dialog.ChoosePhotoDialogBuilder;
-import com.github.anastasiazhukova.flashlang.ui.dialog.IDialogCallback;
 import com.github.anastasiazhukova.flashlang.ui.presenter.UserInfoPresenter;
 import com.github.anastasiazhukova.flashlang.utils.DrawableUtils;
 import com.github.anastasiazhukova.lib.imageloader.ILouvre;
 import com.github.anastasiazhukova.lib.logs.Log;
-
-import static android.app.Activity.RESULT_OK;
 
 public class UserInfoFragment extends Fragment implements UserInfoContract.View, View.OnClickListener {
 
@@ -91,11 +83,10 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
     public void onClick(final View v) {
         final int id = v.getId();
         switch (id) {
-            case R.id.logout_button: {
+            case R.id.logout_button:
                 mPresenter.logout();
                 finishActivity();
                 break;
-            }
         }
     }
 

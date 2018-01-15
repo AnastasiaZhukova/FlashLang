@@ -21,7 +21,6 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_margin="8dp"
-                android:transitionName="parentImage"
                 tools:src="@mipmap/ic_launcher_round"/>
 
             <ImageView
@@ -29,7 +28,6 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_margin="8dp"
-                android:transitionName="childImage"
                 tools:src="@mipmap/ic_launcher_round"/>
 
         </LinearLayout>

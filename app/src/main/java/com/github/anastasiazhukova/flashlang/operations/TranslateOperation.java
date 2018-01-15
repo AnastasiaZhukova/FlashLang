@@ -8,8 +8,6 @@ import com.github.anastasiazhukova.lib.contracts.IOperation;
 
 public class TranslateOperation implements IOperation<ITranslation> {
 
-    private static final String LOG_TAG = TranslateOperation.class.getSimpleName();
-
     private final ITranslationRequest mRequest;
 
     public TranslateOperation(final ITranslationRequest pRequest) {

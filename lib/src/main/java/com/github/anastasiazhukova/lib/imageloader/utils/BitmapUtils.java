@@ -65,7 +65,7 @@ public final class BitmapUtils {
     public static Bitmap getRoundBitmap(final Bitmap pBitmap) {
         final int width = pBitmap.getWidth();
         final int height = pBitmap.getHeight();
-        int radius = calculateRadius(width, height);
+        final int radius = calculateRadius(width, height);
         final Bitmap output = Bitmap.createBitmap(radius,
                 radius, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);

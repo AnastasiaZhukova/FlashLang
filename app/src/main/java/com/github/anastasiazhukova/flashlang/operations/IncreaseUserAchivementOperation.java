@@ -22,7 +22,7 @@ public class IncreaseUserAchivementOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final List<User> users = IDbTableConnector.Companion.getInstance().get(User.DbKeys.TABLE_NAME, new User.CursorConverter(), null, new User.ByIdSelector(mUserId));
         if (users != null && !users.isEmpty()) {
             final User user = users.get(0);

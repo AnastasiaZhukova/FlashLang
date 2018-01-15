@@ -4,6 +4,6 @@ import java.util.concurrent.ExecutorService;
 
 interface IExecutorServiceFactory {
 
-    ExecutorService getExecutorService(IExecutorServiceConfig pConfig) throws Exception;
+    ExecutorService getExecutorService(IExecutorServiceConfig pConfig);
 
 }

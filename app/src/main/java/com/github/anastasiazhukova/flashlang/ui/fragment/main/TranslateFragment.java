@@ -42,9 +42,10 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
     private View mSwapLanguagesView;
     private View mTranslateButton;
     private String mTranslation;
+    private View mProgressBar;
 
     TranslateContract.Presenter mPresenter;
-    private AlertDialog mAlertDialog;
+    private AlertDialog mChooseLanguageDialog;
 
     public TranslateFragment() {
     }
@@ -100,6 +101,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
         mSourceEditText = mView.findViewById(R.id.source_text_edit_text);
         mTranslatedTextView = mView.findViewById(R.id.translated_text_text_view);
         mTranslationViewContainer = mView.findViewById(R.id.translate_view_container);
+        mProgressBar = mView.findViewById(R.id.translate_progress_bar);
 
         initSourceEditText();
         initTranslationView();
@@ -163,11 +165,13 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
         showTranslationView(pTranslatedText);
         showSnackbar(R.string.card_saved_text);
         mTranslation = pTranslatedText;
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onTranslateError(final String pErrorMessage) {
         showTranslationError(pErrorMessage);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -195,26 +199,22 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
     public void onClick(final View v) {
         final int id = v.getId();
         switch (id) {
-            case R.id.source_languages_text_view: {
+            case R.id.source_languages_text_view:
                 showSourceLanguageDialog();
                 break;
-            }
-            case R.id.swap_languages_image_view: {
+            case R.id.swap_languages_image_view:
                 swapLanguages();
                 break;
-            }
-            case R.id.target_languages_text_view: {
+            case R.id.target_languages_text_view:
                 showTargetLanguageDialog();
                 break;
-            }
-            case R.id.translate_button: {
+            case R.id.translate_button:
+                mProgressBar.setVisibility(View.VISIBLE);
                 translate();
                 break;
-            }
-            case R.id.translation_close_image_view: {
+            case R.id.translation_close_image_view:
                 closeTranslation();
                 break;
-            }
         }
     }
 
@@ -237,7 +237,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
             public void onClick(final ILanguage pLanguage) {
                 mTargetLanguage = pLanguage;
                 mTargetLanguageTextView.setText(pLanguage.getLanguageName());
-                mAlertDialog.dismiss();
+                mChooseLanguageDialog.dismiss();
             }
 
         });
@@ -265,7 +265,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
             public void onClick(final ILanguage pLanguage) {
                 mSourceLanguage = pLanguage;
                 mSourceLanguageTextView.setText(pLanguage.getLanguageName());
-                mAlertDialog.dismiss();
+                mChooseLanguageDialog.dismiss();
             }
         });
     }
@@ -297,7 +297,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
         Snackbar.make(mView, pStringResId, Snackbar.LENGTH_SHORT).show();
     }
 
-    private void showSnackbar(final String pString) {
+    private void showSnackbar(final CharSequence pString) {
         Snackbar.make(mView, pString, Snackbar.LENGTH_SHORT).show();
     }
 
@@ -306,9 +306,8 @@ public class TranslateFragment extends Fragment implements View.OnClickListener,
         final LanguagesDialogBuilder builder = new LanguagesDialogBuilder(this.getContext());
         builder.setLanguages(languages);
         builder.setChoiceCallback(pCallback);
-        builder.initView();
-        mAlertDialog = builder.create();
-        mAlertDialog.show();
+        mChooseLanguageDialog = builder.create();
+        mChooseLanguageDialog.show();
     }
 
     @Override

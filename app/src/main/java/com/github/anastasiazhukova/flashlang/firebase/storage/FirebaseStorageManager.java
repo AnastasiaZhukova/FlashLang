@@ -66,7 +66,7 @@ public class FirebaseStorageManager implements IFirebaseStorageManager {
 
     private class LoadOnCompleteListener implements OnCompleteListener<UploadTask.TaskSnapshot> {
 
-        ILoadListener mLoadListener;
+        final ILoadListener mLoadListener;
 
         public LoadOnCompleteListener(final ILoadListener pLoadListener) {
             mLoadListener = pLoadListener;

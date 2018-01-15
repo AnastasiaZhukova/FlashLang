@@ -21,10 +21,10 @@ public class LoadCardsListOperation implements IOperation<List<Card>> {
     }
 
     @Override
-    public List<Card> perform() throws Exception {
+    public List<Card> perform() {
         final String collectionId = OperationUtils.getCollectionId(mUserId, mSourceLanguageKey, mTargetLanguageKey);
         if (collectionId != null) {
-            List<Card> cards = IDbTableConnector.Companion.getInstance().get(Card.DbKeys.TABLE_NAME, new Card.CursorConverter(),
+            final List<Card> cards = IDbTableConnector.Companion.getInstance().get(Card.DbKeys.TABLE_NAME, new Card.CursorConverter(),
                     null,
                     new Collection.ByOwnerIdSelector(collectionId));
             return cards;

@@ -13,7 +13,7 @@ import java.util.List;
 public class LoadUserInfoOperation implements IOperation<User> {
 
     @Override
-    public User perform() throws Exception {
+    public User perform() {
         final FirebaseUser currentUser = FirebaseUserManager.Impl.Companion.getInstance()
                 .getCurrentUser();
         if (currentUser == null) {

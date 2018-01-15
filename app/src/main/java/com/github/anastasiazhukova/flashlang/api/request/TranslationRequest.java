@@ -10,7 +10,7 @@ public class TranslationRequest implements ITranslationRequest {
 
     private final String mApiKey;
 
-    public TranslationRequest(TranslationRequestBuilder pBuilder) {
+    TranslationRequest(final TranslationRequestBuilder pBuilder) {
         mInputText = pBuilder.getInputText();
         mSourceLanguage = pBuilder.getSourceLanguageKey();
         mTargetLanguage = pBuilder.getTargetLanguageKey();

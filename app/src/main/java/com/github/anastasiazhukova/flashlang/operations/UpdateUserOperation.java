@@ -15,7 +15,7 @@ public class UpdateUserOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final Selector byIdSelector = new User.ByIdSelector(mUser.getId());
         IDbTableConnector.Companion.getInstance().update(mUser, byIdSelector);
         IFirebaseDbConnector.Impl.Companion.getInstance().update(mUser, byIdSelector);

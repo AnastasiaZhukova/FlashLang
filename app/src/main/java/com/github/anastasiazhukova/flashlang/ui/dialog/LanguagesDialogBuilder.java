@@ -19,7 +19,7 @@ public class LanguagesDialogBuilder extends AlertDialog.Builder {
 
     private List<ILanguage> mLanguages;
     private IRecycleClickCallback<ILanguage> mCallback;
-    private Context mContext;
+    private final Context mContext;
     private RecyclerView mRecyclerView;
     private View mView;
 
@@ -50,18 +50,9 @@ public class LanguagesDialogBuilder extends AlertDialog.Builder {
         mCallback = pCallback;
     }
 
-    public LanguagesDialogBuilder initView() {
-        this.setView(mView);
-        return this;
-    }
-
-    @Override
-    public AlertDialog.Builder setView(final View view) {
-        return super.setView(view);
-    }
-
     @Override
     public AlertDialog create() {
+        this.setView(mView);
         final LanguagesDialogRecyclerViewAdapter adapter = new LanguagesDialogRecyclerViewAdapter(mLanguages, mCallback);
         mRecyclerView.setAdapter(adapter);
         return super.create();

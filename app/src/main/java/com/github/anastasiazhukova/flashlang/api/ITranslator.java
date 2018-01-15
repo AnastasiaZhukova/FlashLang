@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ITranslator {
 
-    ITranslation translate(ITranslationRequest pRequest) throws IOException, Exception;
+    ITranslation translate(ITranslationRequest pRequest) throws Exception;
 
     List<ILanguage> getSupportedLanguages() throws RuntimeException;
 

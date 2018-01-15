@@ -101,9 +101,8 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     public void onClick(final View v) {
         final int id = v.getId();
         switch (id) {
-            case R.id.source_language_image_view: {
+            case R.id.source_language_image_view:
                 mListener.onBackClick();
-            }
         }
     }
 
@@ -124,7 +123,7 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
                     .from(mSourceLanguageImage)
                     .setErrorImage(DrawableUtils.bitmapFromDrawable(R.drawable.moon))
                     .load();
-        } catch (Exception pE) {
+        } catch (final Exception ignored) {
         }
     }
 
@@ -175,15 +174,12 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     public int getOrientation() {
         final int orientation = SystemConfigUtils.gerOrientation();
         switch (orientation) {
-            case Configuration.ORIENTATION_PORTRAIT: {
+            case Configuration.ORIENTATION_PORTRAIT:
                 return LinearLayoutManager.VERTICAL;
-            }
-            case Configuration.ORIENTATION_LANDSCAPE: {
+            case Configuration.ORIENTATION_LANDSCAPE:
                 return LinearLayoutManager.HORIZONTAL;
-            }
-            default: {
+            default:
                 return LinearLayoutManager.VERTICAL;
-            }
         }
 
     }
@@ -206,7 +202,7 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
         super.onDestroy();
     }
 
-    private void showError(String pMessage) {
+    private void showError(final CharSequence pMessage) {
         Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
                 .show();
     }

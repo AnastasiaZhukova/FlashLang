@@ -2,6 +2,7 @@ package com.github.anastasiazhukova.flashlang.dbTest;
 
 import com.github.anastasiazhukova.flashlang.BuildConfig;
 import com.github.anastasiazhukova.flashlang.TestConstants;
+import com.github.anastasiazhukova.flashlang.db.IDbModel;
 import com.github.anastasiazhukova.flashlang.db.connector.DbTableConnector;
 import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.mocks.TestApplication;
@@ -76,7 +77,7 @@ public class DbConnectorTest {
     @Test
     public void update() {
         bulkInsert();
-        final TestModel model = new TestModel("1", "NEW STRING");
+        final IDbModel model = new TestModel("1", "NEW STRING");
         final boolean updated = mDbTableConnector.update(model, new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(updated);
     }

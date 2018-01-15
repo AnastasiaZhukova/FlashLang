@@ -14,7 +14,7 @@ public class UploadCollectionToDbOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         IDbTableConnector.Companion.getInstance().insert(mCollection);
         IFirebaseDbConnector.Impl.Companion.getInstance().insert(mCollection);
         return null;

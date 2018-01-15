@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorIrisBlue">#0BB2C8</color>
     <color name="colorBlack">#000c09</color>
-    <color name="colorCyprus">#0d3b41</color>
     <color name="colorPlatinum">#E5E5E5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDarkTangerine">#FCA311</color>
     <color name="colorDarkTangerineTransparent95">#F2FCA311</color>
-    <color name="colorMidnightPurple">#201549</color>
-    <color name="colorMidnightBlue">#1B1C51</color>
     <color name="colorBeautifulPurple">#482f77</color>
     <color name="colorBeautifulPurpleTransparent50">#80482f77</color>
-    <color name="colorBeautifulPurpleTransparent80">#CC482f77</color>
-    <color name="colorPlatinumTransparent80">#CCE5E5E5</color>
-    <color name="colorPurple">#610E50</color>
 </resources>

@@ -60,14 +60,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(final View pView) {
         final int id = pView.getId();
         switch (id) {
-            case R.id.textView_signin: {
+            case R.id.textView_signin:
                 mViewPager.setCurrentItem(ViewConstants.Auth.SIGN_IN_POSITION);
                 break;
-            }
-            case R.id.textView_signup: {
+            case R.id.textView_signup:
                 mViewPager.setCurrentItem(ViewConstants.Auth.SIGN_UP_POSITION);
                 break;
-            }
         }
 
     }

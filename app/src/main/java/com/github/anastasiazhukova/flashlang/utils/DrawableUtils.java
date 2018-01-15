@@ -5,9 +5,9 @@ import android.graphics.drawable.BitmapDrawable;
 
 import com.github.anastasiazhukova.lib.context.ContextHolder;
 
-public class DrawableUtils {
+public final class DrawableUtils {
 
-    public static Bitmap bitmapFromDrawable(int pId) {
+    public static Bitmap bitmapFromDrawable(final int pId) {
         return ((BitmapDrawable) ContextHolder.getContext().getResources().getDrawable(pId)).getBitmap();
     }
 

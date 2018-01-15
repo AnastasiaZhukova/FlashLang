@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<String> getFragmentsNames() {
-        //todo add more fragments
         final List<String> names = new ArrayList<>();
         names.add(BaseCollectionFragment.class.getName());
         names.add(TranslateFragment.class.getName());

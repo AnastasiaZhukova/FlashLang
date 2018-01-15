@@ -30,7 +30,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testTranslationParser() throws IOException {
+    public void testTranslationParser() {
 
         final TranslationParser translationParser = new TranslationParser();
         final ITranslationResponse[] firstObjects = translationParser.convert(mFirstResource);

@@ -27,13 +27,11 @@ public class TranslatePresenter implements TranslateContract.Presenter {
     private static final String LOG_TAG = TranslatePresenter.class.getSimpleName();
 
     private TranslateContract.View mView;
-    private final UiPublisher mUiPublisher;
     private String mApiKey;
     private List<ILanguage> mSupportedLanguages;
     private final IThreadingManager mThreadingManager;
 
     public TranslatePresenter() {
-        mUiPublisher = new UiPublisher();
         mThreadingManager = ThreadingManager.Imlp.getThreadingManager();
     }
 

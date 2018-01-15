@@ -15,7 +15,7 @@ public class DeleteCollectionOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final Selector selector = new Collection.ByIdSelector(mCollectionId);
         IDbTableConnector.Companion.getInstance().delete(Collection.DbKeys.TABLE_NAME, selector);
         IFirebaseDbConnector.Impl.Companion.getInstance().delete(Collection.DbKeys.TABLE_NAME, selector);

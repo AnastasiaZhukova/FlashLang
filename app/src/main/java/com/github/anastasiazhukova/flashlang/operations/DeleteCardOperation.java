@@ -22,7 +22,7 @@ public class DeleteCardOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         final String collectionId = mCard.getOwnerId();
         removeCard(mCard);
         if (OperationUtils.isCollectionEmpty(collectionId)) {

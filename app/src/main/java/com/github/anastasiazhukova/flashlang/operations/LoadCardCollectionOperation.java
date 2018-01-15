@@ -21,7 +21,7 @@ public class LoadCardCollectionOperation implements IOperation<Cursor> {
     }
 
     @Override
-    public Cursor perform() throws Exception {
+    public Cursor perform() {
         final String collectionId = OperationUtils.getCollectionId(mUserId, mSourceLanguageKey, mTargetLanguageKey);
         if (collectionId != null) {
             final Cursor cursor = IDbTableConnector.Companion.getInstance().get(Card.DbKeys.TABLE_NAME, null,

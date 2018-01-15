@@ -13,7 +13,7 @@ public class CardWithImageViewHolder extends BaseCardViewHolder {
 
     private static final String LOG_TAG = CardWithImageViewHolder.class.getSimpleName();
 
-    private ImageView mImageView;
+    private final ImageView mImageView;
 
     public CardWithImageViewHolder(final View pItemView, final RecyclerClickListener pClickListener) {
         super(pItemView, pClickListener);
@@ -29,7 +29,7 @@ public class CardWithImageViewHolder extends BaseCardViewHolder {
                     .from(pCard.getPictureUrl())
                     .to(mImageView)
                     .load();
-        } catch (Exception pE) {
+        } catch (final Exception pE) {
             Log.e(LOG_TAG, "setInfo: ", pE);
         }
     }

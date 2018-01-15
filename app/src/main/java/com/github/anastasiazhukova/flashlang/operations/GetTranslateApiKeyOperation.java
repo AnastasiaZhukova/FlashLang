@@ -20,7 +20,7 @@ public class GetTranslateApiKeyOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         //noinspection unchecked
         IFirebaseDbConnector.Impl.Companion.getInstance()
                 .query()

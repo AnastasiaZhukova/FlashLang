@@ -20,7 +20,7 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     private UserInfoContract.View mView;
     private User mUser;
-    private UiPublisher mPublisher;
+    private final UiPublisher mPublisher;
 
     public UserInfoPresenter() {
         mPublisher = new UiPublisher();

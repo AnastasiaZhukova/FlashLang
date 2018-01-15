@@ -23,6 +23,8 @@ public class BaseCollectionFragment extends Fragment {
     FragmentManager mFragmentManager;
     private SourceLanguagesCollectionFragment mFragment;
     private int mCollectionContainer;
+    private TargetLanguagesCollectionFragment mTargetLanguagesFragment;
+    private CardCollectionFragment mCardCollectionFragment;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -56,13 +58,15 @@ public class BaseCollectionFragment extends Fragment {
     }
 
     private void loadSourceLanguagesFragment() {
-        SourceLanguagesCollectionFragment fragment = (SourceLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (fragment == null) {
-            fragment = new SourceLanguagesCollectionFragment();
-            transaction.add(fragment, ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
+        if (mFragment == null) {
+            mFragment= (SourceLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
+            if (mFragment == null) {
+                mFragment = new SourceLanguagesCollectionFragment();
+                transaction.add(mFragment, ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
+            }
         }
-        fragment.setChildFragmentListener(new IChildFragmentListener<ICollection>() {
+        mFragment.setChildFragmentListener(new IChildFragmentListener<ICollection>() {
 
             @Override
             public void onItemClick(final ICollection pElement) {
@@ -76,23 +80,25 @@ public class BaseCollectionFragment extends Fragment {
             }
         });
 
-        transaction.replace(mCollectionContainer, fragment)
-                .commit();
+        //transaction.commitNowAllowingStateLoss();
+        transaction.replace(mCollectionContainer, mFragment).commit();
 
     }
 
     private void loadTargetLanguagesFragment(final ICollection pSourceCollection) {
-        TargetLanguagesCollectionFragment fragment = (TargetLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (fragment == null) {
-            fragment = new TargetLanguagesCollectionFragment();
-            transaction.add(fragment, ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
+        if (mTargetLanguagesFragment == null) {
+            mTargetLanguagesFragment= (TargetLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
+            if (mTargetLanguagesFragment == null) {
+                mTargetLanguagesFragment = new TargetLanguagesCollectionFragment();
+                transaction.add(mTargetLanguagesFragment, ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
+            }
         }
         final Bundle args = new Bundle();
         args.putString(ViewConstants.Collection.ARGS_SOURCE_LANGUAGE_KEY, pSourceCollection.getSourceLanguage());
         args.putString(ViewConstants.Collection.ARGS_SOURCE_COVER_KEY, pSourceCollection.getSourceLanguageCover());
-        fragment.setArguments(args);
-        fragment.setChildFragmentListener(new IChildFragmentListener<ICollection>() {
+        mTargetLanguagesFragment.setArguments(args);
+        mTargetLanguagesFragment.setChildFragmentListener(new IChildFragmentListener<ICollection>() {
 
             @Override
             public void onItemClick(final ICollection pElement) {
@@ -104,44 +110,40 @@ public class BaseCollectionFragment extends Fragment {
                 loadSourceLanguagesFragment();
             }
         });
-        transaction.replace(mCollectionContainer, fragment).commit();
+        //transaction.commitNowAllowingStateLoss();
+        transaction.replace(mCollectionContainer, mTargetLanguagesFragment).commit();
     }
 
     private void loadCardsCollectionFragment(final ICollection pCollection) {
-        CardCollectionFragment fragment = (CardCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (fragment == null) {
-            fragment = new CardCollectionFragment();
-            transaction.add(fragment, ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+        if (mCardCollectionFragment == null) {
+            mCardCollectionFragment= (CardCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+            if (mCardCollectionFragment == null) {
+                mCardCollectionFragment = new CardCollectionFragment();
+                transaction.add(mCardCollectionFragment, ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+            }
         }
         final Bundle args = new Bundle();
         args.putString(ViewConstants.Collection.ARGS_SOURCE_LANGUAGE_KEY, pCollection.getSourceLanguage());
         args.putString(ViewConstants.Collection.ARGS_SOURCE_COVER_KEY, pCollection.getSourceLanguageCover());
         args.putString(ViewConstants.Collection.ARGS_TARGET_LANGUAGE_KEY, pCollection.getTargetLanguage());
         args.putString(ViewConstants.Collection.ARGS_TARGET_COVER_KEY, pCollection.getTargetLanguageCover());
-        fragment.setArguments(args);
-        fragment.setChildFragmentListener(new IChildFragmentListener<ICard>() {
+        mCardCollectionFragment.setArguments(args);
+        mCardCollectionFragment.setChildFragmentListener(new IChildFragmentListener<ICard>() {
 
             @Override
             public void onItemClick(final ICard pElement) {
                 Log.d(LOG_TAG, "onItemClick() called with: pElement = [" + pElement + "]");
                 //todo
-            }
+        }
 
             @Override
             public void onBackClick() {
                 loadTargetLanguagesFragment(pCollection);
             }
         });
-        transaction.replace(mCollectionContainer, fragment).commit();
-
-    }
-
-    private void startCardsGameActivity() {
-
-    }
-
-    private void startEditCardActivity(final ICard pCard) {
+        //transaction.commitNowAllowingStateLoss();
+        transaction.replace(mCollectionContainer, mCardCollectionFragment).commit();
 
     }
 

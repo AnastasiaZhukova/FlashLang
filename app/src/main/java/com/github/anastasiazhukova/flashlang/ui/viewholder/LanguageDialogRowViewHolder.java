@@ -10,7 +10,7 @@ import com.github.anastasiazhukova.flashlang.ui.domain.RecyclerClickListener;
 
 public class LanguageDialogRowViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mLanguageName;
+    public final TextView mLanguageName;
 
     public LanguageDialogRowViewHolder(final View pItemView, final RecyclerClickListener pClickListener) {
         super(pItemView);

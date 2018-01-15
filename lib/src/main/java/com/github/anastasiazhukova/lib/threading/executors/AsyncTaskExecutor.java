@@ -105,6 +105,7 @@ public class AsyncTaskExecutor implements IExecutor {
                 mCallback.onError((Throwable) pO);
             } else {
                 try {
+                    //noinspection unchecked
                     final Result result = (Result) pO;
                     mCallback.onSuccess(result);
                 } catch (final Exception pE) {

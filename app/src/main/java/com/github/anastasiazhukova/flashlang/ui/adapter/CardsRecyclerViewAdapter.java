@@ -27,15 +27,10 @@ public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewH
 
     public void setData(final List<ICard> pCardList) {
         mCardList = pCardList;
-        for (ICard card :
-                pCardList) {
-            Log.d(LOG_TAG, "setData: "+card.getSourceText());
-
-        }
         notifyDataSetChanged();
     }
 
-    public void setRecyclerClickListener(RecyclerClickListener pListener){
+    public void setRecyclerClickListener(final RecyclerClickListener pListener){
         mListener=pListener;
     }
 
@@ -45,22 +40,19 @@ public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewH
     }
 
     private BaseCardViewHolder getCardViewHolder(final ViewGroup pParent, final int pViewType) {
-        int viewId;
+        final int viewId;
         switch (pViewType) {
-            case CardType.NO_IMAGE: {
+            case CardType.NO_IMAGE:
                 Log.d(LOG_TAG, "getCardViewHolder: NO IMAGE");
                 viewId = R.layout.card_view_no_image;
                 break;
-            }
-            case CardType.WITH_IMAGE: {
+            case CardType.WITH_IMAGE:
                 Log.d(LOG_TAG, "getCardViewHolder: IMAGE");
                 viewId = R.layout.card_view_with_image;
                 final View view = LayoutInflater.from(pParent.getContext()).inflate(viewId, pParent, false);
                 return new CardWithImageViewHolder(view, mListener);
-            }
-            default: {
+            default:
                 viewId = R.layout.card_view_no_image;
-            }
         }
         final View view = LayoutInflater.from(pParent.getContext()).inflate(viewId, pParent, false);
         return new BaseCardViewHolder(view, mListener);

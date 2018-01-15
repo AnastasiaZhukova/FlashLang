@@ -15,7 +15,7 @@ public class GetLanguageCoverUrlOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
         IFirebaseStorageManager.Impl.getInstance()
                 .getImageUrl(Constants.FirebaseStorage.LANGUAGES_IMAGE_FOLDER_NAME, mLanguageKey, mListener);
         return null;

@@ -13,7 +13,7 @@ public final class LanguageUtils {
     }
 
     public static String getLanguageName(final String pLanguageKey) {
-        Context context = ContextHolder.getContext();
+        final Context context = ContextHolder.getContext();
         return getLanguageName(context, pLanguageKey);
     }
 }

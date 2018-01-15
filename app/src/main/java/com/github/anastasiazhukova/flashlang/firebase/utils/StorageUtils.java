@@ -7,11 +7,11 @@ import com.github.anastasiazhukova.flashlang.Constants;
 
 import java.io.ByteArrayOutputStream;
 
-public class StorageUtils {
+public final class StorageUtils {
 
     @NonNull
     public static String getChildReference(final String pCollectionName, final String pPicName) {
-        String picFormat;
+        final String picFormat;
         if (pCollectionName.equals(Constants.FirebaseStorage.LANGUAGES_IMAGE_FOLDER_NAME)) {
             picFormat = Constants.FirebaseStorage.LANGUAGE_IMAGE_FORMAT;
         } else {

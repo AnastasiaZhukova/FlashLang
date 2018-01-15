@@ -26,7 +26,7 @@ public class UploadUserImageOperation implements IOperation<Void> {
     }
 
     @Override
-    public Void perform() throws Exception {
+    public Void perform() {
 
         if (mDrawable == null) {
             return null;
