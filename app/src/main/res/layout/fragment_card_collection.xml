@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
-            android:padding="16dp"
+            android:padding="8dp"
             android:text="@string/let_s_play"
             android:textSize="20sp"
             android:textStyle="bold"/>

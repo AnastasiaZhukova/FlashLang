@@ -111,6 +111,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         switch (id) {
             case R.id.target_language_image_view: {
                 mListener.onBackClick();
+                break;
             }
             case R.id.play_text_view: {
                 startGameActivity();
