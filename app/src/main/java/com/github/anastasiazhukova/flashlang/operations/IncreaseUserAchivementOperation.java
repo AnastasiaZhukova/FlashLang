@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.flashlang.operations;
 
+import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
@@ -27,14 +28,19 @@ public class IncreaseUserAchivementOperation implements IOperation<Void> {
             final User user = users.get(0);
             user.increaseConnectionCount(mConnectionsCount);
             user.increaseWordCount(mWordsCount);
-            updateUser(user);
+            updateUserInDb(user);
+            updateCurrentUser(user);
         }
         return null;
     }
 
-    private void updateUser(final User pUser) {
+    private void updateUserInDb(final User pUser) {
         final IOperation updateUserOperation = new UpdateUserOperation(pUser);
         ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD)
                 .execute(updateUserOperation);
+    }
+
+    private void updateCurrentUser(final User pUser) {
+        UserManager.setCurrentUser(pUser);
     }
 }

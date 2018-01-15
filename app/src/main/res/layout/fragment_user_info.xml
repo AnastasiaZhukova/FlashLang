@@ -42,7 +42,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/total_languages_text_view"
+                android:id="@+id/total_connections_text_view"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -54,12 +54,12 @@
                 tools:text="8888"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="@string/total_languages"
+                android:text="@string/total_connections"
                 android:textSize="16sp"/>
 
         </LinearLayout>
@@ -100,6 +100,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

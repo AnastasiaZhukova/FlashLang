@@ -2,8 +2,10 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 
 import android.graphics.drawable.Drawable;
 
+import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
+import com.github.anastasiazhukova.flashlang.firebase.auth.FirebaseUserManager;
 import com.github.anastasiazhukova.flashlang.operations.LoadUserInfoOperation;
 import com.github.anastasiazhukova.flashlang.operations.UploadUserImageOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.UserInfoContract;
@@ -51,6 +53,12 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                 publishUserInfoLoadError(pThrowable);
             }
         });
+    }
+
+    @Override
+    public void logout() {
+        UserManager.setCurrentUser(null);
+        FirebaseUserManager.Impl.Companion.getInstance().singOut();
     }
 
     @Override

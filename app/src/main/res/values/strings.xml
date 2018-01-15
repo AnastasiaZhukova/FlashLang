@@ -13,7 +13,7 @@
     <string name="password_hint">Password</string>
     <string name="new_card_added">New card added!</string>
     <string name="log_out_button_text">I wanna leave this planet</string>
-    <string name="total_languages">Languages</string>
+    <string name="total_connections">Connections</string>
     <string name="total_words">Words</string>
     <string name="source_word">Source word</string>
     <string name="translated_word">Translated word</string>

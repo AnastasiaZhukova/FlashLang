@@ -14,6 +14,7 @@ import com.github.anastasiazhukova.flashlang.operations.LoadUserInfoOperation;
 import com.github.anastasiazhukova.flashlang.ui.adapter.ScrollPagerAdapter;
 import com.github.anastasiazhukova.flashlang.ui.domain.ScrollPageListener;
 import com.github.anastasiazhukova.flashlang.ui.fragment.main.TranslateFragment;
+import com.github.anastasiazhukova.flashlang.ui.fragment.main.UserInfoFragment;
 import com.github.anastasiazhukova.flashlang.ui.fragment.main.collection.BaseCollectionFragment;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 
@@ -58,15 +59,19 @@ public class MainActivity extends AppCompatActivity {
         final ViewPager.OnPageChangeListener scrollPageListener = new ScrollPageListener(mViewPager, scrollView, background);
         mViewPager.addOnPageChangeListener(scrollPageListener);
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     private List<String> getFragmentsNames() {
         //todo add more fragments
         final List<String> names = new ArrayList<>();
-        names.add(TranslateFragment.class.getName());
         names.add(BaseCollectionFragment.class.getName());
+        names.add(TranslateFragment.class.getName());
+        names.add(UserInfoFragment.class.getName());
         return names;
     }
+
+
 
 }
 

@@ -2,12 +2,15 @@ package com.github.anastasiazhukova.flashlang;
 
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 
-public class UserManager {
+public final class UserManager {
 
     private static User sCurrentUser;
+    private static final Object lock = new Object();
 
     public static User getCurrentUser() {
-        return sCurrentUser;
+        synchronized (lock) {
+            return sCurrentUser;
+        }
     }
 
     public static void setCurrentUser(final User pUser) {

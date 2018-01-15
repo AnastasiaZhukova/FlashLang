@@ -7,6 +7,7 @@
 
 
     <LinearLayout
+        android:tag="takephoto"
         android:id="@+id/take_photo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
         android:background="@color/colorBeautifulPurple"/>
 
     <LinearLayout
+        android:tag="choosephoto"
         android:id="@+id/choose_photo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/languages_collection_margin"/>
+            android:layout_marginTop="@dimen/languages_collection_margin"
+            android:paddingBottom="16dp"/>
 
 
     </FrameLayout>

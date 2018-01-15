@@ -23,6 +23,8 @@ public interface UserInfoContract {
 
         void getUser();
 
+        void logout();
+
         void uploadImage();
 
     }
