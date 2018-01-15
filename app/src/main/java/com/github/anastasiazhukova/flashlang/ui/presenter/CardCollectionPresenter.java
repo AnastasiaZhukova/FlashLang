@@ -18,7 +18,7 @@ public class CardCollectionPresenter implements CardCollectionContract.Presenter
 
     @Override
     public void attachView(CardCollectionContract.View pView) {
-        pView = mView;
+        mView = pView;
     }
 
     @Override

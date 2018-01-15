@@ -12,20 +12,16 @@ import com.github.anastasiazhukova.flashlang.domain.models.card.ICard;
 import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.domain.RecyclerClickListener;
 import com.github.anastasiazhukova.flashlang.ui.viewholder.BaseCardViewHolder;
-import com.github.anastasiazhukova.flashlang.ui.viewholder.CardWithImageViewHolder;
-import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
-public class CardsRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseCardViewHolder> implements RecyclerClickListener {
-
-    private static final String LOG_TAG = CardsRecyclerViewCursorAdapter.class.getSimpleName();
+public class CardRowRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseCardViewHolder> implements RecyclerClickListener {
 
     private Cursor mCursor;
     private final IRecycleClickCallback<ICard> mCallback;
     private final Card.CursorConverter mConverter;
     private CardItemType mItemType;
 
-    public CardsRecyclerViewCursorAdapter(final IRecycleClickCallback<ICard> pCallback) {
+    public CardRowRecyclerViewCursorAdapter(final IRecycleClickCallback<ICard> pCallback) {
         mCallback = pCallback;
         mConverter = new Card.CursorConverter();
     }
@@ -35,40 +31,8 @@ public class CardsRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseCar
         notifyDataSetChanged();
     }
 
-    public void setCardType(final CardItemType pCardType) {
-        mItemType = pCardType;
-    }
-
     @Override
     public BaseCardViewHolder onCreateViewHolder(final ViewGroup pParent, final int pViewType) {
-        if (mItemType == CardItemType.CARD) {
-            return getCardViewHolder(pParent, pViewType);
-        } else if (mItemType == CardItemType.ROW) {
-            return getCardRowViewHolder(pParent, pViewType);
-        }
-        return null;
-    }
-
-    private BaseCardViewHolder getCardViewHolder(final ViewGroup pParent, final int pViewType) {
-        int viewId;
-        switch (pViewType) {
-            case CardType.NO_IMAGE: {
-                viewId = R.layout.card_view_no_image;
-            }
-            case CardType.WITH_IMAGE: {
-                viewId = R.layout.card_view_with_image;
-                final View view = LayoutInflater.from(pParent.getContext()).inflate(viewId, pParent, false);
-                return new CardWithImageViewHolder(view, this);
-            }
-            default: {
-                viewId = R.layout.card_view_no_image;
-            }
-        }
-        final View view = LayoutInflater.from(pParent.getContext()).inflate(viewId, pParent, false);
-        return new BaseCardViewHolder(view, this);
-    }
-
-    private BaseCardViewHolder getCardRowViewHolder(final ViewGroup pParent, final int pViewType) {
         final int viewId = R.layout.card_row;
         final View view = LayoutInflater.from(pParent.getContext()).inflate(viewId, pParent, false);
         return new BaseCardViewHolder(view, this);
@@ -88,7 +52,6 @@ public class CardsRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseCar
         if (mCursor == null) {
             return 0;
         } else {
-            Log.d(LOG_TAG, "getItemCount: " + mCursor.getCount());
             return mCursor.getCount();
         }
     }
@@ -96,17 +59,6 @@ public class CardsRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseCar
     @Override
     public int getItemViewType(final int position) {
         return 0;
-        /*if (mCursor == null) {
-            return 0;
-        } else {
-            mCursor.move(position);
-            final Card card = mConverter.convert(mCursor);
-            if (StringUtils.isNullOrEmpty(card.getPictureUrl())) {
-                return CardType.NO_IMAGE;
-            } else {
-                return CardType.WITH_IMAGE;
-            }
-        }*/
     }
 
     @Override

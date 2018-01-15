@@ -6,21 +6,25 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.ICollection;
+import com.github.anastasiazhukova.flashlang.ui.ViewConstants;
 import com.github.anastasiazhukova.flashlang.ui.adapter.LanguageItemType;
 import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesRecyclerViewCursorAdapter;
 import com.github.anastasiazhukova.flashlang.ui.contract.TargetLanguagesCollectionContract;
 import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.presenter.TargetLanguagesCollectionPresenter;
 import com.github.anastasiazhukova.flashlang.utils.DrawableUtils;
+import com.github.anastasiazhukova.flashlang.utils.ResourceUtils;
 import com.github.anastasiazhukova.flashlang.utils.SystemConfigUtils;
 import com.github.anastasiazhukova.lib.imageloader.ILouvre;
 import com.github.anastasiazhukova.lib.logs.Log;
@@ -28,8 +32,8 @@ import com.github.anastasiazhukova.lib.logs.Log;
 public class TargetLanguagesCollectionFragment extends Fragment implements TargetLanguagesCollectionContract.View, View.OnClickListener {
 
     private static final String LOG_TAG = TargetLanguagesCollectionFragment.class.getSimpleName();
-    public static final String SOURCE_LANGUAGE_KEY = "sourcelangkey";
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private TargetLanguagesCollectionContract.Presenter mPresenter;
     private View mView;
     private ImageView mSourceLanguageImageView;
@@ -38,20 +42,13 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     private LanguagesRecyclerViewCursorAdapter mAdapter;
     private IChildFragmentListener<ICollection> mListener;
     private String mSourceLanguageKey;
+    private Bundle mArgs;
 
     public TargetLanguagesCollectionFragment() {
     }
 
     public void setChildFragmentListener(final IChildFragmentListener<ICollection> pListener) {
         mListener = pListener;
-    }
-
-    public void setSourceLanguageKey(final String pSourceLanguageKey) {
-        mSourceLanguageKey = pSourceLanguageKey;
-    }
-
-    public void setSourceLanguageImage(final String pUrl) {
-        mSourceLanguageImage = pUrl;
     }
 
     @Override
@@ -61,8 +58,14 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
         if (mPresenter == null) {
             mPresenter = new TargetLanguagesCollectionPresenter();
         }
-        if (savedInstanceState != null && mSourceLanguageKey == null) {
-            mSourceLanguageKey = savedInstanceState.getString(SOURCE_LANGUAGE_KEY);
+        if (mArgs == null && savedInstanceState != null) {
+            savedInstanceState.getBundle(ViewConstants.Collection.ARGS);
+        } else {
+            mArgs = getArguments();
+        }
+        if (mArgs != null) {
+            mSourceLanguageKey = mArgs.getString(ViewConstants.Collection.ARGS_SOURCE_LANGUAGE_KEY);
+            mSourceLanguageImage = mArgs.getString(ViewConstants.Collection.ARGS_SOURCE_COVER_KEY);
         }
     }
 
@@ -105,10 +108,12 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     }
 
     private void init() {
-        mRecyclerView = mView.findViewById(R.id.target_languages_recycler_view);
+        mSwipeRefreshLayout = mView.findViewById(R.id.swipe_refresh_layout);
+        mRecyclerView = mView.findViewById(R.id.card_collection_recycler_view);
         mSourceLanguageImageView = mView.findViewById(R.id.source_language_image_view);
         mSourceLanguageImageView.setOnClickListener(this);
         loadSourceImage();
+        initSwipeRefresh();
     }
 
     private void loadSourceImage() {
@@ -121,6 +126,16 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
                     .load();
         } catch (Exception pE) {
         }
+    }
+
+    private void initSwipeRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                mPresenter.load();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -147,12 +162,14 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
 
     @Override
     public void onLoaded(final Cursor pCursor) {
+        mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.setCursor(pCursor);
     }
 
     @Override
     public void onError(final String pErrorMessage) {
-        Log.d(LOG_TAG, "onError() called with: pErrorMessage = [" + pErrorMessage + "]");
+        mSwipeRefreshLayout.setRefreshing(false);
+        showError(ResourceUtils.getString(R.string.cant_load_data));
     }
 
     public int getOrientation() {
@@ -174,6 +191,23 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(SOURCE_LANGUAGE_KEY, mSourceLanguageKey);
+        outState.putBundle(ViewConstants.Collection.ARGS, mArgs);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mAdapter.release();
+    }
+
+    @Override
+    public void onDestroy() {
+        mAdapter.release();
+        super.onDestroy();
+    }
+
+    private void showError(String pMessage) {
+        Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
+                .show();
     }
 }

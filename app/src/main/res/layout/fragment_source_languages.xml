@@ -14,7 +14,7 @@
         tools:background="@color/colorDarkTangerine">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/target_languages_recycler_view"
+            android:id="@+id/card_collection_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"

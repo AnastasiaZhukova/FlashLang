@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.ID;
-import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.LANGUAGES_COUNT;
+import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.CONNECTIONS_COUNT;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.NAME;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.PICTURE;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.TABLE_NAME;
@@ -52,9 +52,9 @@ public class User implements IUser, IDbModel<String> {
     @PropertyName(WORDS_COUNT)
     private int mTotalWords;
 
-    @dbInteger(name = LANGUAGES_COUNT)
-    @PropertyName(LANGUAGES_COUNT)
-    private int mTotalLanguages;
+    @dbInteger(name = CONNECTIONS_COUNT)
+    @PropertyName(CONNECTIONS_COUNT)
+    private int mTotalConnections;
 
     public User(final UserInfo pUser) {
         mId = pUser.getUid();
@@ -70,7 +70,7 @@ public class User implements IUser, IDbModel<String> {
         mName = pUserBuilder.getName();
         mPictureUrl = pUserBuilder.getPictureUrl();
         mTotalWords = pUserBuilder.getWordsCount();
-        mTotalLanguages = pUserBuilder.getLanguagesCount();
+        mTotalConnections = pUserBuilder.getLanguagesCount();
     }
 
     public void setName(final String pName) {
@@ -88,11 +88,11 @@ public class User implements IUser, IDbModel<String> {
         mTotalWords += pCount;
     }
 
-    public void increaseLanguagesCount(final int pCount) {
+    public void increaseConnectionCount(final int pCount) {
         if (pCount < 0) {
             throw new IllegalStateException("Count is negative");
         }
-        mTotalLanguages += pCount;
+        mTotalConnections += pCount;
     }
 
     @Override
@@ -116,8 +116,8 @@ public class User implements IUser, IDbModel<String> {
     }
 
     @Override
-    public int getLanguagesCount() {
-        return mTotalLanguages;
+    public int getConnectionCount() {
+        return mTotalConnections;
     }
 
     @Override
@@ -127,7 +127,7 @@ public class User implements IUser, IDbModel<String> {
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
         map.put(WORDS_COUNT, this.getWordCount());
-        map.put(LANGUAGES_COUNT, this.getLanguagesCount());
+        map.put(CONNECTIONS_COUNT, this.getConnectionCount());
         return map;
     }
 
@@ -137,7 +137,7 @@ public class User implements IUser, IDbModel<String> {
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
         map.put(WORDS_COUNT, this.getWordCount());
-        map.put(LANGUAGES_COUNT, this.getLanguagesCount());
+        map.put(CONNECTIONS_COUNT, this.getConnectionCount());
         return map;
     }
 
@@ -148,7 +148,7 @@ public class User implements IUser, IDbModel<String> {
         public static final String NAME = "name";
         public static final String PICTURE = "picture";
         public static final String WORDS_COUNT = "wordscount";
-        public static final String LANGUAGES_COUNT = "languagescount";
+        public static final String CONNECTIONS_COUNT = "connectionscount";
     }
 
     public static class CursorConverter implements ICursorConverter<User> {
@@ -159,13 +159,13 @@ public class User implements IUser, IDbModel<String> {
             final String name = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.NAME));
             final String picture = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.PICTURE));
             final int words = pCursor.getInt(pCursor.getColumnIndex(DbKeys.WORDS_COUNT));
-            final int languages = pCursor.getInt(pCursor.getColumnIndex(DbKeys.LANGUAGES_COUNT));
+            final int connection = pCursor.getInt(pCursor.getColumnIndex(DbKeys.CONNECTIONS_COUNT));
 
             return new UserBuilder().setId(id)
                     .setName(name)
                     .setPictureUrl(picture)
                     .setWordsCount(words)
-                    .setLanguagesCount(languages)
+                    .setConnectionsCount(connection)
                     .createUser();
         }
     }
@@ -179,12 +179,12 @@ public class User implements IUser, IDbModel<String> {
             final String name = (String) pSnapshot.child(NAME).getValue();
             final String pic = (String) pSnapshot.child(PICTURE).getValue();
             final int words = (int) pSnapshot.child(WORDS_COUNT).getValue();
-            final int languages = (int) pSnapshot.child(LANGUAGES_COUNT).getValue();
+            final int connections = (int) pSnapshot.child(CONNECTIONS_COUNT).getValue();
             return new UserBuilder().setId(id)
                     .setName(name)
                     .setPictureUrl(pic)
                     .setWordsCount(words)
-                    .setLanguagesCount(languages)
+                    .setConnectionsCount(connections)
                     .createUser();
         }
     }

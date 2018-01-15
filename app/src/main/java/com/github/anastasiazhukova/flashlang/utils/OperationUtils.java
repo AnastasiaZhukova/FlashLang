@@ -7,7 +7,6 @@ import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IFirebaseDbConnector;
-import com.github.anastasiazhukova.flashlang.operations.CreateCollectionOperation;
 import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 import java.util.List;
@@ -33,8 +32,7 @@ public final class OperationUtils {
                         new Collection.ByTargetLanguageSelector(pTargetLanguage));
         if (collections != null && !collections.isEmpty()) {
             return collections.get(0).getId();
-        }
-        else {
+        } else {
             return null;
         }
     }

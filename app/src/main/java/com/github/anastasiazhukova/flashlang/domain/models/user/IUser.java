@@ -10,5 +10,5 @@ public interface IUser extends IIdentifiable<String> {
 
     int getWordCount();
 
-    int getLanguagesCount();
+    int getConnectionCount();
 }

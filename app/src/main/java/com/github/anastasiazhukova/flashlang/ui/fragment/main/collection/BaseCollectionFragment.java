@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.domain.models.card.ICard;
@@ -89,8 +88,10 @@ public class BaseCollectionFragment extends Fragment {
             fragment = new TargetLanguagesCollectionFragment();
             transaction.add(fragment, ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
         }
-        fragment.setSourceLanguageKey(pSourceCollection.getSourceLanguage());
-        fragment.setSourceLanguageImage(pSourceCollection.getSourceLanguageCover());
+        final Bundle args = new Bundle();
+        args.putString(ViewConstants.Collection.ARGS_SOURCE_LANGUAGE_KEY, pSourceCollection.getSourceLanguage());
+        args.putString(ViewConstants.Collection.ARGS_SOURCE_COVER_KEY, pSourceCollection.getSourceLanguageCover());
+        fragment.setArguments(args);
         fragment.setChildFragmentListener(new IChildFragmentListener<ICollection>() {
 
             @Override
@@ -103,12 +104,36 @@ public class BaseCollectionFragment extends Fragment {
                 loadSourceLanguagesFragment();
             }
         });
-        transaction.replace(mCollectionContainer, fragment)
-                .commit();
-
+        transaction.replace(mCollectionContainer, fragment).commit();
     }
 
     private void loadCardsCollectionFragment(final ICollection pCollection) {
+        CardCollectionFragment fragment = (CardCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+        final FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (fragment == null) {
+            fragment = new CardCollectionFragment();
+            transaction.add(fragment, ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+        }
+        final Bundle args = new Bundle();
+        args.putString(ViewConstants.Collection.ARGS_SOURCE_LANGUAGE_KEY, pCollection.getSourceLanguage());
+        args.putString(ViewConstants.Collection.ARGS_SOURCE_COVER_KEY, pCollection.getSourceLanguageCover());
+        args.putString(ViewConstants.Collection.ARGS_TARGET_LANGUAGE_KEY, pCollection.getTargetLanguage());
+        args.putString(ViewConstants.Collection.ARGS_TARGET_COVER_KEY, pCollection.getTargetLanguageCover());
+        fragment.setArguments(args);
+        fragment.setChildFragmentListener(new IChildFragmentListener<ICard>() {
+
+            @Override
+            public void onItemClick(final ICard pElement) {
+                Log.d(LOG_TAG, "onItemClick() called with: pElement = [" + pElement + "]");
+                //todo
+            }
+
+            @Override
+            public void onBackClick() {
+                loadTargetLanguagesFragment(pCollection);
+            }
+        });
+        transaction.replace(mCollectionContainer, fragment).commit();
 
     }
 

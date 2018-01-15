@@ -1,22 +1,24 @@
 package com.github.anastasiazhukova.flashlang.operations;
 
 import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.flashlang.firebase.db.connector.IFirebaseDbConnector;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 
-public class UploadUserToDbOperation implements IOperation<Void> {
+public class UpdateUserOperation implements IOperation<Void> {
 
     private final User mUser;
 
-    UploadUserToDbOperation(final User pUser) {
+    public UpdateUserOperation(final User pUser) {
         mUser = pUser;
     }
 
     @Override
     public Void perform() throws Exception {
-        IDbTableConnector.Companion.getInstance().insert(mUser);
-        IFirebaseDbConnector.Impl.Companion.getInstance().insert(mUser);
+        final Selector byIdSelector = new User.ByIdSelector(mUser.getId());
+        IDbTableConnector.Companion.getInstance().update(mUser, byIdSelector);
+        IFirebaseDbConnector.Impl.Companion.getInstance().update(mUser, byIdSelector);
         return null;
     }
 }

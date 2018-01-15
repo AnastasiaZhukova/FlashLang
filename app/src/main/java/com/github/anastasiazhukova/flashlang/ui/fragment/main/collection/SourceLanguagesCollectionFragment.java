@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.ICollection;
@@ -20,6 +21,7 @@ import com.github.anastasiazhukova.flashlang.ui.adapter.LanguagesRecyclerViewCur
 import com.github.anastasiazhukova.flashlang.ui.contract.SourceLanguagesCollectionContract;
 import com.github.anastasiazhukova.flashlang.ui.domain.IRecycleClickCallback;
 import com.github.anastasiazhukova.flashlang.ui.presenter.SourceLanguagesCollectionPresenter;
+import com.github.anastasiazhukova.flashlang.utils.ResourceUtils;
 import com.github.anastasiazhukova.flashlang.utils.SystemConfigUtils;
 import com.github.anastasiazhukova.lib.logs.Log;
 
@@ -37,7 +39,7 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     public SourceLanguagesCollectionFragment() {
     }
 
-    public void setChildFragmentListener(IChildFragmentListener<ICollection> pListener) {
+    public void setChildFragmentListener(final IChildFragmentListener<ICollection> pListener) {
         mListener = pListener;
     }
 
@@ -78,7 +80,7 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     }
 
     private void init() {
-        mRecyclerView = mView.findViewById(R.id.target_languages_recycler_view);
+        mRecyclerView = mView.findViewById(R.id.card_collection_recycler_view);
         mSwipeRefreshLayout = mView.findViewById(R.id.swipe_refresh_layout);
         initSwipeRefresh();
         initRecyclerView();
@@ -121,6 +123,8 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
 
     @Override
     public void onError(final String pErrorMessage) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        showError(ResourceUtils.getString(R.string.cant_load_data));
         Log.d(LOG_TAG, "onError() called with: pErrorMessage = [" + pErrorMessage + "]");
     }
 
@@ -140,4 +144,14 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
 
     }
 
+    @Override
+    public void onDestroy() {
+        mAdapter.release();
+        super.onDestroy();
+    }
+
+    private void showError(String pMessage) {
+        Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
+                .show();
+    }
 }

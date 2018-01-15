@@ -16,17 +16,19 @@ public class CreateCollectionOperation implements IOperation<String> {
     private final String mUserId;
     private final String mSourceLanguageKey;
     private final String mTargetLanguageKey;
-    private Collection mCollection;
+    private ICallback<String> mCallback;
 
-    public CreateCollectionOperation(final String pUserId, final String pSourceLanguageKey, final String pTargetLanguageKey) {
+    public CreateCollectionOperation(final String pUserId, final String pSourceLanguageKey, final String pTargetLanguageKey, final ICallback<String> pCallback) {
         mUserId = pUserId;
         mSourceLanguageKey = pSourceLanguageKey;
         mTargetLanguageKey = pTargetLanguageKey;
+        mCallback=pCallback;
     }
 
     @Override
     public String perform() throws Exception {
         final String id = OperationUtils.getIdForCollection();
+        mCallback.onSuccess(id);
         final CollectionBuilder collectionBuilder = new CollectionBuilder().setId(id)
                 .setOwnerId(mUserId)
                 .setSourceLanguage(mSourceLanguageKey)

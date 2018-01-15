@@ -24,4 +24,6 @@
     <string name="card_saved_text">Card saved :)</string>
     <string name="from">FROM</string>
     <string name="to">TO</string>
+    <string name="let_s_play">Let\'s play</string>
+    <string name="cant_load_data">Can\'t load data :(</string>
 </resources>

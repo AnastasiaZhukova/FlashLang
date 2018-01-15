@@ -19,16 +19,14 @@ public interface ViewConstants {
         public static final String SOURCE_COLLECTION_FRAGMENT_TAG = "sourcecollection";
         public static final String TARGET_COLLECTION_FRAGMENT_TAG = "targetcollection";
         public static final String CARDS_COLLECTION_FRAGMENT_TAG = "cardscollection";
+
+        public static final String ARGS = "args";
+
+        public static final String ARGS_SOURCE_LANGUAGE_KEY = "sourcelang";
+        public static final String ARGS_SOURCE_COVER_KEY = "sourcecover";
+        public static final String ARGS_TARGET_LANGUAGE_KEY = "targetlang";
+        public static final String ARGS_TARGET_COVER_KEY = "targetcover";
     }
 
-    final class TargetCollection {
-
-        public static final String SOURCE_LANGUAGE_KEY = "sourcelanguage";
-    }
-
-    final class CardsCollection {
-
-        public static final String COLLECTION_ID_KEY = "collectionid";
-    }
 
 }

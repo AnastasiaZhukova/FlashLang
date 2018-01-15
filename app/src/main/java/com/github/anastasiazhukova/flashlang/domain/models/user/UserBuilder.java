@@ -30,7 +30,7 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder setLanguagesCount(final int pLanguagesCount) {
+    public UserBuilder setConnectionsCount(final int pLanguagesCount) {
         mLanguagesCount = pLanguagesCount;
         return this;
     }

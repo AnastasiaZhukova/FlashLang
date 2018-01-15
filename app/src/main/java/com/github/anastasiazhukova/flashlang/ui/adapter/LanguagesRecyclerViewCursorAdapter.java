@@ -15,6 +15,7 @@ import com.github.anastasiazhukova.flashlang.ui.viewholder.BaseLanguageViewHolde
 import com.github.anastasiazhukova.flashlang.ui.viewholder.SourceLanguageViewHolder;
 import com.github.anastasiazhukova.flashlang.ui.viewholder.TargetLanguageViewHolder;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.github.anastasiazhukova.lib.utils.IOUtils;
 
 public class LanguagesRecyclerViewCursorAdapter extends RecyclerView.Adapter<BaseLanguageViewHolder> implements RecyclerClickListener {
 
@@ -78,5 +79,9 @@ public class LanguagesRecyclerViewCursorAdapter extends RecyclerView.Adapter<Bas
             mCursor.moveToPosition(pPosition);
             mCallback.onClick(mCursorConverter.convert(mCursor));
         }
+    }
+
+    public void release() {
+        IOUtils.close(mCursor);
     }
 }

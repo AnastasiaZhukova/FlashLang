@@ -5,6 +5,7 @@ import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.card.CardBuilder;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.utils.OperationUtils;
+import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.ThreadingManager;
@@ -27,25 +28,42 @@ public class SaveTranslationOperation implements IOperation<Void> {
 
     @Override
     public Void perform() throws Exception {
-        final Card card = buildCard(mTranslation);
-        uploadCardToDb(card);
         final String collectionId = OperationUtils.getCollectionId(mUser.getId(),
                 mTranslation.getSourceLanguage().getLanguageCode(),
                 mTranslation.getTargetLanguage().getLanguageCode());
         if (StringUtils.isNullOrEmpty(collectionId)) {
-            createNewCollection(mUser, mTranslation);
+            createNewCollection(mUser, mTranslation, new ICallback<String>() {
+
+                @Override
+                public void onSuccess(final String pS) {
+                    final Card card = buildCard(pS, mTranslation);
+                    uploadCardToDb(card);
+                    increaseUserAchivement(mUser.getId(),1,2);
+
+                }
+
+                @Override
+                public void onError(final Throwable pThrowable) {
+
+                }
+            });
+        } else {
+            final Card card = buildCard(collectionId, mTranslation);
+            uploadCardToDb(card);
+            increaseUserAchivement(mUser.getId(),0,2);
         }
+
         return null;
     }
 
-    private Card buildCard(final ITranslation pTranslation) {
+    private Card buildCard(final String pCollectionId, final ITranslation pTranslation) {
         final String sourceLanguage = pTranslation.getSourceLanguage().getLanguageCode();
         final String sourceText = pTranslation.getSourceText();
         final String targetLanguage = pTranslation.getTargetLanguage().getLanguageCode();
         final String translatedText = pTranslation.getTranslatedText();
         return new CardBuilder()
                 .setId(OperationUtils.getIdForCard())
-                .setOwnerId(OperationUtils.getCollectionId(mUser.getId(), sourceLanguage, targetLanguage))
+                .setOwnerId(pCollectionId)
                 .setSourceLanguageKey(sourceLanguage)
                 .setSourceText(sourceText)
                 .setTargetLanguageKey(targetLanguage)
@@ -58,11 +76,17 @@ public class SaveTranslationOperation implements IOperation<Void> {
         mExecutor.execute(operation);
     }
 
-    private void createNewCollection(final IUser pUser, final ITranslation pTranslation) {
+    private void createNewCollection(final IUser pUser, final ITranslation pTranslation, final ICallback<String> pCallback) {
         final IOperation operation = new CreateCollectionOperation(pUser.getId(),
                 pTranslation.getSourceLanguage().getLanguageCode(),
-                pTranslation.getTargetLanguage().getLanguageCode());
+                pTranslation.getTargetLanguage().getLanguageCode(), pCallback);
         mExecutor.execute(operation);
+    }
+
+    private void increaseUserAchivement(final String pUserId, final int pConnectionsCount, final int pWordsCount) {
+        final IOperation increaseUserAchievementOperation = new IncreaseUserAchivementOperation(pUserId, pConnectionsCount, pWordsCount);
+        ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD)
+                .execute(increaseUserAchievementOperation);
     }
 
 }
