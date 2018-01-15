@@ -2,8 +2,9 @@ package com.github.anastasiazhukova.flashlang.dbTest;
 
 import com.github.anastasiazhukova.flashlang.BuildConfig;
 import com.github.anastasiazhukova.flashlang.TestConstants;
+import com.github.anastasiazhukova.flashlang.db.IDbModel;
 import com.github.anastasiazhukova.flashlang.db.connector.DbTableConnector;
-import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.domain.db.Selector;
 import com.github.anastasiazhukova.flashlang.mocks.TestApplication;
 import com.github.anastasiazhukova.lib.db.IDbOperations;
 
@@ -25,12 +26,12 @@ import java.util.List;
         application = TestApplication.class)
 public class DbConnectorTest {
 
-    private DbTableConnector<TestModel> mDbTableConnector;
+    private DbTableConnector mDbTableConnector;
 
     @Before
     public void setUp() {
         IDbOperations.Impl.newInstance(RuntimeEnvironment.application, new TestDb());
-        mDbTableConnector = new DbTableConnector<>();
+        mDbTableConnector = new DbTableConnector();
     }
 
     @Test
@@ -57,16 +58,17 @@ public class DbConnectorTest {
     @Test
     public void delete() {
         bulkInsert();
-        final boolean deleted = mDbTableConnector.delete(TestModel.TABLE_NAME, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+        final boolean deleted = mDbTableConnector.delete(TestModel.TABLE_NAME, new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(deleted);
     }
 
     @Test
     public void get() {
         bulkInsert();
-        final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"),
-                new TestModel.CursorConverter());
+        final List<TestModel> testModels = mDbTableConnector.get(TestModel.TABLE_NAME,
+                new TestModel.CursorConverter(), null, new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
 
+        Assert.assertNotNull(testModels);
         Assert.assertEquals(2, testModels.size());
         Assert.assertEquals("Model 2", testModels.get(0).getSomeString());
 
@@ -75,8 +77,8 @@ public class DbConnectorTest {
     @Test
     public void update() {
         bulkInsert();
-        final TestModel model = new TestModel("1", "NEW STRING");
-        final boolean updated = mDbTableConnector.update(model, new IDbTableConnector.ISelector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
+        final IDbModel model = new TestModel("1", "NEW STRING");
+        final boolean updated = mDbTableConnector.update(model, new Selector.ByFieldSelector(TestModel.STRING_KEY, "Model 2"));
         Assert.assertTrue(updated);
     }
 

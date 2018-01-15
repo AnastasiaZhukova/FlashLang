@@ -6,7 +6,7 @@ public class TestDb implements IDb {
 
     @Override
     public String getName() {
-        return "test.dd";
+        return "test.db";
     }
 
     @Override

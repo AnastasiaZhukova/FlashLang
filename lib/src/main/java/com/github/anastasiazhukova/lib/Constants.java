@@ -1,6 +1,11 @@
 package com.github.anastasiazhukova.lib;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+
+import com.github.anastasiazhukova.lib.threading.ExecutorType;
+import com.github.anastasiazhukova.lib.threading.executors.ExecutorServiceType;
 
 public interface Constants {
 
@@ -41,9 +46,9 @@ public interface Constants {
 
         public static final String WHERE_EQUAL_TEMPLATE = "%s = '%s'";
 
-        public static final String WHERE_OR_TEMPLATE = "%s = '%s' OR %s = '%s'";
+        public static final String WHERE_OR_TEMPLATE = "(%s) OR (%s)";
 
-        public static final String WHERE_AND_TEMPLATE = "%s = '%s' AND %s = '%s'";
+        public static final String WHERE_AND_TEMPLATE = "(%s) AND (%s)";
 
         public static final String WHERE_LIKE_TEMPLATE = "%s LIKE '%s'";
     }
@@ -57,6 +62,16 @@ public interface Constants {
 
     final class ImageLoader {
 
-        public static final int NUM_OF_THREADS = 3;
+        public static final ExecutorType DEFAULT_EXECUTOR_TYPE = ExecutorType.ASYNC_TASK;
+
+        public static final Drawable EMPTY_DRAWABLE = new ColorDrawable(255);
+    }
+
+    final class Executor {
+
+        public static final ExecutorServiceType DEFAULT_EXECUTOR_SERVICE = ExecutorServiceType.FIXED_THREAD;
+
+        public static final int DEFAULT_NUM_OF_THREADS = 3;
+
     }
 }

@@ -59,8 +59,9 @@ public class DbOperations implements IDbOperations {
         final String selection = pQuery.getSelection();
         final String[] selectionArgs = pQuery.getSelectionArgs();
         final String sortOrder = pQuery.getSortOrder();
+        final String groupBy = pQuery.getGroupBy();
         return mHelper.getWritableDatabase().query(table, projection, selection, selectionArgs,
-                null, null, sortOrder);
+                groupBy, null, sortOrder);
     }
 
     @Override

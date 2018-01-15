@@ -10,4 +10,6 @@ public interface ITranslationRequest extends IRequest {
 
     String getTargetLanguage();
 
+    String getApiKey();
+
 }

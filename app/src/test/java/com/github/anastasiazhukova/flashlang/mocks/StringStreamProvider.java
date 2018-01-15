@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 public class StringStreamProvider {
 
-    public InputStream get(final String pSource) throws IOException {
+    public InputStream get(final String pSource) {
         return new ByteArrayInputStream(pSource.getBytes());
     }
 }

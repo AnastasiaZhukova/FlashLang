@@ -1,5 +1,6 @@
 package com.github.anastasiazhukova.lib.imageloader.request;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.github.anastasiazhukova.lib.imageloader.ILouvre;
@@ -11,14 +12,17 @@ public class ImageRequest implements IImageRequest {
     private final String mUrl;
     private final WeakReference<ImageView> mTarget;
     private final boolean isSaved;
-    private final Integer mErrorImage;
+    private final boolean isRounded;
+    private final Bitmap mErrorImage;
+    private final boolean isScaled;
 
     ImageRequest(final Builder pBuilder) {
         mUrl = pBuilder.mUrl;
         mTarget = pBuilder.mTarget;
         isSaved = pBuilder.isSaved;
+        isRounded = pBuilder.isRounded;
         mErrorImage = pBuilder.mErrorImage;
-
+        isScaled = pBuilder.isScaled;
     }
 
     @Override
@@ -37,7 +41,17 @@ public class ImageRequest implements IImageRequest {
     }
 
     @Override
-    public Integer getErrorImage() {
+    public boolean isRounded() {
+        return isRounded;
+    }
+
+    @Override
+    public boolean isScaled() {
+        return isScaled;
+    }
+
+    @Override
+    public Bitmap getErrorImage() {
         return mErrorImage;
     }
 
@@ -46,7 +60,9 @@ public class ImageRequest implements IImageRequest {
         private String mUrl;
         private WeakReference<ImageView> mTarget;
         private boolean isSaved;
-        private Integer mErrorImage;
+        private Bitmap mErrorImage;
+        private boolean isRounded;
+        private boolean isScaled;
 
         public Builder from(final String pUrl) {
             mUrl = pUrl;
@@ -63,8 +79,19 @@ public class ImageRequest implements IImageRequest {
             return this;
         }
 
-        public Builder setErrorImage(final Integer pErrorImage) {
+        public Builder rounded(final boolean pRounded) {
+            isRounded = pRounded;
+            return this;
+        }
+
+        public Builder setErrorImage(final Bitmap pErrorImage) {
             mErrorImage = pErrorImage;
+            return this;
+        }
+
+
+        public Builder isScaled(final boolean pScaled) {
+            isScaled = pScaled;
             return this;
         }
 

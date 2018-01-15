@@ -1,7 +1,5 @@
 package com.github.anastasiazhukova.flashlang.api.request;
 
-import com.github.anastasiazhukova.flashlang.api.ApiConstants;
-
 public class TranslationRequest implements ITranslationRequest {
 
     private final String mInputText;
@@ -10,14 +8,13 @@ public class TranslationRequest implements ITranslationRequest {
 
     private final String mTargetLanguage;
 
-    public TranslationRequest(final String pInputText, final String pSourceLanguage, final String pTargetLanguage) {
-        mInputText = pInputText;
-        mSourceLanguage = pSourceLanguage;
-        mTargetLanguage = pTargetLanguage;
-    }
+    private final String mApiKey;
 
-    public TranslationRequest(final String pInputText, final ApiConstants.LanguageKeys pSourceLanguage, final ApiConstants.LanguageKeys pTargetLanguage) {
-        this(pInputText, pSourceLanguage.name(), pTargetLanguage.name());
+    TranslationRequest(final TranslationRequestBuilder pBuilder) {
+        mInputText = pBuilder.getInputText();
+        mSourceLanguage = pBuilder.getSourceLanguageKey();
+        mTargetLanguage = pBuilder.getTargetLanguageKey();
+        mApiKey = pBuilder.getApiKey();
     }
 
     @Override
@@ -33,6 +30,11 @@ public class TranslationRequest implements ITranslationRequest {
     @Override
     public String getTargetLanguage() {
         return mTargetLanguage;
+    }
+
+    @Override
+    public String getApiKey() {
+        return mApiKey;
     }
 
 }

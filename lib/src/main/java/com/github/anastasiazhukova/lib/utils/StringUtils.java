@@ -10,4 +10,9 @@ public final class StringUtils {
         return pCharSequence == null || pCharSequence.length() <= 0;
     }
 
+    public static String extractNameFromEmail(final String pEmail) {
+        final String name = pEmail.substring(0, pEmail.lastIndexOf("@"));
+        return name;
+    }
+
 }

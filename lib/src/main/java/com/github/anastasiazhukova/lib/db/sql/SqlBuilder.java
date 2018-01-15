@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 public final class SqlBuilder {
 
     @Nullable
-    public static String getCreateTableSql(final Class<?> pTable) throws Exception {
+    public static String getCreateTableSql(final Class<?> pTable) {
 
         final String tableName = DbUtils.getTableName(pTable);
         if (StringUtils.isNullOrEmpty(tableName)) {
