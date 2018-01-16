@@ -4,7 +4,6 @@ import com.github.anastasiazhukova.lib.BuildConfig;
 import com.github.anastasiazhukova.lib.TestConstants;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.IThreadingManager;
-import com.github.anastasiazhukova.lib.threading.ThreadingManager;
 import com.github.anastasiazhukova.lib.threading.executors.AsyncTaskExecutor;
 import com.github.anastasiazhukova.lib.threading.executors.ExecutorServiceExecutor;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
@@ -28,7 +27,7 @@ public class ThreadingManagerTest {
 
     @Before
     public void setUp() {
-        final ThreadingManager.Config config = new ThreadingManager.Config();
+        final IThreadingManager.Config config = new IThreadingManager.Config();
         mThreadingManager = IThreadingManager.Imlp.getThreadingManager();
     }
 
