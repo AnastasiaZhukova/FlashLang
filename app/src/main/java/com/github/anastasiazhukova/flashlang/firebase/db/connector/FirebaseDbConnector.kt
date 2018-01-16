@@ -90,7 +90,7 @@ class FirebaseDbConnector : IFirebaseDbConnector {
     }
 
     override fun <Element : IDbModel<String>> query(): FirebaseQuery<Element> {
-        return FirebaseQuery()
+        return FirebaseQuery<Element>()
     }
 
     override fun <Element : IDbModel<String>> get(pFirebaseQuery: FirebaseQuery<Element>,

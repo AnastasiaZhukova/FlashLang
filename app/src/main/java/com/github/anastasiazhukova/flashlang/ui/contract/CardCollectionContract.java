@@ -22,8 +22,6 @@ public interface CardCollectionContract {
 
         void load();
 
-        void removeCard(ICard pCard);
-
     }
 
 }

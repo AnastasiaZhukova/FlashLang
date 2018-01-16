@@ -24,7 +24,8 @@
         <activity android:name=".ui.activity.AuthActivity"/>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:screenOrientation="locked"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.activity.GameActivity"/>
     </application>
 

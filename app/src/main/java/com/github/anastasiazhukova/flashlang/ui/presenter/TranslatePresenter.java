@@ -6,19 +6,18 @@ import com.github.anastasiazhukova.flashlang.api.models.languages.ILanguage;
 import com.github.anastasiazhukova.flashlang.api.models.translation.ITranslation;
 import com.github.anastasiazhukova.flashlang.api.request.ITranslationRequest;
 import com.github.anastasiazhukova.flashlang.api.request.TranslationRequestBuilder;
-import com.github.anastasiazhukova.flashlang.operations.GetTranslateApiKeyOperation;
-import com.github.anastasiazhukova.flashlang.operations.SaveTranslationOperation;
-import com.github.anastasiazhukova.flashlang.operations.TranslateOperation;
+import com.github.anastasiazhukova.flashlang.domain.models.user.User;
+import com.github.anastasiazhukova.flashlang.operations.Operations;
 import com.github.anastasiazhukova.flashlang.ui.contract.TranslateContract;
 import com.github.anastasiazhukova.flashlang.utils.ConnectionManager;
-import com.github.anastasiazhukova.flashlang.utils.UiPublisher;
 import com.github.anastasiazhukova.lib.context.ContextHolder;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.IThreadingManager;
-import com.github.anastasiazhukova.lib.threading.ThreadingManager;
+import com.github.anastasiazhukova.lib.threading.command.Command;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class TranslatePresenter implements TranslateContract.Presenter {
     private final IThreadingManager mThreadingManager;
 
     public TranslatePresenter() {
-        mThreadingManager = ThreadingManager.Imlp.getThreadingManager();
+        mThreadingManager = IThreadingManager.Imlp.getThreadingManager();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class TranslatePresenter implements TranslateContract.Presenter {
                 builder.setInputText(mView.getSourceText());
 
                 if (mApiKey == null) {
-                    final IOperation getTranslateApiKeyOperation = new GetTranslateApiKeyOperation(new ICallback<String>() {
+                    final ICallback<String> callback = new ICallback<String>() {
 
                         @Override
                         public void onSuccess(final String pS) {
@@ -75,9 +74,15 @@ public class TranslatePresenter implements TranslateContract.Presenter {
                             Log.d(LOG_TAG, "onError() called with: pThrowable = [" + pThrowable + "]");
                             publishTranslationError(pThrowable);
                         }
-                    });
+                    };
+
+                    final IOperation<Void> getApiKey = Operations.newOperation()
+                            .translate()
+                            .getApiKey(callback);
+
+                    final ICommand command = new Command<>(getApiKey);
                     mThreadingManager.getExecutor(ExecutorType.THREAD)
-                            .execute(getTranslateApiKeyOperation);
+                            .execute(command);
                 } else {
                     builder.setApiKey(mApiKey);
                     performTranslation(builder.createTranslationRequest());
@@ -115,8 +120,10 @@ public class TranslatePresenter implements TranslateContract.Presenter {
     }
 
     private void performTranslation(final ITranslationRequest pRequest) {
-        final IOperation<ITranslation> translateOperation = new TranslateOperation(pRequest);
-        mThreadingManager.getExecutor(ExecutorType.THREAD).execute(translateOperation, new ICallback<ITranslation>() {
+        final IOperation<ITranslation> translate = Operations.newOperation()
+                .translate()
+                .translate(pRequest);
+        final ICallback<ITranslation> callback = new ICallback<ITranslation>() {
 
             @Override
             public void onSuccess(final ITranslation pTranslation) {
@@ -128,12 +135,19 @@ public class TranslatePresenter implements TranslateContract.Presenter {
             public void onError(final Throwable pThrowable) {
                 publishTranslationError(pThrowable);
             }
-        });
+        };
+        final Command<ITranslation> command = new Command<>(translate);
+        command.setCallback(callback);
+        mThreadingManager.getExecutor(ExecutorType.THREAD).execute(command);
     }
 
     private void saveTranslation(final ITranslation pTranslation) {
-        final IOperation saveTranslationOperation = new SaveTranslationOperation(UserManager.getCurrentUser(), pTranslation);
-        mThreadingManager.getExecutor(ExecutorType.THREAD).execute(saveTranslationOperation);
+        final User currentUser = UserManager.getCurrentUser();
+        final IOperation<Void> saveTranslation = Operations.newOperation()
+                .translate()
+                .saveTranslation(currentUser, pTranslation);
+        final ICommand command = new Command<>(saveTranslation);
+        mThreadingManager.getExecutor(ExecutorType.THREAD).execute(command);
     }
 
 }

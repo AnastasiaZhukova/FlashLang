@@ -38,7 +38,7 @@ public class FlashLangApp extends Application {
     private void initImageLoader() {
         final ImageFileCache.Config fileCacheConfig = new ImageFileCache.Config();
         fileCacheConfig.setCacheDirName(getCacheDir().getAbsolutePath() + Constants.ImageLoader.DISK_CACHE_DIR);
-        fileCacheConfig.setFreeSpaceStrategy(new IFreeSpaceStrategy.KeepAlwaysStrategy());
+        fileCacheConfig.setFreeSpaceStrategy(new IFreeSpaceStrategy.LastModifiedStrategy());
 
         final ImageMemoryCache.Config memoryCacheConfig = new ImageMemoryCache.Config();
         memoryCacheConfig.setCacheSize(Constants.ImageLoader.MEMORY_CACHE_SIZE);

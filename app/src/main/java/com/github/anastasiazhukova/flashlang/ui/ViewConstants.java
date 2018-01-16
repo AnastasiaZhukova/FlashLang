@@ -14,6 +14,17 @@ public interface ViewConstants {
         public static final int FRAGMENT_COUNT = 2;
     }
 
+    final class Main {
+
+        public static final int VIEW_PAGER_OFFSCREEN_PAGE_LIMIT = 3;
+
+        public static final int COLLECTION_FRAGMENT_POSITION = 0;
+        public static final int TRANSLATE_FRAGMENT_POSITION = 1;
+        public static final int USER_INFO_FRAGMENT_POSITION = 2;
+
+        public static final int FRAGMENT_COUNT = 3;
+    }
+
     final class Collection {
 
         public static final String SOURCE_COLLECTION_FRAGMENT_TAG = "sourcecollection";

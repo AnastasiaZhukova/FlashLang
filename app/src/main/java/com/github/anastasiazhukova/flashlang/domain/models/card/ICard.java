@@ -6,6 +6,8 @@ public interface ICard extends IIdentifiable<String> {
 
     String getOwnerId();
 
+    String getReferredCollectionId();
+
     String getSourceLanguageKey();
 
     String getSourceText();

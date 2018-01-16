@@ -21,7 +21,7 @@ public class DbOperations implements IDbOperations {
 
             @Override
             public int make(final SQLiteDatabase pDatabase) {
-                final int id = (int) pDatabase.insert(pTable, "", pValues);
+                final int id = (int) pDatabase.insertWithOnConflict(pTable, "", pValues, SQLiteDatabase.CONFLICT_REPLACE);
                 return id;
             }
         });

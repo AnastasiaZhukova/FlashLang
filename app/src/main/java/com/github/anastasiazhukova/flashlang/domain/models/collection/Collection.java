@@ -146,7 +146,7 @@ public class Collection implements ICollection, IDbModel<String> {
         }
     }
 
-    public static class DataShanpshotConverter implements IDataSnapshotConverter<Collection> {
+    public static class DataSnapshotConverter implements IDataSnapshotConverter<Collection> {
 
         @Override
         public Collection convert(@NotNull final DataSnapshot pSnapshot) {

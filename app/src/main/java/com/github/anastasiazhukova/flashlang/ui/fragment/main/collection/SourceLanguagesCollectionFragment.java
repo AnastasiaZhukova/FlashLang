@@ -65,6 +65,14 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
         mPresenter.detachView();
     }
 
+    @Override
+    public void setUserVisibleHint(final boolean pIsVisibleToUser) {
+        super.setUserVisibleHint(pIsVisibleToUser);
+        if(pIsVisibleToUser){
+            mPresenter.load();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater pInflater, @Nullable final ViewGroup pContainer, @Nullable final Bundle pSavedInstanceState) {
@@ -100,7 +108,6 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.load();
-
     }
 
     private void initSwipeRefresh() {

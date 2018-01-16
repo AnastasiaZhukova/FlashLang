@@ -8,42 +8,38 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import com.github.anastasiazhukova.flashlang.R;
-import com.github.anastasiazhukova.flashlang.UserManager;
-import com.github.anastasiazhukova.flashlang.domain.models.user.User;
-import com.github.anastasiazhukova.flashlang.operations.LoadUserInfoOperation;
+import com.github.anastasiazhukova.flashlang.ui.ViewConstants;
 import com.github.anastasiazhukova.flashlang.ui.adapter.ScrollPagerAdapter;
+import com.github.anastasiazhukova.flashlang.ui.contract.MainContract;
 import com.github.anastasiazhukova.flashlang.ui.domain.ScrollPageListener;
 import com.github.anastasiazhukova.flashlang.ui.fragment.main.TranslateFragment;
 import com.github.anastasiazhukova.flashlang.ui.fragment.main.UserInfoFragment;
 import com.github.anastasiazhukova.flashlang.ui.fragment.main.collection.BaseCollectionFragment;
-import com.github.anastasiazhukova.lib.contracts.IOperation;
+import com.github.anastasiazhukova.flashlang.ui.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
+    private MainContract.Presenter mPresenter;
     private ViewPager mViewPager;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (mPresenter == null) {
+            mPresenter = new MainPresenter();
+        }
+        mPresenter.loadCurrentUser();
         init();
-        loadUser();
     }
 
-    private void loadUser() {
-        final User currentUser = UserManager.getCurrentUser();
-        if (currentUser == null) {
-            final IOperation<User> loadUserOperation = new LoadUserInfoOperation();
-            try {
-                final User user = loadUserOperation.perform();
-                UserManager.setCurrentUser(user);
-            } catch (final Exception pE) {
-                throw new IllegalStateException("Can't laod current user");
-            }
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.attachView(this);
     }
 
     private void init() {
@@ -59,18 +55,22 @@ public class MainActivity extends AppCompatActivity {
         final ViewPager.OnPageChangeListener scrollPageListener = new ScrollPageListener(mViewPager, scrollView, background);
         mViewPager.addOnPageChangeListener(scrollPageListener);
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(ViewConstants.Main.VIEW_PAGER_OFFSCREEN_PAGE_LIMIT);
+        mViewPager.setCurrentItem(ViewConstants.Main.TRANSLATE_FRAGMENT_POSITION);
     }
 
     private List<String> getFragmentsNames() {
         final List<String> names = new ArrayList<>();
-        names.add(BaseCollectionFragment.class.getName());
-        names.add(TranslateFragment.class.getName());
-        names.add(UserInfoFragment.class.getName());
+        names.add(ViewConstants.Main.COLLECTION_FRAGMENT_POSITION, BaseCollectionFragment.class.getName());
+        names.add(ViewConstants.Main.TRANSLATE_FRAGMENT_POSITION, TranslateFragment.class.getName());
+        names.add(ViewConstants.Main.USER_INFO_FRAGMENT_POSITION, UserInfoFragment.class.getName());
         return names;
     }
 
-
-
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
+    }
 }
 

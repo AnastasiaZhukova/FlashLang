@@ -22,6 +22,7 @@ import java.util.HashMap;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.ID;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.OWNER_ID;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.PICTURE;
+import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.REFERRED_COLLECTION_ID;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.SOURCE_LANGUAGE;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.SOURCE_TEXT;
 import static com.github.anastasiazhukova.flashlang.domain.models.card.Card.DbKeys.TABLE_NAME;
@@ -41,6 +42,10 @@ public class Card implements ICard, IDbModel<String> {
     @dbString(name = OWNER_ID)
     @PropertyName(OWNER_ID)
     private final String mOwnerId;
+
+    @dbString(name = REFERRED_COLLECTION_ID)
+    @PropertyName(REFERRED_COLLECTION_ID)
+    private final String mReferredCollectionId;
 
     @dbString(name = SOURCE_LANGUAGE)
     @PropertyName(SOURCE_LANGUAGE)
@@ -62,11 +67,12 @@ public class Card implements ICard, IDbModel<String> {
     @PropertyName(PICTURE)
     private String mPictureUrl;
 
-    Card(final String pId, final String pOwnerId, final String pSourceLanguageKey,
+    Card(final String pId, final String pOwnerId, final String pReferredCollectionId, final String pSourceLanguageKey,
          final String pSourceText, final String pTargetLanguage, final String pTranslatedText,
          final String pPictureUrl) {
         mId = pId;
         mOwnerId = pOwnerId;
+        mReferredCollectionId = pReferredCollectionId;
         mSourceLanguageKey = pSourceLanguageKey;
         mSourceText = pSourceText;
         mTargetLanguage = pTargetLanguage;
@@ -77,11 +83,12 @@ public class Card implements ICard, IDbModel<String> {
     public Card(final CardBuilder pCardBuilder) {
         mId = pCardBuilder.getId();
         mOwnerId = pCardBuilder.getOwnerId();
+        mReferredCollectionId = pCardBuilder.getReferredCollectionId();
         mSourceLanguageKey = pCardBuilder.getSourceLanguageKey();
         mSourceText = pCardBuilder.getSourceText();
         mTargetLanguage = pCardBuilder.getTargetLanguageKey();
         mTranslatedText = pCardBuilder.getTranslatedText();
-        mPictureUrl=pCardBuilder.getPictureUrl();
+        mPictureUrl = pCardBuilder.getPictureUrl();
     }
 
     public void setSourceText(final String pSourceText) {
@@ -104,6 +111,11 @@ public class Card implements ICard, IDbModel<String> {
     @Override
     public String getOwnerId() {
         return mOwnerId;
+    }
+
+    @Override
+    public String getReferredCollectionId() {
+        return mReferredCollectionId;
     }
 
     @Override
@@ -136,6 +148,7 @@ public class Card implements ICard, IDbModel<String> {
         final HashMap<String, Object> map = new HashMap<>();
         map.put(ID, this.getId());
         map.put(OWNER_ID, this.getOwnerId());
+        map.put(REFERRED_COLLECTION_ID, this.getReferredCollectionId());
         map.put(SOURCE_LANGUAGE, this.getSourceLanguageKey());
         map.put(SOURCE_TEXT, this.getSourceText());
         map.put(TARGET_LANGUAGE, this.getTargetLanguageKey());
@@ -160,6 +173,7 @@ public class Card implements ICard, IDbModel<String> {
         public static final String TABLE_NAME = "cards";
         public static final String ID = "id";
         public static final String OWNER_ID = "ownerid";
+        public static final String REFERRED_COLLECTION_ID = "collectionid";
         public static final String SOURCE_LANGUAGE = "sourceLanguage";
         public static final String SOURCE_TEXT = "sourceText";
         public static final String TARGET_LANGUAGE = "targetLanguage";
@@ -173,13 +187,14 @@ public class Card implements ICard, IDbModel<String> {
         public Card convert(@NonNull final Cursor pCursor) {
             final String id = pCursor.getString(pCursor.getColumnIndex(ID));
             final String ow = pCursor.getString(pCursor.getColumnIndex(OWNER_ID));
+            final String ref = pCursor.getString(pCursor.getColumnIndex(REFERRED_COLLECTION_ID));
             final String sl = pCursor.getString(pCursor.getColumnIndex(SOURCE_LANGUAGE));
             final String st = pCursor.getString(pCursor.getColumnIndex(SOURCE_TEXT));
             final String tl = pCursor.getString(pCursor.getColumnIndex(TARGET_LANGUAGE));
             final String tt = pCursor.getString(pCursor.getColumnIndex(TRANSLATED_TEXT));
             final String pic = pCursor.getString(pCursor.getColumnIndex(PICTURE));
 
-            return new Card(id, ow, sl, st, tl, tt, pic);
+            return new Card(id, ow, ref, sl, st, tl, tt, pic);
         }
     }
 
@@ -190,13 +205,14 @@ public class Card implements ICard, IDbModel<String> {
         public Card convert(@NotNull final DataSnapshot pSnapshot) {
             final String id = (String) pSnapshot.child(ID).getValue();
             final String ow = (String) pSnapshot.child(OWNER_ID).getValue();
+            final String ref = (String) pSnapshot.child(REFERRED_COLLECTION_ID).getValue();
             final String sl = (String) pSnapshot.child(SOURCE_LANGUAGE).getValue();
             final String st = (String) pSnapshot.child(SOURCE_TEXT).getValue();
             final String tl = (String) pSnapshot.child(TARGET_LANGUAGE).getValue();
             final String tt = (String) pSnapshot.child(TRANSLATED_TEXT).getValue();
             final String pic = (String) pSnapshot.child(PICTURE).getValue();
 
-            return new Card(id, ow, sl, st, tl, tt, pic);
+            return new Card(id, ow, ref, sl, st, tl, tt, pic);
         }
     }
 
@@ -211,6 +227,13 @@ public class Card implements ICard, IDbModel<String> {
 
         public ByOwnerIdSelector(final String pFiledValue) {
             super(OWNER_ID, pFiledValue);
+        }
+    }
+
+    public static class ByReferredCollectionIdSelector extends Selector.ByFieldSelector {
+
+        public ByReferredCollectionIdSelector(final String pFiledValue) {
+            super(REFERRED_COLLECTION_ID, pFiledValue);
         }
     }
 
