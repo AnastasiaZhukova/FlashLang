@@ -28,4 +28,9 @@ public class TestTranslateRequest implements ITranslationRequest {
     public String getTargetLanguage() {
         return mTargetLanguage;
     }
+
+    @Override
+    public String getApiKey() {
+        return "somekey";
+    }
 }

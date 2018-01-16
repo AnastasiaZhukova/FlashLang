@@ -5,5 +5,6 @@ ext.versions = [
         codeVersion    : 1,
         codeVersionName: "1.0",
         support        : "27.0.2",
-        buildTools     : "27.0.2"
+        buildTools     : "27.0.2",
+        firebase       : "11.8.0"
 ]
