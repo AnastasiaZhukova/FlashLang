@@ -31,6 +31,7 @@ public interface IThreadingManager {
 
     class Config {
 
+        //todo check if its okay to have myLooper()
         private Handler mHandler = new Handler(Looper.getMainLooper());
         private AsyncTaskExecutor.Config mAsyncTaskConfig = AsyncTaskExecutor.Config.getDefaultConfig();
         private ExecutorServiceExecutor.Config mExecutorServiceConfig = ExecutorServiceExecutor.Config.getDefaultConfig();

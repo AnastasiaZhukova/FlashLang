@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.github.anastasiazhukova.lib.contracts.ICallback;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
 
 public class Publisher implements IPublisher {
 
@@ -15,6 +16,19 @@ public class Publisher implements IPublisher {
 
     public Publisher(final Handler pHandler) {
         mHandler = pHandler;
+    }
+
+    @Override
+    public void publishExecuted(final IExecutedCallback pCallback) {
+        post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (pCallback != null) {
+                    pCallback.onFinished();
+                }
+            }
+        });
     }
 
     @Override

@@ -1,9 +1,14 @@
 package com.github.anastasiazhukova.lib.threadingTest;
 
 import android.os.Handler;
+import android.support.test.filters.FlakyTest;
+import android.support.test.filters.LargeTest;
 
 import com.github.anastasiazhukova.lib.TestConstants;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.Command;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.executors.ExecutorServiceExecutor;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
@@ -13,6 +18,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.RunListener;
+import org.junit.validator.ValidateWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.invocation.InvocationOnMock;
@@ -21,6 +28,9 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.Scheduler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -36,8 +46,6 @@ import static org.mockito.Mockito.verify;
 )
 public class ExecutorServiceExecutorTest {
 
-    @Captor
-    private ArgumentCaptor<TestCallback> mCaptor;
     private IExecutor mExecutor;
 
     private IPublisher mPublisher;
@@ -45,7 +53,6 @@ public class ExecutorServiceExecutorTest {
     @Before
     public void setUp() {
         mExecutor = spy(getExecutor());
-        mCaptor = ArgumentCaptor.forClass(TestCallback.class);
     }
 
     @Test
@@ -55,19 +62,31 @@ public class ExecutorServiceExecutorTest {
 
     @Test
     public void execute() {
+        final TestCallback callback=new TestCallback();
         final TestOperation executable = new TestOperation();
-        final ICallback<String> testCallback = new TestCallback();
-        mExecutor.execute(executable, testCallback);
-        verify(mExecutor).execute(eq(executable), mCaptor.capture());
-        final TestCallback callback = mCaptor.getValue();
-        Assert.assertEquals("Success", callback.getMessage());
+        final Command<String> command= new Command<>(executable);
+        command.setCallback(callback);
+        final List<ICommand> commands=new ArrayList<>();
+        commands.add(command);
+        commands.add(command);
+        commands.add(command);
+        mExecutor.execute(commands, new IExecutedCallback() {
 
+            @Override
+            public void onFinished() {
+                final int count=callback.getCount();
+                Assert.assertEquals(3,count);
+            }
+        });
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException pE) {
+            pE.printStackTrace();
+        }
     }
 
     private IExecutor getExecutor() {
         final Handler mockedHandler = mock(Handler.class);
-        final Publisher publisher = new Publisher(mockedHandler);
-        mPublisher = spy(publisher);
         doAnswer(new Answer<Void>() {
 
             @Override
@@ -84,6 +103,8 @@ public class ExecutorServiceExecutorTest {
                 return null;
             }
         }).when(mockedHandler).post(any(Runnable.class));
+        final Publisher publisher = new Publisher(mockedHandler);
+        mPublisher = spy(publisher);
         return new ExecutorServiceExecutor(mPublisher, ExecutorServiceExecutor.Config.getDefaultConfig());
     }
 }

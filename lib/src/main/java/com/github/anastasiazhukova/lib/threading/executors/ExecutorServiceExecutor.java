@@ -4,8 +4,12 @@ import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class ExecutorServiceExecutor implements IExecutor {
@@ -21,16 +25,27 @@ public class ExecutorServiceExecutor implements IExecutor {
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation) {
-        execute(pOperation, null);
+    public <Result> void execute(final ICommand<Result> pCommand) {
+        final Runnable command = new ExecutionCommand<>(mPublisher, pCommand);
+        executeCommand(command);
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation, final ICallback<Result> pCallback) {
-        final Runnable command = new ExecutionCommand<>(mPublisher, pCallback, pOperation);
+    public void execute(final List<? extends ICommand> pCommands) {
+        execute(pCommands, null);
+    }
+
+    @Override
+    public void execute(final List<? extends ICommand> pCommands, final IExecutedCallback pExecutedCallback) {
+        //noinspection unchecked
+        final Runnable pool = new ExecutionPool(mPublisher, (List<ICommand>) pCommands, pExecutedCallback);
+        executeCommand(pool);
+    }
+
+    private void executeCommand(final Runnable pCommand) {
         final ExecutorService executorService = getExecutorService();
         if (executorService != null) {
-            executorService.execute(command);
+            executorService.execute(pCommand);
         }
     }
 
