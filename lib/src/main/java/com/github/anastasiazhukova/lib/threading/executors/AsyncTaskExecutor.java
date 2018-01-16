@@ -1,12 +1,16 @@
 package com.github.anastasiazhukova.lib.threading.executors;
 
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 
 import com.github.anastasiazhukova.lib.Constants;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class AsyncTaskExecutor implements IExecutor {
@@ -20,18 +24,30 @@ public class AsyncTaskExecutor implements IExecutor {
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation) {
-        execute(pOperation, null);
+    public <Result> void execute(final ICommand<Result> pCommand) {
+        final ExecutedAsyncTask<Result> task = new ExecutedAsyncTask<>(pCommand);
+        final ExecutorService executorService = getExecutorService();
+        if (executorService != null) {
+            task.executeOnExecutor(executorService);
+        } else {
+            task.execute();
+        }
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation, final ICallback<Result> pCallback) {
-        final ExecutedAsyncTask<Result> executedAsyncTask = new ExecutedAsyncTask<>(pOperation, pCallback);
+    public void execute(final List<? extends ICommand> pCommands) {
+        execute(pCommands, null);
+    }
+
+    @Override
+    public void execute(final List<? extends ICommand> pCommands, final IExecutedCallback pExecutedCallback) {
+        //noinspection unchecked
+        final ExecutedAsyncTasks tasks = new ExecutedAsyncTasks((List<ICommand>) pCommands, pExecutedCallback);
         final ExecutorService executorService = getExecutorService();
         if (executorService != null) {
-            executedAsyncTask.executeOnExecutor(executorService);
+            tasks.executeOnExecutor(executorService);
         } else {
-            executedAsyncTask.execute();
+            tasks.execute();
         }
     }
 
@@ -77,18 +93,21 @@ public class AsyncTaskExecutor implements IExecutor {
 
     private static class ExecutedAsyncTask<Result> extends AsyncTask<Void, Void, Object> {
 
-        final IOperation<Result> mOperation;
-        final ICallback<Result> mCallback;
+        final ICommand<Result> mCommand;
 
-        ExecutedAsyncTask(final IOperation<Result> pOperation, final ICallback<Result> pCallback) {
-            mOperation = pOperation;
-            mCallback = pCallback;
+        ExecutedAsyncTask(final ICommand<Result> pCommand) {
+            mCommand = pCommand;
         }
 
         @Override
         protected Object doInBackground(final Void... pVoid) {
             try {
-                return mOperation.perform();
+                if (mCommand != null) {
+                    final IOperation<Result> operation = mCommand.getOperation();
+                    return operation.perform();
+                } else {
+                    return null;
+                }
             } catch (final Exception pE) {
                 return pE;
             }
@@ -96,22 +115,80 @@ public class AsyncTaskExecutor implements IExecutor {
 
         @Override
         protected void onPostExecute(final Object pO) {
-            if (mCallback == null) {
-                return;
-            }
-            if (pO == null) {
-                mCallback.onError(new Exception("Can't get result"));
-            } else if (pO instanceof Throwable) {
-                mCallback.onError((Throwable) pO);
-            } else {
-                try {
-                    //noinspection unchecked
-                    final Result result = (Result) pO;
-                    mCallback.onSuccess(result);
-                } catch (final Exception pE) {
-                    Log.e(LOG_TAG, "onPostExecute: ", pE);
-                    mCallback.onError(new Exception("Can't get result"));
+            if (mCommand != null) {
+                final ICallback<Result> callback = mCommand.getCallback();
+                if (callback != null) {
+                    if (pO == null) {
+                        callback.onError(new Exception("Can't get result"));
+                    } else if (pO instanceof Throwable) {
+                        callback.onError((Throwable) pO);
+                    } else {
+                        try {
+                            //noinspection unchecked
+                            final Result result = (Result) pO;
+                            callback.onSuccess(result);
+                        } catch (final Exception pE) {
+                            Log.e(LOG_TAG, "onPostExecute: ", pE);
+                            callback.onError(new Exception("Can't get result"));
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    private static class ExecutedAsyncTasks extends AsyncTask<Void, Pair<Object, ICallback<Object>>, Void> {
+
+        private final List<ICommand> mCommands;
+        private final IExecutedCallback mCallback;
+
+        public ExecutedAsyncTasks(final List<ICommand> pCommands, final IExecutedCallback pCallback) {
+            mCommands = pCommands;
+            mCallback = pCallback;
+        }
+
+        @Override
+        protected Void doInBackground(final Void... pVoids) {
+            for (final ICommand command :
+                    mCommands) {
+                try {
+                    if (command != null) {
+                        final Object result = command.getOperation().perform();
+                        //noinspection unchecked
+                        onProgressUpdate(new Pair<Object, ICallback<Object>>(result, command.getCallback()));
+                    }
+                } catch (final Exception ignored) {
+                    Log.e(LOG_TAG, "doInBackground: ", ignored);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(final Pair<Object, ICallback<Object>>... values) {
+            if (values != null && values.length > 0) {
+                final Object result = values[0].first;
+                final ICallback<Object> callback = values[0].second;
+                if (callback != null) {
+                    if (result == null) {
+                        callback.onError(new Exception("Can't get result"));
+                        return;
+                    }
+
+                    if (result instanceof Throwable) {
+                        callback.onError((Throwable) result);
+                        return;
+                    }
+                    callback.onSuccess(result);
+                }
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Void pO) {
+            if (mCallback != null) {
+                mCallback.onFinished();
             }
         }
     }

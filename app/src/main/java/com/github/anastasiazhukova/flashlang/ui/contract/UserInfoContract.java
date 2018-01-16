@@ -2,6 +2,7 @@ package com.github.anastasiazhukova.flashlang.ui.contract;
 
 import android.graphics.drawable.Drawable;
 
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.IAchievement;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.ui.presenter.BasePresenter;
 
@@ -15,7 +16,7 @@ public interface UserInfoContract {
 
         void onUserLoadError(String pErrorMessage);
 
-        void onImageLoadError(String pErrorMessage);
+        void onAchievementLoaded(IAchievement pAchievement);
 
     }
 
@@ -23,9 +24,9 @@ public interface UserInfoContract {
 
         void getUser();
 
-        void logout();
+        void getAchievements();
 
-        void uploadImage();
+        void logout();
 
     }
 

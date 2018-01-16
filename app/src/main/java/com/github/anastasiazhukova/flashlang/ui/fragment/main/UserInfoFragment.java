@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.anastasiazhukova.flashlang.R;
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.IAchievement;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.ui.activity.AuthActivity;
 import com.github.anastasiazhukova.flashlang.ui.contract.UserInfoContract;
@@ -65,6 +66,14 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
         mPresenter.getUser();
     }
 
+    @Override
+    public void setUserVisibleHint(final boolean pIsVisibleToUser) {
+        super.setUserVisibleHint(pIsVisibleToUser);
+        if (pIsVisibleToUser) {
+            mPresenter.getAchievements();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater pInflater, @Nullable final ViewGroup pContainer, @Nullable final Bundle pSavedInstanceState) {
@@ -109,8 +118,6 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
     public void onUserLoaded(final IUser pUser) {
         loadUserPicture(pUser.getPictureUrl());
         mUserName.setText(pUser.getName());
-        startCountAnimation(mConnectionCountTextView, pUser.getConnectionCount());
-        startCountAnimation(mWordCountTextView, pUser.getWordCount());
     }
 
     @Override
@@ -119,8 +126,9 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
     }
 
     @Override
-    public void onImageLoadError(final String pErrorMessage) {
-
+    public void onAchievementLoaded(final IAchievement pAchievement) {
+        startCountAnimation(mConnectionCountTextView, pAchievement.getTotalConnections());
+        startCountAnimation(mWordCountTextView, pAchievement.getTotalWords());
     }
 
     private void finishActivity() {
@@ -148,8 +156,8 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
 
     }
 
-    private void startCountAnimation(final TextView pTargetTextView, final int finalCount) {
-        final ValueAnimator animator = ValueAnimator.ofInt(0, finalCount);
+    private void startCountAnimation(final TextView pTargetTextView, final long finalCount) {
+        final ValueAnimator animator = ValueAnimator.ofInt(0, (int) finalCount);
         animator.setDuration(NUMBER_ANIMATION_DURATION);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 

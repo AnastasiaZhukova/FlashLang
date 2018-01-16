@@ -44,7 +44,7 @@ class HttpClient implements IHttpClient {
     }
 
     @Override
-    public <Response> Response getResponse(final IHttpRequest pRequest, final IResponseConverter<Response,InputStream> pResponseConverter) throws IOException {
+    public <Response> Response getResponse(final IHttpRequest pRequest, final IResponseConverter<Response, InputStream> pResponseConverter) throws IOException {
 
         HttpURLConnection connection = null;
         InputStream stream = null;

@@ -12,7 +12,6 @@ import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshot
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
-import com.github.anastasiazhukova.lib.db.annotations.type.dbInteger;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 import com.github.anastasiazhukova.lib.utils.StringUtils;
 import com.google.firebase.auth.UserInfo;
@@ -24,11 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.ID;
-import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.CONNECTIONS_COUNT;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.NAME;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.PICTURE;
 import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.TABLE_NAME;
-import static com.github.anastasiazhukova.flashlang.domain.models.user.User.DbKeys.WORDS_COUNT;
 
 @dbTable(name = TABLE_NAME)
 @dbTableElement(targetTableName = TABLE_NAME)
@@ -48,14 +45,6 @@ public class User implements IUser, IDbModel<String> {
     @PropertyName(PICTURE)
     private String mPictureUrl;
 
-    @dbInteger(name = WORDS_COUNT)
-    @PropertyName(WORDS_COUNT)
-    private int mTotalWords;
-
-    @dbInteger(name = CONNECTIONS_COUNT)
-    @PropertyName(CONNECTIONS_COUNT)
-    private int mTotalConnections;
-
     public User(final UserInfo pUser) {
         mId = pUser.getUid();
         mName = pUser.getEmail();
@@ -69,8 +58,6 @@ public class User implements IUser, IDbModel<String> {
         mId = pUserBuilder.getId();
         mName = pUserBuilder.getName();
         mPictureUrl = pUserBuilder.getPictureUrl();
-        mTotalWords = pUserBuilder.getWordsCount();
-        mTotalConnections = pUserBuilder.getLanguagesCount();
     }
 
     public void setName(final String pName) {
@@ -79,20 +66,6 @@ public class User implements IUser, IDbModel<String> {
 
     public void setPictureUrl(final String pPictureUrl) {
         mPictureUrl = pPictureUrl;
-    }
-
-    public void increaseWordCount(final int pCount) {
-        if (pCount < 0) {
-            throw new IllegalStateException("Count is negative");
-        }
-        mTotalWords += pCount;
-    }
-
-    public void increaseConnectionCount(final int pCount) {
-        if (pCount < 0) {
-            throw new IllegalStateException("Count is negative");
-        }
-        mTotalConnections += pCount;
     }
 
     @Override
@@ -111,23 +84,11 @@ public class User implements IUser, IDbModel<String> {
     }
 
     @Override
-    public int getWordCount() {
-        return mTotalWords;
-    }
-
-    @Override
-    public int getConnectionCount() {
-        return mTotalConnections;
-    }
-
-    @Override
     public HashMap<String, Object> convertToInsert() {
         final HashMap<String, Object> map = new HashMap<>();
         map.put(ID, this.getId());
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
-        map.put(WORDS_COUNT, this.getWordCount());
-        map.put(CONNECTIONS_COUNT, this.getConnectionCount());
         return map;
     }
 
@@ -136,8 +97,6 @@ public class User implements IUser, IDbModel<String> {
         final HashMap<String, Object> map = new HashMap<>();
         map.put(NAME, this.getName());
         map.put(PICTURE, this.getPictureUrl());
-        map.put(WORDS_COUNT, this.getWordCount());
-        map.put(CONNECTIONS_COUNT, this.getConnectionCount());
         return map;
     }
 
@@ -147,8 +106,6 @@ public class User implements IUser, IDbModel<String> {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String PICTURE = "picture";
-        public static final String WORDS_COUNT = "wordscount";
-        public static final String CONNECTIONS_COUNT = "connectionscount";
     }
 
     public static class CursorConverter implements ICursorConverter<User> {
@@ -158,14 +115,10 @@ public class User implements IUser, IDbModel<String> {
             final String id = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.ID));
             final String name = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.NAME));
             final String picture = pCursor.getString(pCursor.getColumnIndex(User.DbKeys.PICTURE));
-            final int words = pCursor.getInt(pCursor.getColumnIndex(DbKeys.WORDS_COUNT));
-            final int connection = pCursor.getInt(pCursor.getColumnIndex(DbKeys.CONNECTIONS_COUNT));
 
             return new UserBuilder().setId(id)
                     .setName(name)
                     .setPictureUrl(picture)
-                    .setWordsCount(words)
-                    .setConnectionsCount(connection)
                     .createUser();
         }
     }
@@ -178,13 +131,9 @@ public class User implements IUser, IDbModel<String> {
             final String id = (String) pSnapshot.child(ID).getValue();
             final String name = (String) pSnapshot.child(NAME).getValue();
             final String pic = (String) pSnapshot.child(PICTURE).getValue();
-            final int words = (int) pSnapshot.child(WORDS_COUNT).getValue();
-            final int connections = (int) pSnapshot.child(CONNECTIONS_COUNT).getValue();
             return new UserBuilder().setId(id)
                     .setName(name)
                     .setPictureUrl(pic)
-                    .setWordsCount(words)
-                    .setConnectionsCount(connections)
                     .createUser();
         }
     }

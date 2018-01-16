@@ -3,7 +3,9 @@ package com.github.anastasiazhukova.lib.threadingTest;
 import android.os.Handler;
 
 import com.github.anastasiazhukova.lib.TestConstants;
-import com.github.anastasiazhukova.lib.contracts.ICallback;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.Command;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 import com.github.anastasiazhukova.lib.threading.executors.ThreadExecutor;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
@@ -13,8 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
@@ -22,12 +22,13 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.Scheduler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 //TODO fix
 @RunWith(RobolectricTestRunner.class)
@@ -38,25 +39,34 @@ public class ThreadExecutorTest {
 
     private IPublisher mPublisher;
 
-    @Captor
-    private ArgumentCaptor<TestCallback> mCaptor;
-
     private IExecutor mExecutor;
 
     @Before
     public void setUp() {
         mExecutor = spy(getExecutor());
-        mCaptor = ArgumentCaptor.forClass(TestCallback.class);
     }
 
     @Test
     public void execute() {
+        final TestCallback callback = new TestCallback();
         final TestOperation executable = new TestOperation();
-        final ICallback<String> testCallback = new TestCallback();
-        mExecutor.execute(executable, testCallback);
-        verify(mExecutor).execute(eq(executable), mCaptor.capture());
-        final TestCallback callback = mCaptor.getValue();
-        Assert.assertEquals("Success", callback.getMessage());
+        final Command<String> command = new Command<>(executable);
+        command.setCallback(callback);
+        final List<ICommand> commands = new ArrayList<>();
+        commands.add(command);
+        commands.add(command);
+        commands.add(command);
+        IExecutedCallback executedCallback = new IExecutedCallback() {
+
+            @Override
+            public void onFinished() {
+                final int count = callback.getCount();
+                Assert.assertEquals(3, count);
+            }
+        };
+        mExecutor.execute(commands, executedCallback);
+        Robolectric.flushBackgroundThreadScheduler();
+        Robolectric.flushForegroundThreadScheduler();
     }
 
     @Test

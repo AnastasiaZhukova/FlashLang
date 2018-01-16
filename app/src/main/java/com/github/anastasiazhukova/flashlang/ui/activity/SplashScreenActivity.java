@@ -26,6 +26,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         mFlImage = findViewById(R.id.fl_image_view);
+        //init();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         init();
     }
 

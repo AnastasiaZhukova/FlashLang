@@ -2,7 +2,9 @@ package com.github.anastasiazhukova.lib.threadingTest;
 
 import com.github.anastasiazhukova.lib.BuildConfig;
 import com.github.anastasiazhukova.lib.TestConstants;
-import com.github.anastasiazhukova.lib.contracts.ICallback;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.Command;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.executors.AsyncTaskExecutor;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 
@@ -10,14 +12,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.ArgumentMatchers.eq;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
@@ -26,16 +27,11 @@ import static org.mockito.Mockito.verify;
 )
 public class AsyncTaskExecutorTest {
 
-    @Captor
-    private
-    ArgumentCaptor<TestCallback> mCaptor;
-
     private IExecutor mExecutor;
 
     @Before
     public void setUp() {
         mExecutor = spy(getExecutor());
-        mCaptor = ArgumentCaptor.forClass(TestCallback.class);
     }
 
     private IExecutor getExecutor() {
@@ -44,13 +40,22 @@ public class AsyncTaskExecutorTest {
 
     @Test
     public void execute() {
+        final TestCallback callback = new TestCallback();
         final TestOperation executable = new TestOperation();
-        final ICallback<String> testCallback = new TestCallback();
-        mExecutor.execute(executable, testCallback);
-        verify(mExecutor).execute(eq(executable), mCaptor.capture());
-        final TestCallback callback = mCaptor.getValue();
-        Assert.assertEquals("Success", callback.getMessage());
+        final Command<String> command = new Command<>(executable);
+        command.setCallback(callback);
+        final List<ICommand> commands = new ArrayList<>();
+        commands.add(command);
+        commands.add(command);
+        commands.add(command);
+        mExecutor.execute(commands, new IExecutedCallback() {
 
+            @Override
+            public void onFinished() {
+                final String message = callback.getMessage();
+                Assert.assertEquals("Success", message);
+            }
+        });
     }
 
 }

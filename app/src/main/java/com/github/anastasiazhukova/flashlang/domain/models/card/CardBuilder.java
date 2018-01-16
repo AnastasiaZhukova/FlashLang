@@ -4,6 +4,7 @@ public class CardBuilder {
 
     private String mId;
     private String mOwnerId;
+    private String mReferredCollectionId;
     private String mSourceLanguageKey;
     private String mSourceText;
     private String mTargetLanguageKey;
@@ -16,6 +17,10 @@ public class CardBuilder {
 
     public String getOwnerId() {
         return mOwnerId;
+    }
+
+    public String getReferredCollectionId() {
+        return mReferredCollectionId;
     }
 
     public String getSourceLanguageKey() {
@@ -45,6 +50,11 @@ public class CardBuilder {
 
     public CardBuilder setOwnerId(final String pOwnerId) {
         mOwnerId = pOwnerId;
+        return this;
+    }
+
+    public CardBuilder setReferredCollectionId(final String pReferredCollectionId) {
+        mReferredCollectionId = pReferredCollectionId;
         return this;
     }
 

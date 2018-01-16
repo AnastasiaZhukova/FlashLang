@@ -7,10 +7,13 @@ import com.github.anastasiazhukova.lib.imageloader.request.IImageRequest;
 import com.github.anastasiazhukova.lib.imageloader.result.IImageResponse;
 import com.github.anastasiazhukova.lib.imageloader.utils.BitmapUtils;
 import com.github.anastasiazhukova.lib.imageloader.utils.ImageUtils;
+import com.github.anastasiazhukova.lib.logs.Log;
 
 public class ResponseProcessor {
 
     public void processImageResponse(final IImageResponse pResponse) {
+
+        Log.d("Image", "processImageResponse() called with: pResponse = [" + pResponse + "]");
 
         final ImageView imageView = getImageView(pResponse);
         if (imageView != null && isTagCorrect(imageView, pResponse)) {

@@ -15,7 +15,7 @@ import com.github.anastasiazhukova.lib.utils.StringUtils;
 
 import java.util.List;
 
-public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewHolder>  {
+public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewHolder> {
 
     private static final String LOG_TAG = CardsRecyclerViewAdapter.class.getSimpleName();
 
@@ -30,8 +30,8 @@ public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewH
         notifyDataSetChanged();
     }
 
-    public void setRecyclerClickListener(final RecyclerClickListener pListener){
-        mListener=pListener;
+    public void setRecyclerClickListener(final RecyclerClickListener pListener) {
+        mListener = pListener;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CardsRecyclerViewAdapter extends RecyclerView.Adapter<BaseCardViewH
     public int getItemViewType(final int position) {
         if (position >= 0 && position < mCardList.size()) {
             final ICard card = mCardList.get(position);
-            Log.d(LOG_TAG, "getItemViewType: "+card.getPictureUrl());
+            Log.d(LOG_TAG, "getItemViewType: " + card.getPictureUrl());
             if (StringUtils.isNullOrEmpty(card.getPictureUrl())) {
                 return CardType.NO_IMAGE;
             } else {

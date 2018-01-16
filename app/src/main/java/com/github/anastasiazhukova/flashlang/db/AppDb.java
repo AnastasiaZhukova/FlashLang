@@ -1,6 +1,7 @@
 package com.github.anastasiazhukova.flashlang.db;
 
 import com.github.anastasiazhukova.flashlang.Constants;
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.Achievement;
 import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
@@ -22,6 +23,7 @@ public final class AppDb implements IDb {
     public Class<?>[] getTableModels() {
         return new Class[]{
                 User.class,
+                Achievement.class,
                 Collection.class,
                 Card.class,
         };

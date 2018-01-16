@@ -23,12 +23,15 @@ import com.github.anastasiazhukova.lib.imageloader.utils.BitmapUtils;
 import com.github.anastasiazhukova.lib.imageloader.utils.ImageUtils;
 import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.threading.IThreadingManager;
+import com.github.anastasiazhukova.lib.threading.command.Command;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 
 import java.io.File;
 import java.io.IOException;
 
 public final class ImageLoader {
+
+    private static final String LOG_TAG = ImageLoader.class.getSimpleName();
 
     private final IImageRequestQueue mQueue;
     private ICacheManager mCacheManager;
@@ -51,9 +54,11 @@ public final class ImageLoader {
     }
 
     private void enqueue(@NonNull final IImageRequest pImageRequest) {
+        Log.d(LOG_TAG, "enqueue() called with: pImageRequest = [" + pImageRequest + "]");
         final ImageView imageView = pImageRequest.getTarget().get();
 
         if (imageView == null && !pImageRequest.isSaved()) {
+            Log.d(LOG_TAG, "enqueue: not loaded");
             return; //if reference points to noting(i.e. it no longer exists and not going to be drawn
         }
 
@@ -76,7 +81,8 @@ public final class ImageLoader {
     }
 
     private void dispatchLoading() {
-        mExecutor.execute(new ImageLoadOperation(), new ICallback<ImageResponse>() {
+        ImageLoadOperation loadImage = new ImageLoadOperation();
+        ICallback<ImageResponse> callback = new ICallback<ImageResponse>() {
 
             @Override
             public void onSuccess(final ImageResponse pImageResponse) {
@@ -86,7 +92,10 @@ public final class ImageLoader {
             @Override
             public void onError(final Throwable pThrowable) {
             }
-        });
+        };
+        Command<ImageResponse> command = new Command<>(loadImage);
+        command.setCallback(callback);
+        mExecutor.execute(command);
     }
 
     private void deferImageRequest(final IImageRequest pImageRequest) {

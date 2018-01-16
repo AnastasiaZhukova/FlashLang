@@ -1,8 +1,10 @@
 package com.github.anastasiazhukova.lib.threading.executors;
 
-import com.github.anastasiazhukova.lib.contracts.ICallback;
-import com.github.anastasiazhukova.lib.contracts.IOperation;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
+
+import java.util.List;
 
 public class ThreadExecutor implements IExecutor {
 
@@ -13,14 +15,24 @@ public class ThreadExecutor implements IExecutor {
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation) {
-        execute(pOperation, null);
+    public <Result> void execute(final ICommand<Result> pCommand) {
+        final Runnable command = new ExecutionCommand<>(mPublisher, pCommand);
+        runCommand(command);
     }
 
     @Override
-    public <Result> void execute(final IOperation<Result> pOperation, final ICallback<Result> pCallback) {
-        final Runnable command = new ExecutionCommand<>(mPublisher, pCallback, pOperation);
-        final Thread thread = new Thread(command);
+    public void execute(final List<? extends ICommand> pCommands) {
+        execute(pCommands, null);
+    }
+
+    @Override
+    public void execute(final List<? extends ICommand> pCommands, final IExecutedCallback pExecutedCallback) {
+        final Runnable pool = new ExecutionPool(mPublisher, (List<ICommand>) pCommands, pExecutedCallback);
+        runCommand(pool);
+    }
+
+    private void runCommand(final Runnable pRunnable) {
+        final Thread thread = new Thread(pRunnable);
         thread.start();
     }
 }

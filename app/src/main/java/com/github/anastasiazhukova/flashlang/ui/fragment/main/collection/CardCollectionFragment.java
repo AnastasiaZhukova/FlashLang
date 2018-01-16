@@ -94,6 +94,14 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
         mPresenter.detachView();
     }
 
+    @Override
+    public void setUserVisibleHint(final boolean pIsVisibleToUser) {
+        super.setUserVisibleHint(pIsVisibleToUser);
+        if (pIsVisibleToUser) {
+            mPresenter.load();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater pInflater, @Nullable final ViewGroup pContainer, @Nullable final Bundle pSavedInstanceState) {
@@ -200,6 +208,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
     public void onLoaded(final Cursor pCursor) {
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.setCursor(pCursor);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

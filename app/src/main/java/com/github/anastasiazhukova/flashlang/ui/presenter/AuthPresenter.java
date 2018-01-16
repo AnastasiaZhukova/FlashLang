@@ -2,8 +2,8 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 
 import com.github.anastasiazhukova.flashlang.R;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
-import com.github.anastasiazhukova.flashlang.operations.SignInOperation;
-import com.github.anastasiazhukova.flashlang.operations.SignUpOperation;
+import com.github.anastasiazhukova.flashlang.operations.impl.auth.SignInOperation;
+import com.github.anastasiazhukova.flashlang.operations.impl.auth.SignUpOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.AuthContract;
 import com.github.anastasiazhukova.flashlang.utils.ConnectionManager;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
@@ -11,6 +11,8 @@ import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.IThreadingManager;
+import com.github.anastasiazhukova.lib.threading.command.Command;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 import com.github.anastasiazhukova.lib.utils.StringUtils;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -140,7 +142,9 @@ public class AuthPresenter implements AuthContract.Presenter {
         final boolean isNetworkAvailable = ConnectionManager.isNetworkAvailable();
         if (isNetworkAvailable) {
             final IExecutor executor = IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD);
-            executor.execute(pOperation);
+            //noinspection unchecked
+            final ICommand command = new Command(pOperation);
+            executor.execute(command);
         } else {
             mRootView.onAuthError(getString(R.string.no_connection_message));
         }

@@ -3,6 +3,7 @@ package com.github.anastasiazhukova.flashlang.utils;
 import android.database.Cursor;
 
 import com.github.anastasiazhukova.flashlang.db.connector.IDbTableConnector;
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.Achievement;
 import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
 import com.github.anastasiazhukova.flashlang.domain.models.collection.Collection;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
@@ -16,6 +17,11 @@ public final class OperationUtils {
     public static String getIdForCard() {
         return IFirebaseDbConnector.Impl.Companion.getInstance()
                 .getKeyForElement(Card.DbKeys.TABLE_NAME);
+    }
+
+    public static String getIdForAchievement() {
+        return IFirebaseDbConnector.Impl.Companion.getInstance()
+                .getKeyForElement(Achievement.DbKeys.TABLE_NAME);
     }
 
     public static String getIdForCollection() {

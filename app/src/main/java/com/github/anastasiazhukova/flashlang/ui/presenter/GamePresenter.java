@@ -2,12 +2,13 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 
 import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.domain.models.card.Card;
-import com.github.anastasiazhukova.flashlang.operations.LoadCardsListOperation;
+import com.github.anastasiazhukova.flashlang.operations.Operations;
 import com.github.anastasiazhukova.flashlang.ui.contract.GameContract;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
-import com.github.anastasiazhukova.lib.threading.ThreadingManager;
+import com.github.anastasiazhukova.lib.threading.IThreadingManager;
+import com.github.anastasiazhukova.lib.threading.command.Command;
 
 import java.util.List;
 
@@ -28,24 +29,38 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void load() {
         if (mView != null) {
-            final String currentUser = UserManager.getCurrentUser().getId();
+            final String currentUserId = UserManager.getCurrentUser().getId();
             final String sourceLanguageKey = mView.getSourceLanguageKey();
             final String targetLanguageKey = mView.getTargetLanguageKey();
-            final IOperation<List<Card>> operation = new LoadCardsListOperation(currentUser,
-                    sourceLanguageKey, targetLanguageKey);
-            ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)
-                    .execute(operation, new ICallback<List<Card>>() {
 
-                        @Override
-                        public void onSuccess(final List<Card> pCards) {
-                            mView.onLoaded(pCards);
-                        }
+            final Card.ByOwnerIdSelector byOwnerIdSelector = new Card.ByOwnerIdSelector(currentUserId);
+            final Card.BySourceLanguageSelector bySourceLanguageSelector = new Card.BySourceLanguageSelector(sourceLanguageKey);
+            final Card.ByTargetLanguageSelector byTargetLanguageSelector = new Card.ByTargetLanguageSelector(targetLanguageKey);
 
-                        @Override
-                        public void onError(final Throwable pThrowable) {
-                            mView.onError(pThrowable.getMessage());
-                        }
-                    });
+            final IOperation<List<Card>> loadCardsList = Operations.newOperation()
+                    .info()
+                    .local()
+                    .card()
+                    .loadList(null, byOwnerIdSelector, bySourceLanguageSelector, byTargetLanguageSelector);
+
+            final ICallback<List<Card>> callback = new ICallback<List<Card>>() {
+
+                @Override
+                public void onSuccess(final List<Card> pCards) {
+                    mView.onLoaded(pCards);
+                }
+
+                @Override
+                public void onError(final Throwable pThrowable) {
+                    mView.onError(pThrowable.getMessage());
+                }
+            };
+
+            final Command<List<Card>> command = new Command<>(loadCardsList);
+            command.setCallback(callback);
+
+            IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)
+                    .execute(command);
         }
 
     }

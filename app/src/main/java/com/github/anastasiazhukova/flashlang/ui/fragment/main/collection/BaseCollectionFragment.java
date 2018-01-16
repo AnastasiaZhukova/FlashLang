@@ -60,7 +60,7 @@ public class BaseCollectionFragment extends Fragment {
     private void loadSourceLanguagesFragment() {
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
         if (mFragment == null) {
-            mFragment= (SourceLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
+            mFragment = (SourceLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
             if (mFragment == null) {
                 mFragment = new SourceLanguagesCollectionFragment();
                 transaction.add(mFragment, ViewConstants.Collection.SOURCE_COLLECTION_FRAGMENT_TAG);
@@ -88,7 +88,7 @@ public class BaseCollectionFragment extends Fragment {
     private void loadTargetLanguagesFragment(final ICollection pSourceCollection) {
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
         if (mTargetLanguagesFragment == null) {
-            mTargetLanguagesFragment= (TargetLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
+            mTargetLanguagesFragment = (TargetLanguagesCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
             if (mTargetLanguagesFragment == null) {
                 mTargetLanguagesFragment = new TargetLanguagesCollectionFragment();
                 transaction.add(mTargetLanguagesFragment, ViewConstants.Collection.TARGET_COLLECTION_FRAGMENT_TAG);
@@ -117,7 +117,7 @@ public class BaseCollectionFragment extends Fragment {
     private void loadCardsCollectionFragment(final ICollection pCollection) {
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
         if (mCardCollectionFragment == null) {
-            mCardCollectionFragment= (CardCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
+            mCardCollectionFragment = (CardCollectionFragment) mFragmentManager.findFragmentByTag(ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
             if (mCardCollectionFragment == null) {
                 mCardCollectionFragment = new CardCollectionFragment();
                 transaction.add(mCardCollectionFragment, ViewConstants.Collection.CARDS_COLLECTION_FRAGMENT_TAG);
@@ -135,7 +135,7 @@ public class BaseCollectionFragment extends Fragment {
             public void onItemClick(final ICard pElement) {
                 Log.d(LOG_TAG, "onItemClick() called with: pElement = [" + pElement + "]");
                 //todo
-        }
+            }
 
             @Override
             public void onBackClick() {

@@ -1,11 +1,16 @@
 package com.github.anastasiazhukova.lib.threading.executors;
 
-import com.github.anastasiazhukova.lib.contracts.ICallback;
-import com.github.anastasiazhukova.lib.contracts.IOperation;
+import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
+import com.github.anastasiazhukova.lib.threading.command.ICommand;
+
+import java.util.List;
 
 public interface IExecutor {
 
-    <Result> void execute(IOperation<Result> pOperation);
+    <Result> void execute(ICommand<Result> pCommand);
 
-    <Result> void execute(IOperation<Result> pOperation, ICallback<Result> pCallback);
+    void execute(List<? extends ICommand> pCommands);
+
+    void execute(List<? extends ICommand> pCommands, IExecutedCallback pExecutedCallback);
+
 }

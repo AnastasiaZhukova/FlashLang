@@ -1,29 +1,31 @@
 package com.github.anastasiazhukova.flashlang.ui.presenter;
 
-import android.graphics.drawable.Drawable;
-
 import com.github.anastasiazhukova.flashlang.UserManager;
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.Achievement;
+import com.github.anastasiazhukova.flashlang.domain.models.achievement.IAchievement;
 import com.github.anastasiazhukova.flashlang.domain.models.user.IUser;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.flashlang.firebase.auth.FirebaseUserManager;
-import com.github.anastasiazhukova.flashlang.operations.LoadUserInfoOperation;
-import com.github.anastasiazhukova.flashlang.operations.UploadUserImageOperation;
+import com.github.anastasiazhukova.flashlang.operations.Operations;
 import com.github.anastasiazhukova.flashlang.ui.contract.UserInfoContract;
-import com.github.anastasiazhukova.flashlang.utils.UiPublisher;
 import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
+import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
-import com.github.anastasiazhukova.lib.threading.ThreadingManager;
+import com.github.anastasiazhukova.lib.threading.IThreadingManager;
+import com.github.anastasiazhukova.lib.threading.command.Command;
 import com.github.anastasiazhukova.lib.threading.executors.IExecutor;
 
 public class UserInfoPresenter implements UserInfoContract.Presenter {
 
+    private static final String LOG_TAG = UserInfoPresenter.class.getSimpleName();
+    private IExecutor mExecutor;
+
     private UserInfoContract.View mView;
     private User mUser;
-    private final UiPublisher mPublisher;
 
     public UserInfoPresenter() {
-        mPublisher = new UiPublisher();
+        mExecutor = IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK);
     }
 
     @Override
@@ -38,9 +40,11 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     @Override
     public void getUser() {
-        final IExecutor executor = ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD);
-        final IOperation<User> operation = new LoadUserInfoOperation();
-        executor.execute(operation, new ICallback<User>() {
+        final IOperation<User> loadCurrentUser = Operations.newOperation()
+                .common()
+                .load()
+                .currentUser();
+        final ICallback<User> callback = new ICallback<User>() {
 
             @Override
             public void onSuccess(final User pUser) {
@@ -52,7 +56,35 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
             public void onError(final Throwable pThrowable) {
                 publishUserInfoLoadError(pThrowable);
             }
-        });
+        };
+        final Command<User> command = new Command<>(loadCurrentUser);
+        command.setCallback(callback);
+        mExecutor.execute(command);
+    }
+
+    @Override
+    public void getAchievements() {
+        final IOperation<Achievement> getAchievements = Operations.newOperation()
+                .info()
+                .local()
+                .achievement()
+                .loadSingle(new Achievement.ByOwnerIdSelector(UserManager.getCurrentUser().getId()));
+        final ICallback<Achievement> callback = new ICallback<Achievement>() {
+
+            @Override
+            public void onSuccess(final Achievement pAchievement) {
+                publishAchievement(pAchievement);
+            }
+
+            @Override
+            public void onError(final Throwable pThrowable) {
+                Log.e(LOG_TAG, "onError: ", pThrowable);
+            }
+        };
+
+        Command<Achievement> command = new Command<>(getAchievements);
+        command.setCallback(callback);
+        mExecutor.execute(command);
     }
 
     @Override
@@ -61,49 +93,21 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         FirebaseUserManager.Impl.Companion.getInstance().singOut();
     }
 
-    @Override
-    public void uploadImage() {
-        if (mView != null) {
-            final Drawable image = mView.getImage();
-            ThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD)
-                    .execute(new UploadUserImageOperation(mUser, image, new ICallback<Void>() {
-
-                        @Override
-                        public void onSuccess(final Void pVoid) {
-
-                        }
-
-                        @Override
-                        public void onError(final Throwable pThrowable) {
-                            publishImageLoadError(pThrowable);
-                        }
-                    }));
-
-        }
-
-    }
-
     private void publishUserInfo(final IUser pUser) {
         if (mView != null) {
             mView.onUserLoaded(pUser);
         }
     }
 
-    private void publishUserInfoLoadError(final Throwable pThrowable) {
-        if (mView == null) {
-            mView.onUserLoadError(pThrowable.getMessage());
+    private void publishAchievement(final IAchievement pAchievement) {
+        if (mView != null) {
+            mView.onAchievementLoaded(pAchievement);
         }
     }
 
-    private void publishImageLoadError(final Throwable pThrowable) {
-        if (mView != null) {
-            mPublisher.publish(new Runnable() {
-
-                @Override
-                public void run() {
-                    mView.onImageLoadError(pThrowable.getMessage());
-                }
-            });
+    private void publishUserInfoLoadError(final Throwable pThrowable) {
+        if (mView == null) {
+            mView.onUserLoadError(pThrowable.getMessage());
         }
     }
 

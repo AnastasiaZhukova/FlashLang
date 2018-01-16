@@ -17,7 +17,7 @@ public abstract class BaseLanguageViewHolder extends RecyclerView.ViewHolder {
     public BaseLanguageViewHolder(final View pItemView, final RecyclerClickListener pClickListener) {
         super(pItemView);
         mImage = pItemView.findViewById(R.id.language_image_view);
-        mLanguageName=pItemView.findViewById(R.id.language_name_text_view);
+        mLanguageName = pItemView.findViewById(R.id.language_name_text_view);
         pItemView.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -2,7 +2,6 @@ package com.github.anastasiazhukova.flashlang.ui.contract;
 
 import android.database.Cursor;
 
-import com.github.anastasiazhukova.flashlang.domain.models.card.ICard;
 import com.github.anastasiazhukova.flashlang.ui.presenter.BasePresenter;
 
 public interface CardCollectionContract {
@@ -21,8 +20,6 @@ public interface CardCollectionContract {
     interface Presenter extends BasePresenter<CardCollectionContract.View> {
 
         void load();
-
-        void removeCard(ICard pCard);
 
     }
 

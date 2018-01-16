@@ -83,6 +83,14 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
         mPresenter.detachView();
     }
 
+    @Override
+    public void setUserVisibleHint(final boolean pIsVisibleToUser) {
+        super.setUserVisibleHint(pIsVisibleToUser);
+        if (pIsVisibleToUser) {
+            mPresenter.load();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater pInflater, @Nullable final ViewGroup pContainer, @Nullable final Bundle pSavedInstanceState) {
@@ -203,7 +211,7 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     }
 
     private void showError(final CharSequence pMessage) {
-        Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
+        Toast.makeText(this.getContext(), pMessage, Toast.LENGTH_SHORT)
                 .show();
     }
 }
