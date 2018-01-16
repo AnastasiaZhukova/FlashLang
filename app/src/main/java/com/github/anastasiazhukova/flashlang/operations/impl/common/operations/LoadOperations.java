@@ -6,7 +6,7 @@ import com.github.anastasiazhukova.lib.contracts.IOperation;
 
 public class LoadOperations {
 
-    public IOperation<User> currentUser(){
+    public IOperation<User> currentUser() {
         return new LoadCurrentUserOperation();
     }
 

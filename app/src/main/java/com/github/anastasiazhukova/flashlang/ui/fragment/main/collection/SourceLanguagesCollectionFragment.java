@@ -68,7 +68,7 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     @Override
     public void setUserVisibleHint(final boolean pIsVisibleToUser) {
         super.setUserVisibleHint(pIsVisibleToUser);
-        if(pIsVisibleToUser){
+        if (pIsVisibleToUser) {
             mPresenter.load();
         }
     }
@@ -156,9 +156,8 @@ public class SourceLanguagesCollectionFragment extends Fragment implements Sourc
     }
 
     private void showError(final CharSequence pMessage) {
-        Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
+        Toast.makeText(this.getContext(), pMessage, Toast.LENGTH_SHORT)
                 .show();
     }
-
 
 }

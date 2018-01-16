@@ -49,7 +49,7 @@ public class TargetLanguagesCollectionPresenter implements TargetLanguagesCollec
                 publishError(pThrowable);
             }
         };
-        final Command<Cursor> command=new Command<>(loadTargetLanguagesCursor);
+        final Command<Cursor> command = new Command<>(loadTargetLanguagesCursor);
         command.setCallback(callback);
 
         IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)

@@ -2,7 +2,6 @@ package com.github.anastasiazhukova.lib.threadingTest;
 
 import com.github.anastasiazhukova.lib.BuildConfig;
 import com.github.anastasiazhukova.lib.TestConstants;
-import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
 import com.github.anastasiazhukova.lib.threading.command.Command;
 import com.github.anastasiazhukova.lib.threading.command.ICommand;
@@ -13,17 +12,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
@@ -45,11 +40,11 @@ public class AsyncTaskExecutorTest {
 
     @Test
     public void execute() {
-        final TestCallback callback=new TestCallback();
+        final TestCallback callback = new TestCallback();
         final TestOperation executable = new TestOperation();
-        final Command<String> command= new Command<>(executable);
+        final Command<String> command = new Command<>(executable);
         command.setCallback(callback);
-        final List<ICommand> commands=new ArrayList<>();
+        final List<ICommand> commands = new ArrayList<>();
         commands.add(command);
         commands.add(command);
         commands.add(command);
@@ -58,8 +53,7 @@ public class AsyncTaskExecutorTest {
             @Override
             public void onFinished() {
                 final String message = callback.getMessage();
-                Assert.assertEquals("Success",message);
-                Assert.assertEquals(3,callback.getCount());
+                Assert.assertEquals("Success", message);
             }
         });
     }

@@ -56,7 +56,7 @@ public class GamePresenter implements GameContract.Presenter {
                 }
             };
 
-            final Command<List<Card>> command=new Command<>(loadCardsList);
+            final Command<List<Card>> command = new Command<>(loadCardsList);
             command.setCallback(callback);
 
             IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)

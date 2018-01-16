@@ -29,5 +29,4 @@ public class FetchOperations {
         return new FetchUserCollectionsOperation(pUserId);
     }
 
-
 }

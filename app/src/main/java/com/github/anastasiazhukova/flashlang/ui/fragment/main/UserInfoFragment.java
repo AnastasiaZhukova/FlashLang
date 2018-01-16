@@ -69,7 +69,7 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View,
     @Override
     public void setUserVisibleHint(final boolean pIsVisibleToUser) {
         super.setUserVisibleHint(pIsVisibleToUser);
-        if(pIsVisibleToUser){
+        if (pIsVisibleToUser) {
             mPresenter.getAchievements();
         }
     }

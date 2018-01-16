@@ -35,17 +35,17 @@ public class CollectionModelOperations implements IModelOperations<Collection> {
 
     @Override
     public IOperation<List<Collection>> loadList(final String pGroupBy, final Selector... pSelectors) {
-        return new LoadListOperation(pGroupBy,pSelectors);
+        return new LoadListOperation(pGroupBy, pSelectors);
     }
 
     @Override
     public IOperation<Cursor> loadCursor(final String pGroupBy, final Selector... pSelectors) {
-        return new LoadCursorOperation(pGroupBy,pSelectors);
+        return new LoadCursorOperation(pGroupBy, pSelectors);
     }
 
     @Override
     public IOperation<Boolean> update(final Collection pCollection, final Selector... pSelectors) {
-        return new UpdateOperation(pCollection,pSelectors);
+        return new UpdateOperation(pCollection, pSelectors);
     }
 
     @Override

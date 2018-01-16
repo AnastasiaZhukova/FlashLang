@@ -10,7 +10,6 @@ import com.github.anastasiazhukova.flashlang.firebase.db.connector.IDataSnapshot
 import com.github.anastasiazhukova.lib.db.annotations.dbPrimaryKey;
 import com.github.anastasiazhukova.lib.db.annotations.dbTable;
 import com.github.anastasiazhukova.lib.db.annotations.dbTableElement;
-import com.github.anastasiazhukova.lib.db.annotations.type.dbInteger;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbLong;
 import com.github.anastasiazhukova.lib.db.annotations.type.dbString;
 import com.google.firebase.database.DataSnapshot;

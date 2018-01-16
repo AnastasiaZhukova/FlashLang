@@ -11,7 +11,6 @@ import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.threading.ExecutorType;
 import com.github.anastasiazhukova.lib.threading.IThreadingManager;
 import com.github.anastasiazhukova.lib.threading.command.Command;
-import com.github.anastasiazhukova.lib.threading.command.ICommand;
 
 public class CardCollectionPresenter implements CardCollectionContract.Presenter {
 
@@ -34,8 +33,8 @@ public class CardCollectionPresenter implements CardCollectionContract.Presenter
         final String targetLanguageKey = mView.getTargetLanguageKey();
 
         final Card.ByOwnerIdSelector byOwnerIdSelector = new Card.ByOwnerIdSelector(currentUserId);
-        final Card.BySourceLanguageSelector bySourceLanguageSelector=new Card.BySourceLanguageSelector(sourceLanguageKey);
-        final Card.ByTargetLanguageSelector byTargetLanguageSelector=new Card.ByTargetLanguageSelector(targetLanguageKey);
+        final Card.BySourceLanguageSelector bySourceLanguageSelector = new Card.BySourceLanguageSelector(sourceLanguageKey);
+        final Card.ByTargetLanguageSelector byTargetLanguageSelector = new Card.ByTargetLanguageSelector(targetLanguageKey);
         final IOperation<Cursor> getCursor = Operations.newOperation()
                 .info()
                 .local()
@@ -55,7 +54,7 @@ public class CardCollectionPresenter implements CardCollectionContract.Presenter
             }
         };
 
-        final Command<Cursor> command=new Command<>(getCursor);
+        final Command<Cursor> command = new Command<>(getCursor);
         command.setCallback(callback);
 
         IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.ASYNC_TASK)

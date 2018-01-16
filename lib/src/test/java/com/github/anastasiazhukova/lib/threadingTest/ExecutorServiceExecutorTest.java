@@ -1,11 +1,8 @@
 package com.github.anastasiazhukova.lib.threadingTest;
 
 import android.os.Handler;
-import android.support.test.filters.FlakyTest;
-import android.support.test.filters.LargeTest;
 
 import com.github.anastasiazhukova.lib.TestConstants;
-import com.github.anastasiazhukova.lib.contracts.ICallback;
 import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
 import com.github.anastasiazhukova.lib.threading.command.Command;
 import com.github.anastasiazhukova.lib.threading.command.ICommand;
@@ -18,10 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.RunListener;
-import org.junit.validator.ValidateWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
@@ -33,11 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 //TODO fix
 @RunWith(RobolectricTestRunner.class)
@@ -62,11 +53,11 @@ public class ExecutorServiceExecutorTest {
 
     @Test
     public void execute() {
-        final TestCallback callback=new TestCallback();
+        final TestCallback callback = new TestCallback();
         final TestOperation executable = new TestOperation();
-        final Command<String> command= new Command<>(executable);
+        final Command<String> command = new Command<>(executable);
         command.setCallback(callback);
-        final List<ICommand> commands=new ArrayList<>();
+        final List<ICommand> commands = new ArrayList<>();
         commands.add(command);
         commands.add(command);
         commands.add(command);
@@ -74,8 +65,8 @@ public class ExecutorServiceExecutorTest {
 
             @Override
             public void onFinished() {
-                final int count=callback.getCount();
-                Assert.assertEquals(3,count);
+                final int count = callback.getCount();
+                Assert.assertEquals(3, count);
             }
         });
         try {

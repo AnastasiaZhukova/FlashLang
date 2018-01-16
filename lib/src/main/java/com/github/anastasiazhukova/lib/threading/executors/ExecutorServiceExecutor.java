@@ -1,14 +1,11 @@
 package com.github.anastasiazhukova.lib.threading.executors;
 
 import com.github.anastasiazhukova.lib.Constants;
-import com.github.anastasiazhukova.lib.contracts.ICallback;
-import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;
 import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
 import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 

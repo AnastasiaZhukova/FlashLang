@@ -4,7 +4,6 @@ import com.github.anastasiazhukova.lib.threading.IExecutedCallback;
 import com.github.anastasiazhukova.lib.threading.command.ICommand;
 import com.github.anastasiazhukova.lib.threading.publisher.IPublisher;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ThreadExecutor implements IExecutor {

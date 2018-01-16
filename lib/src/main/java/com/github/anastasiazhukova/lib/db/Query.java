@@ -17,7 +17,7 @@ public class Query {
         mSelection = pBuilder.mSelection;
         mSelectionArg = pBuilder.mSelectionArg;
         mSortOrder = pBuilder.mSortOrder;
-        mGroupBy=pBuilder.mGroupBy;
+        mGroupBy = pBuilder.mGroupBy;
     }
 
     public String getTable() {
@@ -40,7 +40,7 @@ public class Query {
         return mSortOrder;
     }
 
-    public String getGroupBy(){
+    public String getGroupBy() {
         return mGroupBy;
     }
 
@@ -78,8 +78,8 @@ public class Query {
             return this;
         }
 
-        public Builder groupBy(final String pGroupBy){
-            mGroupBy=pGroupBy;
+        public Builder groupBy(final String pGroupBy) {
+            mGroupBy = pGroupBy;
             return this;
         }
 

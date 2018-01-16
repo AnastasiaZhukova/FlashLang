@@ -97,7 +97,7 @@ public class CardCollectionFragment extends Fragment implements CardCollectionCo
     @Override
     public void setUserVisibleHint(final boolean pIsVisibleToUser) {
         super.setUserVisibleHint(pIsVisibleToUser);
-        if(pIsVisibleToUser){
+        if (pIsVisibleToUser) {
             mPresenter.load();
         }
     }

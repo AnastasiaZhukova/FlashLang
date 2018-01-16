@@ -3,7 +3,6 @@ package com.github.anastasiazhukova.flashlang.ui.presenter;
 import com.github.anastasiazhukova.flashlang.UserManager;
 import com.github.anastasiazhukova.flashlang.domain.models.user.User;
 import com.github.anastasiazhukova.flashlang.operations.Operations;
-import com.github.anastasiazhukova.flashlang.operations.impl.common.impl.LoadCurrentUserOperation;
 import com.github.anastasiazhukova.flashlang.ui.contract.MainContract;
 import com.github.anastasiazhukova.lib.contracts.IOperation;
 import com.github.anastasiazhukova.lib.logs.Log;

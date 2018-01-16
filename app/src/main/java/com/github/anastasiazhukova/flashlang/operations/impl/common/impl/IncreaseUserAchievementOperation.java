@@ -16,8 +16,8 @@ public class IncreaseUserAchievementOperation implements IOperation<Void> {
 
     public IncreaseUserAchievementOperation(final String pUserId, final int pConnectionsIncrement, final int pWordsIncrement) {
         mUserId = pUserId;
-        mConnectionsIncrement=pConnectionsIncrement;
-        mWordsIncrement=pWordsIncrement;
+        mConnectionsIncrement = pConnectionsIncrement;
+        mWordsIncrement = pWordsIncrement;
     }
 
     @Override

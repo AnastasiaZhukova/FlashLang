@@ -89,7 +89,6 @@ public class ImageRequest implements IImageRequest {
             return this;
         }
 
-
         public Builder isScaled(final boolean pScaled) {
             isScaled = pScaled;
             return this;

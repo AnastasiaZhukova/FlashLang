@@ -33,7 +33,7 @@ public class FetchUserDataOperation implements IOperation<Void> {
                 .fetch()
                 .fetchUserInfo(mUserId);
 
-        final List<ICommand> commands=new ArrayList<>();
+        final List<ICommand> commands = new ArrayList<>();
         commands.add(new Command<>(fetchAchivements));
         commands.add(new Command<>(fetchCards));
         commands.add(new Command<>(fetchCollections));

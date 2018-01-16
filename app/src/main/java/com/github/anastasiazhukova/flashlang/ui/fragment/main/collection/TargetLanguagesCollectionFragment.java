@@ -86,7 +86,7 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     @Override
     public void setUserVisibleHint(final boolean pIsVisibleToUser) {
         super.setUserVisibleHint(pIsVisibleToUser);
-        if(pIsVisibleToUser){
+        if (pIsVisibleToUser) {
             mPresenter.load();
         }
     }
@@ -211,7 +211,7 @@ public class TargetLanguagesCollectionFragment extends Fragment implements Targe
     }
 
     private void showError(final CharSequence pMessage) {
-        Toast.makeText(this.getContext(),pMessage, Toast.LENGTH_SHORT)
+        Toast.makeText(this.getContext(), pMessage, Toast.LENGTH_SHORT)
                 .show();
     }
 }

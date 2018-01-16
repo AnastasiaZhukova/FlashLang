@@ -35,7 +35,7 @@ public abstract class AbstractLoadSingleOperation<Model extends IDbModel<String>
                         if (pModels != null && !pModels.isEmpty()) {
                             final Model model = pModels.get(0);
                             mCallback.onSuccess(model);
-                        }else{
+                        } else {
                             mCallback.onError(new Exception("Can't get model"));
                         }
 

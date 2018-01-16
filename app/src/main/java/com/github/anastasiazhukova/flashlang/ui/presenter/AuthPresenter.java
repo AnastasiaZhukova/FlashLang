@@ -143,7 +143,7 @@ public class AuthPresenter implements AuthContract.Presenter {
         if (isNetworkAvailable) {
             final IExecutor executor = IThreadingManager.Imlp.getThreadingManager().getExecutor(ExecutorType.THREAD);
             //noinspection unchecked
-            final ICommand command=new Command(pOperation);
+            final ICommand command = new Command(pOperation);
             executor.execute(command);
         } else {
             mRootView.onAuthError(getString(R.string.no_connection_message));

@@ -15,7 +15,7 @@ public class ChoosePhotoDialogBuilder extends AlertDialog.Builder {
 
     public ChoosePhotoDialogBuilder(final Context pContext) {
         super(pContext);
-        mContext=pContext;
+        mContext = pContext;
         init();
     }
 
